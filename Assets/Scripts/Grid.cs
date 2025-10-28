@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Grid
 {
@@ -8,6 +10,7 @@ public class Grid
     private int height;
     private float cellSize;
     private int[,] gridArray;
+    private TextMeshPro[,] debugTextArray;
 
     public Grid(int width, int height, float cellSize)
     {
@@ -16,16 +19,43 @@ public class Grid
         this.cellSize = cellSize;
 
         gridArray = new int[width, height];
+        debugTextArray = new TextMeshPro[width, height];
 
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
             {
-                GUI.CreateWorldText(gridArray[x, y].ToString(), null, GetWorldPosition(x, y), 20, Color.white, TMPro.TextAlignmentOptions.Center);
+                debugTextArray[x, y] = GUI.CreateWorldText(gridArray[x, y].ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f, 20, Color.white, TMPro.TextAlignmentOptions.Center);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
             }
         }
+        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
+        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
+
+        SetValue(2, 1, 20);
     }
 
-    private Vector3 GetWorldPosition(int x, int y) => new Vector3(x, 0, y) * cellSize;
-    
+    private Vector3 GetWorldPosition(int x, int y) => new Vector3(x, y, 0) * cellSize;
+    private void GetXY(Vector3 worldPosition, out int x, out int y)
+    {
+        x = Mathf.FloorToInt(worldPosition.x / cellSize);
+        y = Mathf.FloorToInt(worldPosition.y / cellSize);
+    }
+
+    public void SetValue(int x, int y, int value)
+    {
+        if (x >= 0 && y >= 0 && x < width && y < height)
+        {
+            gridArray[x, y] = value;
+            debugTextArray[x, y].text = gridArray[x, y].ToString();
+        }
+    }
+    public void SetValue(Vector3 worldPosition, int value)
+    {
+        int x, y;
+        GetXY(worldPosition, out x, out y);
+        SetValue(x, y, value);
+    }
+
 }

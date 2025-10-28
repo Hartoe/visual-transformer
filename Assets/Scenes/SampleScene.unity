@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585549}
   - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
@@ -210,7 +211,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -80}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -272,6 +273,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71ce1ba9f2c9be42a85d48b5938d0e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movespeed: 0.2
+  zoomspeed: 3
+  rotatespeed: 1.5
+  minZoom: -5
+  maxZoom: -150
+  move: {fileID: 4149780366990639598, guid: 5c91d4374d25aaf44a39e52bd39dd196, type: 3}
+  zoom: {fileID: 2016493518123387023, guid: 5c91d4374d25aaf44a39e52bd39dd196, type: 3}
+  rotateLeft: {fileID: -864770889494713351, guid: 5c91d4374d25aaf44a39e52bd39dd196,
+    type: 3}
+  rotateRight: {fileID: 4658538204517051477, guid: 5c91d4374d25aaf44a39e52bd39dd196,
+    type: 3}
+--- !u!114 &330585549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 5c91d4374d25aaf44a39e52bd39dd196,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultActionMap: Camera
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
