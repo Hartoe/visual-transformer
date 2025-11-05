@@ -6,9 +6,36 @@
             "id": "16b0af04-62bc-4a14-8b2c-1eec0c8b7333",
             "actions": [
                 {
+                    "name": "DragPan",
+                    "type": "Button",
+                    "id": "c4104c91-6ab6-4b84-a41c-16016efc1ca0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DragRoll",
+                    "type": "Button",
+                    "id": "ba77cb71-a886-4524-9702-1419d89f5c6a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Move",
                     "type": "PassThrough",
                     "id": "1946af8c-cce6-40be-9c0a-7d7a8f5f9d7f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MousePosition",
+                    "type": "PassThrough",
+                    "id": "6b1d9a52-b685-4b51-9faa-8800345d0604",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -43,6 +70,61 @@
                 }
             ],
             "bindings": [
+                {
+                    "name": "",
+                    "id": "b9259cd1-a29f-4511-9522-1635affb489b",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "RotateLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe3daa26-2263-4e87-be8e-d2e5ff33a2e3",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "RotateRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cb112820-45e8-4e98-9ffe-53d2af504efd",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04cfc771-7311-4957-a547-79cbc81625a8",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "DragRoll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cd563512-a277-4050-9ebd-c0482284865b",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "DragPan",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
                 {
                     "name": "2D Vector",
                     "id": "17c21e28-9cd6-4a45-910c-48c369eecf3f",
@@ -100,34 +182,12 @@
                 },
                 {
                     "name": "",
-                    "id": "b9259cd1-a29f-4511-9522-1635affb489b",
-                    "path": "<Keyboard>/q",
+                    "id": "8cd1d46f-d557-4305-a924-35007ebf6aa5",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "RotateLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fe3daa26-2263-4e87-be8e-d2e5ff33a2e3",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "RotateRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cb112820-45e8-4e98-9ffe-53d2af504efd",
-                    "path": "<Mouse>/scroll",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Zoom",
+                    "action": "MousePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -10,25 +10,18 @@ public class testing : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        grid = new Grid(4, 2, 10f, new Vector3(0, 0));
+        grid = new Grid(10, 10, 10f, new Vector3(0, 0));
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = camera.transform.position.z;
-            mousePos = camera.ScreenToWorldPoint(mousePos) * -1;
-            grid.SetValue(mousePos, 10);
+            grid.SetValue(Utilities.Input.MouseToWorldPosition(), 10);
         }
-
         if (Input.GetMouseButtonDown(1))
         {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = camera.transform.position.z;
-            mousePos = camera.ScreenToWorldPoint(mousePos) * -1;
-            Debug.Log(grid.GetValue(mousePos));
+            Debug.Log(grid.GetValue(Utilities.Input.MouseToWorldPosition()));
         }
     }
 

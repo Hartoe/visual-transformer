@@ -27,7 +27,7 @@ public class Grid
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
             {
-                debugTextArray[x, y] = GUI.CreateWorldText(gridArray[x, y].ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f, 20, Color.white, TMPro.TextAlignmentOptions.Center);
+                debugTextArray[x, y] = Utilities.GUI.CreateWorldText(gridArray[x, y].ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f, 20, Color.white, TMPro.TextAlignmentOptions.Center);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
             }
@@ -38,7 +38,7 @@ public class Grid
         SetValue(2, 1, 20);
     }
 
-    private Vector3 GetWorldPosition(int x, int y) => new Vector3(x, y, 0) * cellSize + originPosition;
+    private Vector3 GetWorldPosition(int x, int y) => new Vector3(x, y) * cellSize + originPosition;
     private void GetXY(Vector3 worldPosition, out int x, out int y)
     {
         x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
