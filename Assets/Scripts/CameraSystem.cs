@@ -60,7 +60,7 @@ public class CameraSystem : MonoBehaviour
         if (enableDragControls) HandleDragPan();
 
         // Update position
-        Vector3 moveDirection = transform.up * inputDirection.y + transform.right * inputDirection.x;
+        Vector3 moveDirection = transform.forward * inputDirection.y + transform.right * inputDirection.x;
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
     }
     
@@ -71,9 +71,9 @@ public class CameraSystem : MonoBehaviour
         if (enableDragControls) rotateDirection = HandleDragRoll(rotateDirection);
 
         // Update rotation
-        if (rotateRight.action.IsPressed()) rotateDirection = rotateSpeed;
-        if (rotateLeft.action.IsPressed()) rotateDirection = -rotateSpeed;
-        transform.eulerAngles += new Vector3(0, 0, rotateDirection * Time.deltaTime);
+        if (rotateRight.action.IsPressed()) rotateDirection = -rotateSpeed;
+        if (rotateLeft.action.IsPressed()) rotateDirection = rotateSpeed;
+        transform.eulerAngles += new Vector3(0, rotateDirection * Time.deltaTime, 0);
     }
 
     private void HandleDragPan()
@@ -104,7 +104,7 @@ public class CameraSystem : MonoBehaviour
         if (dragRoll.action.IsPressed())
         {
             Vector2 mouseDelta = currentMousePosition - lastMousePosition;
-            rotateDirection = -mouseDelta.x * rotateSpeed;
+            rotateDirection = mouseDelta.x * rotateSpeed;
             lastMousePosition = currentMousePosition;
         }
 

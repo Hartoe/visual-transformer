@@ -192,6 +192,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Build",
+            "id": "0d8cb9d0-b6d9-4c13-b062-4eb2bbe5dc01",
+            "actions": [
+                {
+                    "name": "Place",
+                    "type": "Button",
+                    "id": "e76f6b9f-b9d9-423b-b35a-2a2c37c14b1d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d92eb27d-e5a9-424a-99dd-b4df117f0fb3",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Place",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
