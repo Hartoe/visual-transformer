@@ -18,14 +18,16 @@ public class Building : MonoBehaviour
         return building;
     }
 
-    private BuildingTypeSO buildingTypeSO;
-    private Vector2Int origin;
-    private BuildingTypeSO.Dir dir;
+    protected BuildingTypeSO buildingTypeSO;
+    protected Vector2Int origin;
+    protected BuildingTypeSO.Dir dir;
 
     public List<Vector2Int> GetGridPositionList()
     {
         return buildingTypeSO.GetGridPositionList(origin, dir);
     }
+
+    public BuildingTypeSO GetBuildingTypeSO() => buildingTypeSO;
 
     public void DestroySelf()
     {

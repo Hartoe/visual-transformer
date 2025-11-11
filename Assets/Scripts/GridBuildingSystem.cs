@@ -140,6 +140,11 @@ public class GridBuildingSystem : MonoBehaviour
             selectedBuilding = buildingList[2];
             OnSelectedChanged.Invoke(this, EventArgs.Empty);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            selectedBuilding = buildingList[3];
+            OnSelectedChanged.Invoke(this, EventArgs.Empty);
+        }
         
     }
 
@@ -164,4 +169,5 @@ public class GridBuildingSystem : MonoBehaviour
     }
 
     public BuildingTypeSO GetBuildingTypeSO() => selectedBuilding;
+    public Grid<GridObject> GetGrid() => grid;
 }
