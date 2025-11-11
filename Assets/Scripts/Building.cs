@@ -8,7 +8,7 @@ public class Building : MonoBehaviour
     {
         Transform buildingTransform = Instantiate(buildingTypeSO.prefab,
                                                   worldPosition,
-                                                  Quaternion.Euler(buildingTypeSO.GetRotationAngle(dir), 0, buildingTypeSO.GetRotationAngle(dir)));
+                                                  Quaternion.Euler(0, buildingTypeSO.GetRotationAngle(dir), 0));
 
         Building building = buildingTransform.GetComponent<Building>();
         building.buildingTypeSO = buildingTypeSO;

@@ -8,6 +8,9 @@ using UnityEngine.InputSystem;
 
 public class GridBuildingSystem : MonoBehaviour
 {
+    public static GridBuildingSystem Instance;
+    public event EventHandler<EventArgs> OnSelectedChanged;
+
     [SerializeField] List<BuildingTypeSO> buildingList;
     private BuildingTypeSO selectedBuilding;
     [SerializeField] InputActionReference lmb;
@@ -16,6 +19,9 @@ public class GridBuildingSystem : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null) Destroy(gameObject);
+        Instance = this;
+
         int gridWidth = 10;
         int gridHeight = 10;
         float cellSize = 15f;
@@ -98,7 +104,7 @@ public class GridBuildingSystem : MonoBehaviour
                 Debug.Log("Cannot Build Here");
             }
         }
-        
+
         if (Input.GetMouseButtonDown(1))
         {
             GridObject gridObject = grid.GetGridObject(Utilities.Input.MouseToWorldPosition());
@@ -117,11 +123,45 @@ public class GridBuildingSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             dir = BuildingTypeSO.GetNextDir(dir);
-            Debug.Log(dir);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) selectedBuilding = buildingList[0];
-        if (Input.GetKeyDown(KeyCode.Alpha2)) selectedBuilding = buildingList[1];
-        if (Input.GetKeyDown(KeyCode.Alpha3)) selectedBuilding = buildingList[2];
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            selectedBuilding = buildingList[0];
+            OnSelectedChanged.Invoke(this, EventArgs.Empty);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            selectedBuilding = buildingList[1];
+            OnSelectedChanged.Invoke(this, EventArgs.Empty);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            selectedBuilding = buildingList[2];
+            OnSelectedChanged.Invoke(this, EventArgs.Empty);
+        }
+        
     }
+
+    public Vector3 GetMouseWorldSnappedPosition()
+    {
+        Vector3 rawPosition = Utilities.Input.MouseToWorldPosition();
+        float x = Mathf.FloorToInt(rawPosition.x / grid.GetCellSize()) * grid.GetCellSize();
+        float z = Mathf.FloorToInt(rawPosition.z / grid.GetCellSize()) * grid.GetCellSize();
+
+        return new Vector3(x, 0, z);
+    }
+
+    public Quaternion GetBuildingRotation()
+    {
+        return Quaternion.Euler(0, selectedBuilding.GetRotationAngle(dir), 0);
+    }
+
+    public Vector3 GetBuildingPositionOffset()
+    {
+        Vector2Int offset = selectedBuilding.GetRotationOffset(dir);
+        return new Vector3(offset.x, 0, offset.y) * grid.GetCellSize();
+    }
+
+    public BuildingTypeSO GetBuildingTypeSO() => selectedBuilding;
 }
