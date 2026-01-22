@@ -126,9 +126,55 @@ namespace Utilities
 
             public void CalculateHiddenLayerNodeValues(LayerLearnData learnData, Layer oldLayer, Matrix oldNodeValues)
             {
-                throw new NotImplementedException();
+                for (int iNew = 0; iNew < learnData.nodeValues.Rows; iNew++)
+                {
+                    for (int jNew = 0; jNew < learnData.nodeValues.Columns; jNew++)
+                    {
+                        double newNodeValue = 0;
+                        for (int iOld = 0; iOld < oldNodeValues.Rows; iOld++)
+                        {
+                            for (int jOld = 0; jOld < oldNodeValues.Columns; jOld++)
+                            {
+                                double weightedInputDerivative = oldLayer.weights[jOld, jNew]; // Maybe jNew, jOld depending if this goes forward or backwards
+                                newNodeValue += weightedInputDerivative * oldNodeValues[iOld, jOld];
+                            }
+                        }
+                        newNodeValue *= activation.Derivative(learnData.weightedInputs, iNew, jNew);
+                        learnData.nodeValues[iNew, jNew] = newNodeValue;
+                    }
+                }
+            }
+
+            public void UpdateGradients(LayerLearnData learnData)
+            {
+                for (int i = 0; i < learnData.nodeValues.Rows; i++)
+                {
+                    for (int j = 0; j < learnData.nodeValues.Columns; j++)
+                    {
+                        double nodeValue = learnData.nodeValues[i,j];
+                        for (int k = 0; k < learnData.inputs.Rows; k++)
+                        {
+                            for (int l = 0; l < learnData.inputs.Columns; l++)
+                            {
+                                double derivativeCostWeight = learnData.inputs[k,l] * nodeValue;
+                                costGradientW[l,j] += derivativeCostWeight;
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < learnData.nodeValues.Rows; i++)
+                {
+                    for (int j = 0; j < learnData.nodeValues.Columns; j++)
+                    {
+                        double derivativeCostBias = 1 * learnData.nodeValues[i, j];
+                        costGradientB[i, j] += derivativeCostBias;
+                    }
+                }
             }
 #endregion
+
+            public void SetActivationFunction(IActivation activation) => this.activation = activation;
 
             private void InitializeRandomWeights()
             {

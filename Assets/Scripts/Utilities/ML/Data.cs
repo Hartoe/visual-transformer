@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Utilities
 {
     namespace ML
@@ -35,6 +31,18 @@ namespace Utilities
                 {
                     layerData[i] = new LayerLearnData(layers[i]);
                 }
+            }
+        }
+
+        public class DataPoint
+        {
+            public readonly Matrix inputs;
+            public readonly Matrix expectedOutputs;
+
+            public DataPoint(Matrix inputs, Matrix expectedOutputs)
+            {
+                this.inputs = inputs;
+                this.expectedOutputs = expectedOutputs;
             }
         }
 
