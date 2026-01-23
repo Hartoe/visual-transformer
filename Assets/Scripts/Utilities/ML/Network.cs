@@ -1,8 +1,12 @@
+using System;
+using Unity.VisualScripting;
+using UnityEngine;
+
 namespace Utilities
 {
     namespace ML
     {
-        public class NeuralNetwork
+        public class FullyConnectedNN : INetwork
         {
             public readonly Layer[] layers;
             public readonly (int, int)[] layerSizes;
@@ -10,7 +14,7 @@ namespace Utilities
             public ICost cost;
             NetworkLearnData[] batchLearnData;
 
-            public NeuralNetwork(params (int, int)[] layerSizes)
+            public FullyConnectedNN(params (int, int)[] layerSizes)
             {
                 this.layerSizes = layerSizes;
                 layers = new Layer[layerSizes.Length - 1];
@@ -89,6 +93,50 @@ namespace Utilities
                 layers[layers.Length - 1].SetActivationFunction(outputActivation);
             }
         }
+
+        public class PositionalEmbedding : INetwork
+        {
+            public PositionalEmbedding(){}
+
+            public Matrix CalculateOutputs(Matrix inputs)
+            {
+                Matrix posEncoding = GetPositionalEncoding(inputs);
+                return inputs + posEncoding;
+            }
+
+            // Doesn't have to learn, just pass outputs into training data structure for next part of the model
+            public void Learn(DataPoint[] trainingData, double learnRate, double regularization = 0, double momentum = 0)
+            {
+                // Just add position to data.inputs and pass on
+                throw new NotImplementedException();
+            }
+
+            private Matrix GetPositionalEncoding(Matrix inputs, double n = 10000)
+            {
+                Matrix result = new Matrix((inputs.Rows, inputs.Columns));
+                double dimension = inputs.Columns;
+                for (int k = 0; k < inputs.Rows; k++)
+                {
+                    for (int i = 0; i < inputs.Columns/2; i++)
+                    {
+                        double denominator = Math.Pow(n, 2*i  / dimension);
+                        double sinPos = Math.Sin(k/denominator);
+                        double cosPos = Math.Cos(k/denominator);
+                        result[k, 2*i] = sinPos;
+                        result[k, 2*i + 1] = cosPos;
+                    }
+                }
+                return result;
+            }
+        }
+
+        #region Interface
+        public interface INetwork
+        {
+            public Matrix CalculateOutputs(Matrix inputs);
+            public void Learn(DataPoint[] trainingData, double learnRate, double regularization = 0, double momentum = 0);
+        }
+#endregion
 
     }
 }
