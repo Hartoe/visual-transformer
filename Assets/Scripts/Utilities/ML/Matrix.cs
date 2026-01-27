@@ -52,7 +52,7 @@ namespace Utilities
                 Columns = data.GetLength(1);
                 _data = new double[Rows * Columns];
 
-                for (int i = 0; i < Rows; i++)
+                for (int i = 0; i < Rows; i++)//TODO: Change to ForEach
                     for (int j = 0; j < Columns; j++)
                         _data[i*Columns + j] = data[i, j];
             }
@@ -143,11 +143,23 @@ namespace Utilities
 
                 return result;
             }
+            // Linear multiply of matrix
+            public static Matrix LinMult(Matrix left, Matrix right)
+            {
+                if (left.Shape != right.Shape)
+                    throw new InvalidOperationException("Invalid matrix dimensions for linear multiplication!");
+
+                Matrix result = new Matrix(left.Rows, left.Columns);
+                for (int i = 0; i < left.Rows; i++)//TODO: Change to ForEach
+                    for (int j = 0; j < left.Columns; j ++)
+                        result[i, j] = left[i,j] * right[i, j];
+                return result;
+            }
             // Scalar multiply of matrix
             public static Matrix operator *(double scalar, Matrix matrix)
             {
                 Matrix result = new Matrix(matrix.Rows, matrix.Columns);
-                for (int i = 0; i < matrix.Rows; i++)
+                for (int i = 0; i < matrix.Rows; i++)//TODO: Change to ForEach
                     for (int j = 0; j < matrix.Columns; j ++)
                         result[i, j] = scalar * matrix[i, j];
                 return result;
@@ -165,11 +177,11 @@ namespace Utilities
             {
                 int rows = left.Rows;
                 int cols = left.Columns;
-                if (rows != right.Rows || cols != right.Columns)
+                if (left.Shape != right.Shape)
                     throw new InvalidOperationException("Invalid matrix dimensions for addition!");
 
                 Matrix result = new Matrix(rows, cols);
-                for (int i = 0; i < rows; i++)
+                for (int i = 0; i < rows; i++)//TODO: Change to ForEach
                     for (int j = 0; j < cols; j ++)
                         result[i, j] = left[i, j] + right[i, j];
                 return result;
@@ -178,7 +190,7 @@ namespace Utilities
             public static Matrix operator +(double scalar, Matrix matrix)
             {
                 Matrix result = new Matrix(matrix.Rows, matrix.Columns);
-                for (int i = 0; i < matrix.Rows; i++)
+                for (int i = 0; i < matrix.Rows; i++)//TODO: Change to ForEach
                     for (int j = 0; j < matrix.Columns; j ++)
                         result[i, j] = scalar + matrix[i, j];
                 return result;
@@ -194,7 +206,7 @@ namespace Utilities
                     throw new InvalidOperationException("Invalid matrix dimensions for subtraction!");
 
                 Matrix result = new Matrix(rows, cols);
-                for (int i = 0; i < rows; i++)
+                for (int i = 0; i < rows; i++)//TODO: Change to ForEach
                     for (int j = 0; j < cols; j ++)
                         result[i, j] = left[i, j] - right[i, j];
                 return result;
@@ -203,25 +215,49 @@ namespace Utilities
             public static Matrix operator -(Matrix matrix, double scalar)
             {
                 Matrix result = new Matrix(matrix.Rows, matrix.Columns);
-                for (int i = 0; i < matrix.Rows; i++)
+                for (int i = 0; i < matrix.Rows; i++)//TODO: Change to ForEach
                     for (int j = 0; j < matrix.Columns; j ++)
                         result[i, j] = matrix[i, j] - scalar;
                 return result;
             }
 #endregion
 
-            public override string ToString()
+#region Helper Functions
+            public void ForEach(Action<int, int> action)
             {
-                var sb = new System.Text.StringBuilder();
                 for (int i = 0; i < Rows; i++)
                 {
                     for (int j = 0; j < Columns; j++)
-                        sb.Append(this[i, j].ToString("0.###")).Append('\t');
+                    {
+                        action(i, j);
+                    }
+                }
+            }
+
+            public void Fill(double value)
+            {
+                for (int i = 0; i < Rows; i++)
+                {
+                    for (int j = 0; j < Columns; j++)
+                    {
+                        this[i,j] = 1;
+                    }
+                }
+            }
+            
+            public override string ToString()
+            {
+                var sb = new System.Text.StringBuilder();
+                for (int i = 0; i < Rows; i++)//TODO: Change to ForEach
+                {
+                    for (int j = 0; j < Columns; j++)
+                        sb.Append(this[i, j].ToString("0.####")).Append('\t');
                     sb.AppendLine();
                 }
                 return sb.ToString();
             }
         }
+#endregion
 #endregion
     }
 }

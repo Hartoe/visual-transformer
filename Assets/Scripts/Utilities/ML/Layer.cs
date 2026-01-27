@@ -58,7 +58,7 @@ namespace Utilities
                 Matrix weightedInputs = (inputs * weights) + biases;
 
                 Matrix activations = new Matrix(biases.Rows, biases.Columns);
-                for (int i = 0; i < activations.Rows; i++)
+                for (int i = 0; i < activations.Rows; i++) //TODO: Change to ForEach
                 {
                     for (int j = 0; j < activations.Columns; j++)
                     {
@@ -73,7 +73,7 @@ namespace Utilities
                 learnData.inputs = inputs;
                 learnData.weightedInputs = (inputs * weights) + biases;
 
-                for (int i = 0; i < learnData.activations.Rows; i++)
+                for (int i = 0; i < learnData.activations.Rows; i++)//TODO: Change to ForEach
                 {
                     for (int j = 0; j < learnData.activations.Columns; j++)
                     {
@@ -87,7 +87,7 @@ namespace Utilities
             {
                 double weightDecay = (1 - regularization * learnRate);
 
-                for (int i = 0; i < weights.Rows; i++)
+                for (int i = 0; i < weights.Rows; i++)//TODO: Change to ForEach
                 {
                     for (int j = 0; j < weights.Columns; j++)
                     {
@@ -99,7 +99,7 @@ namespace Utilities
                     }
                 }
 
-                for (int i = 0; i < biases.Rows; i++)
+                for (int i = 0; i < biases.Rows; i++)//TODO: Change to ForEach
                 {
                     for (int j = 0; j < biases.Columns; j++)
                     {
@@ -113,7 +113,7 @@ namespace Utilities
 
             public void CalculateOutputLayerNodeValues(LayerLearnData learnData, Matrix expectedOutputs, ICost cost)
             {
-                for (int i = 0; i < learnData.nodeValues.Rows; i++)
+                for (int i = 0; i < learnData.nodeValues.Rows; i++)//TODO: Change to ForEach
                 {
                     for (int j = 0; j < learnData.nodeValues.Columns; j++)
                     {
@@ -126,7 +126,7 @@ namespace Utilities
 
             public void CalculateHiddenLayerNodeValues(LayerLearnData learnData, Layer oldLayer, Matrix oldNodeValues)
             {
-                for (int iNew = 0; iNew < learnData.nodeValues.Rows; iNew++)
+                for (int iNew = 0; iNew < learnData.nodeValues.Rows; iNew++)//TODO: Change to ForEach?
                 {
                     for (int jNew = 0; jNew < learnData.nodeValues.Columns; jNew++)
                     {
@@ -147,7 +147,7 @@ namespace Utilities
 
             public void UpdateGradients(LayerLearnData learnData)
             {
-                for (int i = 0; i < learnData.nodeValues.Rows; i++)
+                for (int i = 0; i < learnData.nodeValues.Rows; i++)//TODO: Change to ForEach?
                 {
                     for (int j = 0; j < learnData.nodeValues.Columns; j++)
                     {
@@ -163,7 +163,7 @@ namespace Utilities
                     }
                 }
 
-                for (int i = 0; i < learnData.nodeValues.Rows; i++)
+                for (int i = 0; i < learnData.nodeValues.Rows; i++)//TODO: Change to ForEach
                 {
                     for (int j = 0; j < learnData.nodeValues.Columns; j++)
                     {
@@ -178,7 +178,7 @@ namespace Utilities
 
             private void InitializeRandomWeights()
             {
-                for (int i = 0; i < weights.Rows; i++)
+                for (int i = 0; i < weights.Rows; i++)//TODO: Change to ForEach
                 {
                     for (int j = 0; j < weights.Columns; j++)
                     {

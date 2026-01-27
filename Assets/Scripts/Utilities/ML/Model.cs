@@ -15,6 +15,10 @@ namespace Utilities
             {
                 components = new List<INetwork>();
             }
+            public Model(List<INetwork> components)
+            {
+                this.components = components;
+            }
 
             public void Add(INetwork component) => components.Add(component);
 

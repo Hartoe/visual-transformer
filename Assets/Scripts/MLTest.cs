@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Utilities.ML;
 
@@ -10,6 +11,7 @@ public class MLTest : MonoBehaviour
         embedding.SetCostFunction(new Cost.MeanSquaredError());
         embedding.SetActivationFunction(new Activation.Sigmoid());
         PositionalEmbedding positionalEncoding = new PositionalEmbedding();
+        LayerNorm layerNorm = new LayerNorm((4,4));
         Matrix inputs = new Matrix(new double[,]
         {
             {1, 0, 0, 0},
@@ -18,10 +20,12 @@ public class MLTest : MonoBehaviour
             {0, 0, 0, 1}
         });
         
-        inputs = embedding.CalculateOutputs(inputs);
-        Debug.Log(inputs);
-        inputs = positionalEncoding.CalculateOutputs(inputs);
-        Debug.Log(inputs);
+        Matrix outputs = embedding.CalculateOutputs(inputs);
+        Debug.Log(outputs);
+        outputs = positionalEncoding.CalculateOutputs(outputs);
+        Debug.Log(outputs);
+        outputs = layerNorm.CalculateOutputs(outputs);
+        Debug.Log(outputs);
     }
 
     // Update is called once per frame
