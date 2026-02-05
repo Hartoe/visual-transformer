@@ -20,7 +20,7 @@ public class Conveyor : Building
         Vector2Int rotationOffset = buildingTypeSO.GetRotationOffset(dir);
         int currentX = x - rotationOffset.x;
         int currentY = y - rotationOffset.y;
-        
+        //TODO Better handling of reading outside of the grid (maybe this should just be handled within GetGridObject)
         Building leftCell = GridBuildingSystem.Instance.GetGrid().GetGridObject(currentX - 1, currentY).GetBuilding();
         Building rightCell = GridBuildingSystem.Instance.GetGrid().GetGridObject(currentX + 1, currentY).GetBuilding();
         Building upCell = GridBuildingSystem.Instance.GetGrid().GetGridObject(currentX, currentY + 1).GetBuilding();
@@ -63,6 +63,8 @@ public class Conveyor : Building
         }
         if (names.Count == 0) names.Add("Straight");
         SetModelDir(names.ToArray());
+
+        //TODO Update any conveyors that this conveyor flows into
     }
     public bool Occupied() => worldItem != null;
 
@@ -117,7 +119,9 @@ public class Conveyor : Building
         if (!Occupied())
         {
             // Check previous cell in link to see if its next to an emmiter
-            Building prevCell = GridBuildingSystem.Instance.GetGrid().GetGridObject(previousX, previousY).GetBuilding();
+            GridBuildingSystem.GridObject go = GridBuildingSystem.Instance.GetGrid().GetGridObject(previousX, previousY);
+            if (go == null) return;
+            Building prevCell = go.GetBuilding();
             if (prevCell != null)
             {
                 if (prevCell.GetBuildingTypeSO().nameString == "Small Building")

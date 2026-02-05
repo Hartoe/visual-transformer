@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -11,8 +12,16 @@ public class GridBuildingSystem : MonoBehaviour
     public static GridBuildingSystem Instance;
     public event EventHandler<EventArgs> OnSelectedChanged;
 
+    [Header("Grid Size")]
+    [SerializeField] int gridWidth = 10;
+    [SerializeField] int gridHeight = 10;
+    [SerializeField] float cellSize = 15f;
+
+    [Header("List of Buildings")]
     [SerializeField] List<BuildingTypeSO> buildingList;
     private BuildingTypeSO selectedBuilding;
+
+    [Header("Button action")]
     [SerializeField] InputActionReference lmb;
     private Grid<GridObject> grid;
     private BuildingTypeSO.Dir dir = BuildingTypeSO.Dir.Down;
@@ -23,9 +32,6 @@ public class GridBuildingSystem : MonoBehaviour
         if (Instance != null) Destroy(gameObject);
         Instance = this;
 
-        int gridWidth = 10;
-        int gridHeight = 10;
-        float cellSize = 15f;
         grid = new Grid<GridObject>(gridWidth, gridHeight, cellSize, Vector3.zero, (Grid<GridObject> g, int x, int y) => new GridObject(g, x, y));
 
         selectedBuilding = buildingList[0];
