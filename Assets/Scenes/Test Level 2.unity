@@ -1000,13 +1000,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridWidth: 15
-  gridHeight: 10
+  gridHeight: 12
   cellSize: 15
   buildingList:
   - {fileID: 11400000, guid: 4e83864b4a91b244da33b54678d8c07e, type: 2}
   - {fileID: 11400000, guid: a51607249b16f1f49ab604b702cc3901, type: 2}
-  - {fileID: 11400000, guid: 33283df9a60f137438706dca609b05ea, type: 2}
-  - {fileID: 11400000, guid: f299215e86036af488331e111255582d, type: 2}
   lmb: {fileID: 8409272431351684892, guid: 5c91d4374d25aaf44a39e52bd39dd196, type: 3}
 --- !u!1 &1655771069
 GameObject:
