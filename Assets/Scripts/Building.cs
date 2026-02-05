@@ -28,6 +28,7 @@ public class Building : MonoBehaviour
     }
 
     public BuildingTypeSO GetBuildingTypeSO() => buildingTypeSO;
+    public BuildingTypeSO.Dir GetDir() => dir;
 
     public void DestroySelf()
     {

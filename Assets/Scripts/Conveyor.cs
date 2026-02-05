@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Conveyor : Building
@@ -14,7 +15,54 @@ public class Conveyor : Building
     {
         TimeTickSystem.OnTick += MoveWorldItem;
 
-        //TODO: Check surroundings for other conveyorbelts that lead into this one and change the model
+        int x, y;
+        GridBuildingSystem.Instance.GetGrid().GetXY(transform.position, out x, out y);
+        Vector2Int rotationOffset = buildingTypeSO.GetRotationOffset(dir);
+        int currentX = x - rotationOffset.x;
+        int currentY = y - rotationOffset.y;
+        
+        Building leftCell = GridBuildingSystem.Instance.GetGrid().GetGridObject(currentX - 1, currentY).GetBuilding();
+        Building rightCell = GridBuildingSystem.Instance.GetGrid().GetGridObject(currentX + 1, currentY).GetBuilding();
+        Building upCell = GridBuildingSystem.Instance.GetGrid().GetGridObject(currentX, currentY + 1).GetBuilding();
+        Building downCell = GridBuildingSystem.Instance.GetGrid().GetGridObject(currentX, currentY - 1).GetBuilding();
+
+        bool[] surroundingDirs = new bool[4];
+        if (downCell != null)
+            if (downCell.GetDir() == BuildingTypeSO.Dir.Up) surroundingDirs[0] = true;
+        if (leftCell != null)
+            if (leftCell.GetDir() == BuildingTypeSO.Dir.Right) surroundingDirs[1] = true;
+        if (upCell != null)
+            if (upCell.GetDir() == BuildingTypeSO.Dir.Down) surroundingDirs[2] = true;
+        if (rightCell != null)
+            if (rightCell.GetDir() == BuildingTypeSO.Dir.Left) surroundingDirs[3] = true;
+
+        List<string> names = new List<string>();
+        switch (dir)
+        {
+            default:
+            case BuildingTypeSO.Dir.Down:        
+                if (surroundingDirs[1]) names.Add("CurveRight");
+                if (surroundingDirs[2]) names.Add("Straight");
+                if (surroundingDirs[3]) names.Add("CurveLeft");
+                break;
+            case BuildingTypeSO.Dir.Up:
+                if (surroundingDirs[0]) names.Add("Straight");
+                if (surroundingDirs[1]) names.Add("CurveLeft");
+                if (surroundingDirs[3]) names.Add("CurveRight");
+                break;
+            case BuildingTypeSO.Dir.Left:
+                if (surroundingDirs[0]) names.Add("CurveLeft");
+                if (surroundingDirs[2]) names.Add("CurveRight");
+                if (surroundingDirs[3]) names.Add("Straight");
+                break;
+            case BuildingTypeSO.Dir.Right:
+                if (surroundingDirs[0]) names.Add("CurveRight");
+                if (surroundingDirs[1]) names.Add("Straight");
+                if (surroundingDirs[2]) names.Add("CurveLeft");
+                break;
+        }
+        if (names.Count == 0) names.Add("Straight");
+        SetModelDir(names.ToArray());
     }
     public bool Occupied() => worldItem != null;
 
@@ -88,6 +136,17 @@ public class Conveyor : Building
     }
 
     public WorldItem GetItem() => worldItem;
+
+    private void SetModelDir(params string[] names)
+    {
+        foreach (Transform child in gameObject.GetComponentInChildren<Transform>(includeInactive: true))
+        {
+            if (names.Contains(child.gameObject.name))
+                child.gameObject.SetActive(true);
+            else
+                child.gameObject.SetActive(false);
+        }
+    }
 
     private Vector2Int GetDirectionVector(BuildingTypeSO.Dir direction)
     {

@@ -16,6 +16,7 @@ public class GridBuildingSystem : MonoBehaviour
     [SerializeField] InputActionReference lmb;
     private Grid<GridObject> grid;
     private BuildingTypeSO.Dir dir = BuildingTypeSO.Dir.Down;
+    private bool buildingActive = true;
 
     private void Awake()
     {
@@ -29,6 +30,8 @@ public class GridBuildingSystem : MonoBehaviour
 
         selectedBuilding = buildingList[0];
     }
+
+    public List<BuildingTypeSO> GetBuildingList() => buildingList;
 
     public class GridObject
     {
@@ -71,81 +74,75 @@ public class GridBuildingSystem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (buildingActive)
         {
-            int x, y;
-            grid.GetXY(Utilities.Input.MouseToWorldPosition(), out x, out y);
+            if (Input.GetMouseButtonDown(0))
+            {
+                int x, y;
+                grid.GetXY(Utilities.Input.MouseToWorldPosition(), out x, out y);
 
-            List<Vector2Int> gridPositionList = selectedBuilding.GetGridPositionList(new Vector2Int(x, y), dir);
-            bool canBuild = true;
-            foreach (Vector2Int gridPosition in gridPositionList)
-            {
-                if (!grid.GetGridObject(gridPosition.x, gridPosition.y).CanBuild())
-                {
-                    canBuild = false;
-                    break;
-                }
-            }
-            if (canBuild)
-            {
-                Vector2Int rotationOffset = selectedBuilding.GetRotationOffset(dir);
-                Vector3 buildingWorldPosition = grid.GetWorldPosition(x, y) +
-                                                new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.GetCellSize();
-                Building building = Building.Create(buildingWorldPosition, new Vector2Int(x, y), dir, selectedBuilding);
+                List<Vector2Int> gridPositionList = selectedBuilding.GetGridPositionList(new Vector2Int(x, y), dir);
+                bool canBuild = true;
                 foreach (Vector2Int gridPosition in gridPositionList)
                 {
-                    grid.GetGridObject(gridPosition.x, gridPosition.y).SetBuilding(building);
+                    GridObject go = grid.GetGridObject(gridPosition.x, gridPosition.y);
+                    if (go == null || !go.CanBuild())
+                    {
+                        canBuild = false;
+                        break;
+                    }
                 }
-            }
-            else
-            {
-                //TODO: Implement GUI popups
-                // Utilities.GUI.CreateWorldTextPopup("Cannot Build Here!", Utilities.Input.MouseToWorldPosition());
-                Debug.Log("Cannot Build Here");
-            }
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            GridObject gridObject = grid.GetGridObject(Utilities.Input.MouseToWorldPosition());
-            Building building = gridObject.GetBuilding();
-            if (building != null)
-            {
-                building.DestroySelf();
-                List<Vector2Int> gridPositionList = building.GetGridPositionList();
-                foreach (Vector2Int gridPosition in gridPositionList)
+                if (canBuild)
                 {
-                    grid.GetGridObject(gridPosition.x, gridPosition.y).ClearBuilding();
+                    Vector2Int rotationOffset = selectedBuilding.GetRotationOffset(dir);
+                    Vector3 buildingWorldPosition = grid.GetWorldPosition(x, y) +
+                                                    new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.GetCellSize();
+                    Building building = Building.Create(buildingWorldPosition, new Vector2Int(x, y), dir, selectedBuilding);
+                    foreach (Vector2Int gridPosition in gridPositionList)
+                    {
+                        grid.GetGridObject(gridPosition.x, gridPosition.y).SetBuilding(building);
+                    }
+                }
+                else
+                {
+                    Utilities.GUI.CreateWorldTextPopup("Cannot Build Here!", localPosition: Utilities.Input.MouseToWorldPosition(), color: Color.red);
                 }
             }
-        }
 
+            if (Input.GetMouseButtonDown(1))
+            {
+                GridObject gridObject = grid.GetGridObject(Utilities.Input.MouseToWorldPosition());
+                if (gridObject != null)
+                {
+                    Building building = gridObject.GetBuilding();
+                    if (building != null)
+                    {
+                        building.DestroySelf();
+                        List<Vector2Int> gridPositionList = building.GetGridPositionList();
+                        foreach (Vector2Int gridPosition in gridPositionList)
+                        {
+                            grid.GetGridObject(gridPosition.x, gridPosition.y).ClearBuilding();
+                        }
+                    }
+                }
+            }  
+        } 
+        
         if (Input.GetKeyDown(KeyCode.R))
         {
             dir = BuildingTypeSO.GetNextDir(dir);
-        }
+        } 
+    }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            selectedBuilding = buildingList[0];
-            OnSelectedChanged.Invoke(this, EventArgs.Empty);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            selectedBuilding = buildingList[1];
-            OnSelectedChanged.Invoke(this, EventArgs.Empty);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            selectedBuilding = buildingList[2];
-            OnSelectedChanged.Invoke(this, EventArgs.Empty);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            selectedBuilding = buildingList[3];
-            OnSelectedChanged.Invoke(this, EventArgs.Empty);
-        }
-        
+    public void SetBuildingType(BuildingTypeSO building)
+    {
+        selectedBuilding = building;
+        OnSelectedChanged.Invoke(this, EventArgs.Empty);
+    }
+
+    public void SetBuildActive(bool value)
+    {
+        buildingActive = value;
     }
 
     public Vector3 GetMouseWorldSnappedPosition()

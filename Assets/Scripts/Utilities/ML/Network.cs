@@ -219,6 +219,12 @@ namespace Utilities
 
                 // Calculate query/key properties
                 Matrix QKs = Queries * Keys;
+
+                // Scale and softmax
+
+                // Matmult with value matrix
+
+                // 
                 throw new NotImplementedException();
             }
             public void Learn(DataPoint[] trainingData, double learnRate, double regularization = 0, double momentum = 0)
