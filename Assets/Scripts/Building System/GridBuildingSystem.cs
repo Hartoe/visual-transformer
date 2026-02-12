@@ -72,6 +72,8 @@ public class GridBuildingSystem : MonoBehaviour
 
         public bool CanBuild() => building == null;
 
+        public Vector3 Center() => grid.GetWorldPosition(x,y) + (0.5f*new Vector3(grid.GetCellSize(), 3f, grid.GetCellSize()));
+
         public override string ToString()
         {
             return $"{x}, {y}\n{building}";

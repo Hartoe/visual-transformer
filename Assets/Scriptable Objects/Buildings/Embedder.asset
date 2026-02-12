@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ad0c427fb7825743a01846ab8c00733, type: 3}
-  m_Name: Small Building
+  m_Name: Embedder
   m_EditorClassIdentifier: 
-  nameString: Small Building
-  prefab: {fileID: 3591565023759517473, guid: 26631be4f5f92db4c992704fba494950, type: 3}
+  nameString: Embedder
+  prefab: {fileID: 3591565023759517473, guid: 5a588e52d0d5ca849b43d57bf3240955, type: 3}
   visual: {fileID: 3591565023759517473, guid: 4214f7ae813976c47bde577b10bf9bed, type: 3}
   width: 1
   height: 1
+  image: {fileID: 8400000, guid: dbc3ce088606a7744a1534e7d3f44a31, type: 2}

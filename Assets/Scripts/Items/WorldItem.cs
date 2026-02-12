@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utilities.ML;
 
+// TODO: Make this an abstract class that determines model and matrix shape (should this be an SO?)
 public class WorldItem : MonoBehaviour
 {
+    public Matrix state;
     public bool Moved;
-    public Vector3 targetPosition { get; private set; }
+    public Vector3 targetPosition { get; protected set; }
 
     void Start()
     {
@@ -14,7 +17,7 @@ public class WorldItem : MonoBehaviour
         TimeTickSystem.OnTick += CheckMoved;
     }
 
-    private void CheckMoved(object sender, TimeTickSystem.TickEventArgs e)
+    protected void CheckMoved(object sender, TimeTickSystem.TickEventArgs e)
     {
         if (Moved) Moved = false;
     }
@@ -26,13 +29,8 @@ public class WorldItem : MonoBehaviour
 
     public void MoveTo(Vector3 position)
     {
-        SetTargetPosition(position);
-        Moved = true;
-    }
-
-    void SetTargetPosition(Vector3 position)
-    {
         targetPosition = position;
+        Moved = true;
     }
 
     void OnDestroy()

@@ -20,6 +20,6 @@ public class BuildMenuItem : MonoBehaviour, IPointerClickHandler
     void Start()
     {
         buildTitle.text = _reference.nameString;
-        buildImage.texture = Utilities.GUI.GetPrefabPreview(_reference.prefab);
+        buildImage.texture = _reference.image;
     }
 }
