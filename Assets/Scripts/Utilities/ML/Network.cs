@@ -151,7 +151,9 @@ namespace Utilities
             public LayerNorm(int rows, int cols)
             {
                 scaleMatrix = new Matrix(rows, cols);
+                scaleMatrix.Fill(1);
                 shiftMatrix = new Matrix(rows, cols);
+                shiftMatrix.Fill(0);
             }
 
             public Matrix CalculateOutputs(Matrix inputs)

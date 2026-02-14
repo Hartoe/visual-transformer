@@ -9,6 +9,7 @@ public class Embedder : AFactory
     [SerializeField] Intent itemPrefab;
     private List<WorldItem> outputs = new List<WorldItem>();
     private List<Resource> inputs = new List<Resource>();
+    private bool mustGenerate = false;
 
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
@@ -18,14 +19,15 @@ public class Embedder : AFactory
             if (((Resource)item).resourceType == ResourceType.ORDER)
             {
                 inputs.Add((Resource)item);
-                GenerateOutputItem();
-                inputs.Clear();
+                mustGenerate = true;
             }
             else
             {
                 inputs.Add((Resource)item);
             }
         }
+
+        //TODO: Handle wrong input with smoke effect and popup
 
         Destroy(item.gameObject);
     }
@@ -55,15 +57,26 @@ public class Embedder : AFactory
         }
         Matrix finalState = new Matrix(finalMatrix);
 
-        Debug.Log(finalState);
-
         Intent newItem = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
         newItem.state = finalState;
 
         outputs.Add(newItem);
     }
 
-    protected override void Action(object sender, TimeTickSystem.TickEventArgs e) {}
+    protected override void Action(object sender, TimeTickSystem.TickEventArgs e)
+    {
+        if (mustGenerate)
+        {
+            GenerateOutputItem();
+            inputs.Clear();
+            mustGenerate = false;
+        }
+    }
+
+    public override bool Occupied((int, int) cell)
+    {
+        return mustGenerate;
+    }
 
     protected override void FillCellLists()
     {

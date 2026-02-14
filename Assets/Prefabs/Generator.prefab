@@ -132,11 +132,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemPrefabs:
-  - {fileID: 2951111776387743779, guid: 87e2c667849a8e34cb9a2451dc0dda1c, type: 3}
-  - {fileID: 2951111776387743779, guid: 5a76d702e5864e24e95a440eb30866fb, type: 3}
   - {fileID: 2951111776387743779, guid: fb49b1d6cca811f4b9d2978e9f98ba88, type: 3}
+  - {fileID: 2951111776387743779, guid: 5a76d702e5864e24e95a440eb30866fb, type: 3}
+  - {fileID: 2951111776387743779, guid: f190afddb293c904b8cf1142898a87c0, type: 3}
+  - {fileID: 2951111776387743779, guid: a8713e7209a0aa5489a1d5bf127434e7, type: 3}
+  - {fileID: 2951111776387743779, guid: 87e2c667849a8e34cb9a2451dc0dda1c, type: 3}
+  - {fileID: 2951111776387743779, guid: 3d4027aec2d4fd945a66e767258d686a, type: 3}
   - {fileID: 2951111776387743779, guid: 8d37638906cb8fe45ac67b3919823e85, type: 3}
-  amount: 2
+  amount: 1
 --- !u!1 &4659408707575368293
 GameObject:
   m_ObjectHideFlags: 0

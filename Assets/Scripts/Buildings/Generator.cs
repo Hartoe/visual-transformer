@@ -11,6 +11,8 @@ public class Generator : AFactory
 
     public override WorldItem RemoveFromOutput((int, int) cell)
     {
+        if (outputs.Count <= 0) return null;
+
         // Get index for cell from output cells
         int index = OutputCells.IndexOf(cell);
 

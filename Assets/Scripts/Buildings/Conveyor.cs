@@ -175,9 +175,12 @@ public class Conveyor : Building
                         }
                         else if (((AFactory)nextBuilding).InputCells.Contains((cellX, cellY)))
                         {
-                            ((AFactory)nextBuilding).AddFromInput(worldItem, (cellX, cellY));
-                            worldItem.MoveTo(nextCell.Center());
-                            SetItem(null);
+                            if (!((AFactory)nextBuilding).Occupied((cellX, cellY)))
+                            {
+                                ((AFactory)nextBuilding).AddFromInput(worldItem, (cellX, cellY));
+                                worldItem.MoveTo(nextCell.Center());
+                                SetItem(null);
+                            }
                         }
                     }
                 }

@@ -7,11 +7,22 @@ public class Dialogue : MonoBehaviour
     [SerializeField] DialogueTextSO dialogueTextSO;
     [SerializeField] DialogueHandler dialogueHandler;
 
+    bool showFirst = true;
+
+    void Start()
+    {
+        dialogueHandler.DisplayNextParagraph(dialogueTextSO);
+    }
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (showFirst)
         {
-            InteractWithDialogue();
+            if (Input.GetMouseButtonDown(0))
+            {
+                dialogueHandler.DisplayNextParagraph(dialogueTextSO);
+            }
+            if (dialogueHandler.Finished) showFirst = false;
         }
     }
 

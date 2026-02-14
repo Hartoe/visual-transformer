@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class DialogueHandler : MonoBehaviour
 {
-    public static DialogueHandler Instance;
-
     [SerializeField] private TextMeshProUGUI characterNameText;
     [SerializeField] private TextMeshProUGUI dialogueTextUI;
     [SerializeField] private TextMeshProUGUI continueText;
     [SerializeField] private float typeSpeed = 15f;
+
+    public bool Finished = false;
 
     private Queue<string> dialogues = new Queue<string>();
     private bool hasEnded;
@@ -19,15 +19,6 @@ public class DialogueHandler : MonoBehaviour
     private Coroutine typeDialogueCoroutine;
     private const string HTML_ALPHA = "<color=#00000000>";
     private const float MAX_TYPE_TIME = 0.1f;
-
-    void Start()
-    {
-        if (Instance != null)
-        {
-            Destroy(this);
-        }
-        Instance = this;
-    }
 
     public void DisplayNextParagraph(DialogueTextSO dialogueText)
     {
@@ -78,6 +69,7 @@ public class DialogueHandler : MonoBehaviour
         GridBuildingSystem.Instance.SetBuildActive(true);
         dialogues.Clear();
         hasEnded = false;
+        Finished = true;
         if (gameObject.activeSelf) gameObject.SetActive(false);
     }
 

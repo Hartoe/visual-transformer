@@ -5,7 +5,7 @@ using UnityEngine;
 using Utilities.ML;
 
 // TODO: Make this an abstract class that determines model and matrix shape (should this be an SO?)
-public class WorldItem : MonoBehaviour
+public class WorldItem : MonoBehaviour, ICloneable
 {
     public Matrix state;
     public bool Moved;
@@ -36,5 +36,14 @@ public class WorldItem : MonoBehaviour
     void OnDestroy()
     {
         TimeTickSystem.OnTick -= CheckMoved;
+    }
+
+    public object Clone()
+    {
+        WorldItem clone = Instantiate(this, transform.position, Quaternion.identity);
+        clone.targetPosition = targetPosition;
+        clone.state = state;
+        clone.Moved = Moved;
+        return clone;
     }
 }

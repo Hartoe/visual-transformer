@@ -12,7 +12,7 @@ public class TimeTickSystem : MonoBehaviour
     public static event EventHandler<TickEventArgs> OnTick;
 
     private const float TICK_TIMER_MAX = 1f;
-    private int tick;
+    public static int tick;
     private float tickTimer;
 
     void Awake()

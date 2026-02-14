@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0.4433962, b: 0.31072104, a: 0.57254905}
+  m_EffectColor: {r: 0, g: 0.20244338, b: 0.44313726, a: 0.57254905}
   m_EffectDistance: {x: 20, y: -20}
   m_UseGraphicAlpha: 0
 --- !u!114 &233718612
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6462264, g: 1, b: 0.86600065, a: 0.392}
+  m_Color: {r: 0.48584908, g: 0.8534435, b: 1, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -371,7 +371,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 49.99998
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -729,8 +729,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4278223359
+  m_fontColor: {r: 1, g: 0.50616264, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -987,6 +987,7 @@ MonoBehaviour:
   dialogueTextUI: {fileID: 1251111600}
   continueText: {fileID: 1293778086}
   typeSpeed: 15
+  Finished: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1410,7 +1411,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 2119584215}
   m_Follow: {fileID: 2119584215}
   m_Lens:
-    FieldOfView: 49.99998
+    FieldOfView: 70
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1556,6 +1557,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4e83864b4a91b244da33b54678d8c07e, type: 2}
   - {fileID: 11400000, guid: a51607249b16f1f49ab604b702cc3901, type: 2}
   - {fileID: 11400000, guid: 51bf8ac3fbe223947b35af395c3512ac, type: 2}
+  - {fileID: 11400000, guid: a02a0ce2833e7ff4bb533908776b52e5, type: 2}
+  - {fileID: 11400000, guid: 3cf8251b885bfe143ab62507ff76882b, type: 2}
+  - {fileID: 11400000, guid: 7302cfebe83e2ca4a9f3d392f83c5016, type: 2}
+  - {fileID: 11400000, guid: f20287479254c2a498040504a23db255, type: 2}
+  - {fileID: 11400000, guid: 6176643743111bb4685b9295105acc79, type: 2}
+  - {fileID: 11400000, guid: 6681e09f3a31d1a4091819e8e3cb8965, type: 2}
+  - {fileID: 11400000, guid: 30a2b6e723c7a194699af4e4e891a89b, type: 2}
   lmb: {fileID: 8409272431351684892, guid: 5c91d4374d25aaf44a39e52bd39dd196, type: 3}
 --- !u!114 &1651449336
 MonoBehaviour:
@@ -1564,7 +1572,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1651449333}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd2690c7ab809e247afc4c961f27df0f, type: 3}
   m_Name: 
