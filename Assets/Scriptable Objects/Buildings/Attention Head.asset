@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad0c427fb7825743a01846ab8c00733, type: 3}
+  m_Name: Attention Head
+  m_EditorClassIdentifier: 
+  nameString: Attention Head
+  prefab: {fileID: 3591565023759517473, guid: e05c1efc5a5c60c4bbea7d3df766a47e, type: 3}
+  visual: {fileID: 3591565023759517473, guid: dba0f798535339a4e99824c76f717bb4, type: 3}
+  width: 3
+  height: 1
+  infoPanel: {fileID: 2606643661461617802, guid: 4c5831256736e134e8dfe4569dbddee3,
+    type: 3}
+  image: {fileID: 2800000, guid: 6c43b36fb996b90479e7d45b4c646864, type: 3}

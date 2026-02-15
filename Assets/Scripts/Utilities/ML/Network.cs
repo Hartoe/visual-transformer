@@ -212,6 +212,17 @@ namespace Utilities
             public Layer keyLayer;
             public Layer valueLayer;
 
+            public IActivation softmax;
+
+            public Attention(int rows, int cols)
+            {
+                softmax = Activation.GetActivationFromType(Activation.ActivationType.Softmax);
+                // Set layer sizes
+                queryLayer = new Layer((rows, cols), (rows, cols));
+                keyLayer = new Layer((rows, cols), (rows, cols));
+                valueLayer = new Layer((rows, cols), (rows, cols));
+            }
+
             public Matrix CalculateOutputs(Matrix inputs)
             {
                 // Caluclate the query, key, and value matrices
@@ -220,14 +231,21 @@ namespace Utilities
                 Values = valueLayer.CalculateOutputs(inputs);
 
                 // Calculate query/key properties
-                Matrix QKs = Queries * Keys;
+                Matrix QKs = (Queries * Matrix.T(Keys)) / Math.Sqrt(Queries.Columns);
 
-                // Scale and softmax
+                // Softmax
+                for (int i = 0; i < QKs.Rows; i++)
+                {
+                    for (int j = 0; j < QKs.Columns; j++)
+                    {
+                        QKs[i,j] = softmax.Activate(QKs, i, j);
+                    }
+                }
 
                 // Matmult with value matrix
+                Matrix QKVs = QKs * Values;
 
-                // 
-                throw new NotImplementedException();
+                return QKVs;
             }
             public void Learn(DataPoint[] trainingData, double learnRate, double regularization = 0, double momentum = 0)
             {

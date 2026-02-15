@@ -1,20 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Utilities.ML;
 
-public class Positioner : AFactory
+public class Activator : AFactory
 {
     [SerializeField] Intent itemPrefab;
+    public Activation.ActivationType activationType;
+    private IActivation activationFunction;
     private List<WorldItem> outputs = new List<WorldItem>();
     private List<Matrix> inputs = new List<Matrix>();
 
-    private PositionalEmbedding positionalEmbedding = new PositionalEmbedding();
-
+    new void Start()
+    {
+        activationFunction = Activation.GetActivationFromType(activationType);
+        base.Start();
+    }
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
-        // Check if item is a RESOURCE
+        // Check if item is INTENT
         if (item is Intent)
         {
             // Save the matrix of the item
@@ -34,7 +40,6 @@ public class Positioner : AFactory
         // if not pop first item
         WorldItem item = outputs.First();
         outputs.RemoveAt(0);
-        Debug.Log($"{item.state}");
 
         return item;
     }
@@ -45,11 +50,17 @@ public class Positioner : AFactory
         {
             Matrix input = inputs.First();
             inputs.RemoveAt(0);
-            Matrix output = positionalEmbedding.CalculateOutputs(input);
+            Matrix output = new Matrix(input.Shape);
+            for (int i = 0; i < output.Rows; i++)
+            {
+                for (int j = 0; j < output.Columns; j++)
+                {
+                    output[i,j] = activationFunction.Activate(input, i, j);
+                }
+            }
             WorldItem newItem = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
-
         }
     }
 
@@ -75,5 +86,12 @@ public class Positioner : AFactory
                 InputCells.Add((cellX - 1, cellY));
                 break;
         }
+    }
+
+    new void OnDestroy()
+    {
+        foreach (WorldItem item in outputs)
+            Destroy(item.gameObject);
+        base.OnDestroy();
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Conveyor : Building
@@ -242,6 +243,11 @@ public class Conveyor : Building
     public void SetItem(WorldItem item)
     {
         worldItem = item;
+        if (infoPanelInstance != null)
+        {
+            if (item != null) infoPanelInstance.GetComponent<ConveyorInfoPanel>().SetText(item.name);
+            else infoPanelInstance.GetComponent<ConveyorInfoPanel>().SetText("None");
+        }
     }
 
     public WorldItem GetItem()

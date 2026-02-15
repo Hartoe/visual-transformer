@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Utilities.ML;
 
-public class Addition : AFactory
+public class Multiplier : AFactory
 {
     [SerializeField] Intent itemPrefab;
 
@@ -53,7 +53,7 @@ public class Addition : AFactory
             {
                 Debug.Log($"A: {A}");
                 Debug.Log($"B: {B}");
-                Matrix C = ((Matrix)A) + ((Matrix)B);
+                Matrix C = ((Matrix)A) * ((Matrix)B);
                 Debug.Log($"C: {C}");
                 Intent output = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
                 output.state = C;
@@ -102,5 +102,12 @@ public class Addition : AFactory
         if (cell == InputCells[0]) return matrixASet;
         if (cell == InputCells[1]) return matrixBSet;
         return false;
+    }
+
+    new void OnDestroy()
+    {
+        foreach (Intent item in outputs)
+            Destroy(item.gameObject);
+        base.OnDestroy();
     }
 }

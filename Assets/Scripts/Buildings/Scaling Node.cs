@@ -1,26 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Utilities.ML;
 
-public class Normalizer : AFactory
+public class Scalar : AFactory
 {
-    
-    [SerializeField] int rows;
-    [SerializeField] int cols;
     [SerializeField] Intent itemPrefab;
     private List<WorldItem> outputs = new List<WorldItem>();
     private List<Matrix> inputs = new List<Matrix>();
-
-    private LayerNorm layerNorm;
-
-    new void Start()
-    {
-        layerNorm = new LayerNorm(rows, cols);
-        base.Start();
-    }
-
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
         // Check if item is INTENT
@@ -43,7 +32,6 @@ public class Normalizer : AFactory
         // if not pop first item
         WorldItem item = outputs.First();
         outputs.RemoveAt(0);
-        Debug.Log($"{item.state}");
 
         return item;
     }
@@ -54,7 +42,7 @@ public class Normalizer : AFactory
         {
             Matrix input = inputs.First();
             inputs.RemoveAt(0);
-            Matrix output = layerNorm.CalculateOutputs(input);
+            Matrix output = input / Math.Sqrt(input.Columns);
             WorldItem newItem = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
@@ -84,5 +72,12 @@ public class Normalizer : AFactory
                 InputCells.Add((cellX - 1, cellY));
                 break;
         }
+    }
+
+    new void OnDestroy()
+    {
+        foreach (WorldItem item in outputs)
+            Destroy(item.gameObject);
+        base.OnDestroy();
     }
 }

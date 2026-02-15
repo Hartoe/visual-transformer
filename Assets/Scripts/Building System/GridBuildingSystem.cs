@@ -82,6 +82,7 @@ public class GridBuildingSystem : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.B)) SetBuildActive(!buildingActive);
         if (buildingActive)
         {
             if (Input.GetMouseButtonDown(0))
@@ -133,13 +134,51 @@ public class GridBuildingSystem : MonoBehaviour
                         }
                     }
                 }
-            }  
-        } 
-        
-        if (Input.GetKeyDown(KeyCode.R))
+            }
+            
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                dir = BuildingTypeSO.GetNextDir(dir);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1) && buildingList.Count > 0) SetBuildingType(buildingList[0]);   
+            if (Input.GetKeyDown(KeyCode.Alpha2) && buildingList.Count > 1) SetBuildingType(buildingList[1]);
+            if (Input.GetKeyDown(KeyCode.Alpha3) && buildingList.Count > 2) SetBuildingType(buildingList[2]);
+            if (Input.GetKeyDown(KeyCode.Alpha4) && buildingList.Count > 3) SetBuildingType(buildingList[3]);   
+            if (Input.GetKeyDown(KeyCode.Alpha5) && buildingList.Count > 4) SetBuildingType(buildingList[4]);
+            if (Input.GetKeyDown(KeyCode.Alpha6) && buildingList.Count > 5) SetBuildingType(buildingList[5]);
+            if (Input.GetKeyDown(KeyCode.Alpha7) && buildingList.Count > 6) SetBuildingType(buildingList[6]);
+            if (Input.GetKeyDown(KeyCode.Alpha8) && buildingList.Count > 7) SetBuildingType(buildingList[7]);
+            if (Input.GetKeyDown(KeyCode.Alpha9) && buildingList.Count > 8) SetBuildingType(buildingList[8]);
+            if (Input.GetKeyDown(KeyCode.Alpha0) && buildingList.Count > 9) SetBuildingType(buildingList[9]);
+        }
+        else
         {
-            dir = BuildingTypeSO.GetNextDir(dir);
-        } 
+            if (Input.GetMouseButtonDown(0))
+            {
+                int x, y;
+                grid.GetXY(Utilities.Input.MouseToWorldPosition(), out x, out y);
+
+                GridObject selectedCell = grid.GetGridObject(x, y);
+                if (selectedCell != null)
+                {
+                    Building building = selectedCell.GetBuilding();
+                    if (building != null)
+                    {
+                        // Show building info screen
+                        building.ShowInfoPanel();
+                        Debug.Log($"{building.GetBuildingTypeSO().nameString}");
+                    }
+                    else
+                    {
+                        foreach (Transform child in GameObject.Find("Info Panel Screen").transform)
+                        {
+                            Destroy(child.gameObject);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void SetBuildingType(BuildingTypeSO building)
@@ -152,6 +191,8 @@ public class GridBuildingSystem : MonoBehaviour
     {
         buildingActive = value;
     }
+
+    public bool GetBuildActive() => buildingActive;
 
     public Vector3 GetMouseWorldSnappedPosition()
     {
@@ -175,4 +216,28 @@ public class GridBuildingSystem : MonoBehaviour
 
     public BuildingTypeSO GetBuildingTypeSO() => selectedBuilding;
     public Grid<GridObject> GetGrid() => grid;
+    public void ResetGrid()
+    {
+        (int width, int height) = grid.Size;
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                GridObject gridObject = grid.GetGridObject(x, y);
+                if (gridObject != null)
+                {
+                    Building building = gridObject.GetBuilding();
+                    if (building != null)
+                    {
+                        building.DestroySelf();
+                        List<Vector2Int> gridPositionList = building.GetGridPositionList();
+                        foreach (Vector2Int gridPosition in gridPositionList)
+                        {
+                            grid.GetGridObject(gridPosition.x, gridPosition.y).ClearBuilding();
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

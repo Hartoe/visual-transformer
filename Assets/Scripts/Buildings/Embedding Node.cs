@@ -101,4 +101,11 @@ public class Embedder : AFactory
                 break;
         }
     }
+
+    new void OnDestroy()
+    {
+        foreach (WorldItem item in outputs)
+            Destroy(item.gameObject);
+        base.OnDestroy();
+    }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DialogueHandler : MonoBehaviour
 {
+    [SerializeField] private GameObject buildMenu;
     [SerializeField] private TextMeshProUGUI characterNameText;
     [SerializeField] private TextMeshProUGUI dialogueTextUI;
     [SerializeField] private TextMeshProUGUI continueText;
@@ -51,6 +52,7 @@ public class DialogueHandler : MonoBehaviour
     private void StartDialogue(DialogueTextSO dialogueText)
     {
         GridBuildingSystem.Instance.SetBuildActive(false);
+        buildMenu.SetActive(false);
         
         if (!gameObject.activeSelf)
         {
@@ -67,6 +69,7 @@ public class DialogueHandler : MonoBehaviour
     private void EndDialogue()
     {
         GridBuildingSystem.Instance.SetBuildActive(true);
+        buildMenu.SetActive(true);
         dialogues.Clear();
         hasEnded = false;
         Finished = true;

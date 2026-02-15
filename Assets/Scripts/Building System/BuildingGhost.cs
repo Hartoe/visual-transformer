@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BuildingGhost : MonoBehaviour
@@ -22,10 +19,18 @@ public class BuildingGhost : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector3 targetPosition = GridBuildingSystem.Instance.GetMouseWorldSnappedPosition() + GridBuildingSystem.Instance.GetBuildingPositionOffset();
-        targetPosition.y = 1f;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 15f);
-        transform.rotation = Quaternion.Lerp(transform.rotation, GridBuildingSystem.Instance.GetBuildingRotation(), Time.deltaTime * 15f);
+        if (GridBuildingSystem.Instance.GetBuildActive())
+        {
+            Vector3 targetPosition = GridBuildingSystem.Instance.GetMouseWorldSnappedPosition() + GridBuildingSystem.Instance.GetBuildingPositionOffset();
+            targetPosition.y = 1f;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 15f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, GridBuildingSystem.Instance.GetBuildingRotation(), Time.deltaTime * 15f);
+            if (!visual.gameObject.activeSelf) visual.gameObject.SetActive(true);
+        }
+        else
+        {
+            visual.gameObject.SetActive(false);
+        }
     }
 
     private void RefreshVisuals()

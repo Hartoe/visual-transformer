@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Grid<TGridObject>
 {
     public float GetCellSize() => cellSize;
+    public (int, int) Size {get {return (width, height);}}
 
     public event EventHandler<OnGridObjectChangedEventArgs> OnGridObjectChanged;
     public class OnGridObjectChangedEventArgs

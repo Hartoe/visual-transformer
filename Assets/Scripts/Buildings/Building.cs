@@ -21,6 +21,13 @@ public class Building : MonoBehaviour
     protected BuildingTypeSO buildingTypeSO;
     protected Vector2Int origin;
     protected BuildingTypeSO.Dir dir;
+    protected GameObject infoPanelInstance;
+    protected GameObject infoPanelParent;
+
+    void Start()
+    {
+        //infoPanelParent = 
+    }
 
     public List<Vector2Int> GetGridPositionList()
     {
@@ -29,6 +36,16 @@ public class Building : MonoBehaviour
 
     public BuildingTypeSO GetBuildingTypeSO() => buildingTypeSO;
     public BuildingTypeSO.Dir GetDir() => dir;
+
+    public void ShowInfoPanel()
+    {
+        infoPanelParent = GameObject.Find("Info Panel Screen");
+        foreach (Transform child in infoPanelParent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        infoPanelInstance = Instantiate(buildingTypeSO.infoPanel, infoPanelParent.transform);
+    }
 
     public void DestroySelf()
     {

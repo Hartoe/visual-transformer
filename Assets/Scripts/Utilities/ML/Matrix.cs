@@ -24,6 +24,20 @@ namespace Utilities
                     m._data[i * size + i] = 1.0;
                 return m;
             }
+            public static Matrix T(Matrix matrix)
+            {
+                Matrix res = new Matrix(matrix.Columns, matrix.Rows);
+
+                for (int i = 0; i < matrix.Rows; i++)
+                {
+                    for (int j = 0; j < matrix.Columns; j++)
+                    {
+                        res[j,i] = matrix[i,j];
+                    }
+                }
+
+                return res;
+            }
 
 #region Constructors
             public Matrix(int rows, int columns)

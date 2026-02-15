@@ -26,11 +26,14 @@ public class BuildingTypeSO : ScriptableObject
         Right
     }
 
+    [Header("Grid Information")]
     public string nameString;
     public Transform prefab;
     public Transform visual;
     public int width;
     public int height;
+    [Header("GUI Information")]
+    public GameObject infoPanel;
     public Texture image;
 
     public int GetRotationAngle(Dir dir)
