@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Conveyor : Building
@@ -18,6 +19,7 @@ public class Conveyor : Building
     void Start()
     {
         TimeTickSystem.OnTick += MoveWorldItem;
+        TimeTickSystem.OnTick += UpdateInfoPanel;
 
         // Get current conveyor grid position
         int x, y;
@@ -240,14 +242,25 @@ public class Conveyor : Building
 #region Helper Functions
     public bool Occupied() => worldItem != null;
 
+    private void UpdateInfoPanel(object sender, TimeTickSystem.TickEventArgs e)
+    {
+        UpdateInfoPanel();
+    }
+
+    protected override void UpdateInfoPanel()
+    {
+        if (infoPanelInstance != null)
+        {
+            if (worldItem != null)
+                infoPanelInstance.GetComponent<PassInfoPanel>().SetText(worldItem);
+            else infoPanelInstance.GetComponent<PassInfoPanel>().SetText(null);
+        }
+    }
+
     public void SetItem(WorldItem item)
     {
         worldItem = item;
-        if (infoPanelInstance != null)
-        {
-            if (item != null) infoPanelInstance.GetComponent<ConveyorInfoPanel>().SetText(item.name);
-            else infoPanelInstance.GetComponent<ConveyorInfoPanel>().SetText("None");
-        }
+        UpdateInfoPanel();
     }
 
     public WorldItem GetItem()
@@ -274,6 +287,7 @@ public class Conveyor : Building
     void OnDestroy()
     {
         TimeTickSystem.OnTick -= MoveWorldItem;
+        TimeTickSystem.OnTick -= UpdateInfoPanel;
         if (worldItem != null) Destroy(worldItem.gameObject);
     }
 }

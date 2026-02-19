@@ -167,14 +167,6 @@ public class GridBuildingSystem : MonoBehaviour
                     {
                         // Show building info screen
                         building.ShowInfoPanel();
-                        Debug.Log($"{building.GetBuildingTypeSO().nameString}");
-                    }
-                    else
-                    {
-                        foreach (Transform child in GameObject.Find("Info Panel Screen").transform)
-                        {
-                            Destroy(child.gameObject);
-                        }
                     }
                 }
             }

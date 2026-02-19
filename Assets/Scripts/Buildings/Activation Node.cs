@@ -88,6 +88,24 @@ public class Activator : AFactory
         }
     }
 
+    protected override void UpdateInfoPanel()
+    {
+        if (infoPanelInstance != null)
+        {
+            ActivatorInfoPanel panel = infoPanelInstance.GetComponent<ActivatorInfoPanel>();
+            if ((int)activationType != panel.Dropdown.value)
+                panel.Dropdown.value = (int)activationType;
+
+            panel.Dropdown.onValueChanged.AddListener(ChangeActivatorFunction);
+        }
+    }
+
+    private void ChangeActivatorFunction(int value)
+    {
+        activationType = (Activation.ActivationType)value;
+        activationFunction = Activation.GetActivationFromType(activationType);
+    }
+
     new void OnDestroy()
     {
         foreach (WorldItem item in outputs)

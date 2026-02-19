@@ -18,7 +18,7 @@ public class Intent : WorldItem
 
     private RGBColor red, green, blue;
     private Coroutine changeColors;
-    [SerializeField] Renderer renderer;
+    [SerializeField] new Renderer renderer;
 
     void Start()
     {
@@ -66,7 +66,6 @@ public class Intent : WorldItem
             } else
                 blue.value = Math.Max(blue.value-1, 0);
             renderer.material.SetColor("_BaseColor", new Color(red.value/255.0f, green.value/255.0f, blue.value/255.0f));
-            Debug.Log($"Set color to {red.value}, {green.value}, {blue.value}");
             yield return new WaitForSeconds(Time.deltaTime * changeSpeed);
         }
     }

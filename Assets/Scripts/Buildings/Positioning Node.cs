@@ -34,7 +34,6 @@ public class Positioner : AFactory
         // if not pop first item
         WorldItem item = outputs.First();
         outputs.RemoveAt(0);
-        Debug.Log($"{item.state}");
 
         return item;
     }

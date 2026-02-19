@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Generator : AFactory
     [SerializeField] List<WorldItem> itemPrefabs;
     [SerializeField] int amount;
     int currentItem = 0;
+    string status = "Waiting";
 
     public override WorldItem RemoveFromOutput((int, int) cell)
     {
@@ -62,14 +64,46 @@ public class Generator : AFactory
                         amount--;
                         currentItem = 0;
                     }
+                    status = "Generating";
+                    UpdateInfoPanel();
+                    return;
                 }
             }
         }
+
+        if (amount <= 0)
+            status = "Done";
+        else
+            status = "Waiting";
+        UpdateInfoPanel();
     }
 
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
         throw new System.NotImplementedException();
+    }
+
+    protected override void UpdateInfoPanel()
+    {
+        if (infoPanelInstance != null)
+        {
+            GeneratorInfoPanel panel = infoPanelInstance.GetComponent<GeneratorInfoPanel>();
+            panel.SetStatus(status);
+
+            if (panel.AddListener)
+            {
+                panel.Button.onClick.AddListener(ResetGeneration);
+                panel.AddListener = false;
+            }
+        }
+    }
+
+    private void ResetGeneration()
+    {
+        currentItem = 0;
+        amount = 1;
+        status = "Waiting";
+        UpdateInfoPanel();
     }
 
     new void OnDestroy()

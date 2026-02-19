@@ -226,9 +226,9 @@ namespace Utilities
             public Matrix CalculateOutputs(Matrix inputs)
             {
                 // Caluclate the query, key, and value matrices
-                Queries = queryLayer.CalculateOutputs(inputs);
-                Keys = keyLayer.CalculateOutputs(inputs);
-                Values = valueLayer.CalculateOutputs(inputs);
+                Queries = queryLayer.CalculateOutputs(Queries);
+                Keys = keyLayer.CalculateOutputs(Keys);
+                Values = valueLayer.CalculateOutputs(Values);
 
                 // Calculate query/key properties
                 Matrix QKs = (Queries * Matrix.T(Keys)) / Math.Sqrt(Queries.Columns);

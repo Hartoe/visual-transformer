@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TabButton : MonoBehaviour, IPointerClickHandler
+public class TabMenuButton : MonoBehaviour, IPointerClickHandler
 {
     public bool Selected {get {return isSelected;}}
     public UnityEvent<bool> OnTabSelected = new UnityEvent<bool>();

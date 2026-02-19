@@ -45,33 +45,6 @@ namespace Utilities
             return textMesh;
         }
 
-        public static RenderTexture GetPrefabPreview(Transform prefab)
-        {
-            // Spawn the prefab at origin in the prefab layer
-            Transform _object = Object.Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
-            _object.gameObject.layer = 6;
-            var children = _object.GetComponentsInChildren<Transform>(includeInactive: true);
-            foreach (var child in children)
-            {
-                child.gameObject.layer = 6;
-            }
-
-            // Turn on the camera and write to the render texture
-            GameObject camera = GameObject.Find("Prefab Preview").transform.GetChild(0).gameObject;
-            camera.SetActive(true);
-            camera.GetComponent<Camera>().Render();
-            camera.SetActive(false);
-
-            // Remove spawned prefab
-            _object.gameObject.SetActive(false);
-            Object.Destroy(_object.gameObject);
-
-            // Get RenderTexture and transform it to a Texture2D
-            RenderTexture tex = Resources.Load<RenderTexture>("PrefabPreview");
-
-            return tex;
-        }
-
         private class WorldPopup : MonoBehaviour
         {
             float movespeed = 8f;

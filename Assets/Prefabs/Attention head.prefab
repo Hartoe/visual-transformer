@@ -305,7 +305,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3591565023759517473}
-  - component: {fileID: -5486042732442329491}
+  - component: {fileID: 6526817972009173683}
   m_Layer: 0
   m_Name: Attention head
   m_TagString: Untagged
@@ -336,7 +336,7 @@ Transform:
   - {fileID: 9087724392727555439}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5486042732442329491
+--- !u!114 &6526817972009173683
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -345,9 +345,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2575602247696870456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37623123283f0304b8735e83660a73d9, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e2c13e8e800a8b4ca2cf4e4fc8f8131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rows: 7
+  columns: 7
+  itemPrefab: {fileID: 9082606896858257721, guid: a2e62213c29ec1643b80f8433f388875,
+    type: 3}
 --- !u!1 &2703462698205219666
 GameObject:
   m_ObjectHideFlags: 0

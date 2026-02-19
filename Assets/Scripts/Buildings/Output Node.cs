@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,6 +6,7 @@ using Utilities.ML;
 
 public class OutputNode : AFactory
 {
+    [SerializeField] double epsilon = 0.0001;
     private Matrix test; //TODO: Make way to set this matrix
     private List<Matrix> inputs = new List<Matrix>();
 
@@ -24,6 +25,7 @@ public class OutputNode : AFactory
     {
         if (inputs.Count > 0)
         {
+            UpdateInfoPanel();
             Matrix check = inputs.First();
             inputs.RemoveAt(0);
             Debug.Log(check);
@@ -32,7 +34,35 @@ public class OutputNode : AFactory
         }
     }
 
-    private bool CheckSimilar(Matrix A, Matrix B) => false;
+    private bool CheckSimilar(Matrix A, Matrix B)
+    {
+        if (A.Shape != B.Shape) return false;
+
+        for (int i = 0; i < A.Rows; i++)
+        {
+            for (int j = 0; j < A.Columns; j++)
+            {
+                if (Math.Abs(A[i,j] - B[i,j]) > epsilon)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    protected override void UpdateInfoPanel()
+    {
+        if (infoPanelInstance != null)
+        {
+            OutputInfoPanel panel = infoPanelInstance.GetComponent<OutputInfoPanel>();
+            if (inputs.Count > 0)
+            {
+                Matrix current = inputs.First();
+                panel.SetText(current, CheckSimilar(current, test));
+            }
+            else
+                panel.SetText(null);
+        }
+    }
 
     protected override void FillCellLists()
     {

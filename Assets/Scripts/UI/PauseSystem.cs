@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PauseSystem : MonoBehaviour
 {
-    [SerializeField] TabButton resetButton;
-    [SerializeField] TabButton pauseButton;
-    [SerializeField] TabButton startButton;
+    [SerializeField] TabMenuButton resetButton;
+    [SerializeField] TabMenuButton pauseButton;
+    [SerializeField] TabMenuButton startButton;
 
     // Start is called before the first frame update
     void Start()

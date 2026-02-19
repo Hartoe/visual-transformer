@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,13 @@ public class Addition : AFactory
     private Matrix? A, B;
 
     private bool matrixASet, matrixBSet;
-    
+
+    new void Start()
+    {
+        TimeTickSystem.OnTick += UpdateInfoPanel;
+        base.Start();
+    }
+
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
         if (cell == InputCells[0]) {
@@ -51,10 +58,7 @@ public class Addition : AFactory
         {
             try
             {
-                Debug.Log($"A: {A}");
-                Debug.Log($"B: {B}");
                 Matrix C = ((Matrix)A) + ((Matrix)B);
-                Debug.Log($"C: {C}");
                 Intent output = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
                 output.state = C;
                 A = null;
@@ -104,10 +108,47 @@ public class Addition : AFactory
         return false;
     }
 
+    private void UpdateInfoPanel(object sender, TimeTickSystem.TickEventArgs e)
+    {
+        UpdateInfoPanel();
+    }
+
+    protected override void UpdateInfoPanel()
+    {
+        if (infoPanelInstance != null)
+        {
+            MathInfoPanel panel = infoPanelInstance.GetComponent<MathInfoPanel>();
+            if (A != null)
+                panel.SetMatrixA((Matrix)A);
+            else
+                panel.SetMatrixA();
+            if (B != null)
+                panel.SetMatrixB((Matrix)B);
+            else
+                panel.SetMatrixB();
+
+            if (panel.AddListener)
+            {
+                panel.Button.onClick.AddListener(ClearMatrices);
+                panel.AddListener = false;
+            }
+        }
+    }
+
+    private void ClearMatrices()
+    {
+        A = null;
+        B = null;
+        matrixASet = false;
+        matrixBSet = false;
+        UpdateInfoPanel();
+    }
+
     new void OnDestroy()
     {
         foreach (Intent item in outputs)
             Destroy(item.gameObject);
+        TimeTickSystem.OnTick -= UpdateInfoPanel;
         base.OnDestroy();
     }
 }

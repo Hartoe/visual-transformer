@@ -10,6 +10,12 @@ public class Duplicator : AFactory
     private WorldItem itemToDuplicate;
     private bool mustDuplicate = false;
 
+    new void Start()
+    {
+        TimeTickSystem.OnTick += UpdateInfoPanel;
+        base.Start();
+    }
+
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
         itemToDuplicate = item;
@@ -74,6 +80,21 @@ public class Duplicator : AFactory
         }
     }
 
+    private void UpdateInfoPanel(object sender, TimeTickSystem.TickEventArgs e)
+    {
+        UpdateInfoPanel();
+    }
+
+    protected override void UpdateInfoPanel()
+    {
+        if (infoPanelInstance != null)
+        {
+            if (itemToDuplicate != null)
+                infoPanelInstance.GetComponent<PassInfoPanel>().SetText(itemToDuplicate);
+            else infoPanelInstance.GetComponent<PassInfoPanel>().SetText(null);
+        }
+    }
+
     protected new void OnDestroy()
     {
         foreach(var kvp in outputs)
@@ -81,6 +102,7 @@ public class Duplicator : AFactory
             Destroy(kvp.Item2);
         }
         Destroy(itemToDuplicate);
+        TimeTickSystem.OnTick -= UpdateInfoPanel;
         base.OnDestroy();
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,6 +24,7 @@ public class Embedder : AFactory
             {
                 inputs.Add((Resource)item);
             }
+            UpdateInfoPanel();
         }
 
         //TODO: Handle wrong input with smoke effect and popup
@@ -99,6 +99,16 @@ public class Embedder : AFactory
                 OutputCells.Add((cellX + 1, cellY));
                 InputCells.Add((cellX - 1, cellY));
                 break;
+        }
+    }
+
+    protected override void UpdateInfoPanel()
+    {
+        if (infoPanelInstance != null)
+        {
+            infoPanelInstance.GetComponent<EmbeddingInfoPanel>().ResetText();
+            if (inputs.Count > 0)
+                infoPanelInstance.GetComponent<EmbeddingInfoPanel>().SetText(inputs.ToArray());
         }
     }
 
