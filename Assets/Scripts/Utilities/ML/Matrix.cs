@@ -11,6 +11,8 @@ namespace Utilities
 #region Matrix
         public readonly struct Matrix
         {
+            public readonly double[] Data {get {return _data;}}
+
             private readonly double[] _data;
 
             public int Rows { get; }

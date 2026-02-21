@@ -9,6 +9,15 @@ using UnityEngine.InputSystem;
 
 public class GridBuildingSystem : MonoBehaviour
 {
+    [Serializable]
+    private class GridItem
+    {
+        public int X;
+        public int Y;
+        public BuildingTypeSO.Dir Dir;
+        public BuildingTypeSO BuildingTypeSO;
+    }
+
     public static GridBuildingSystem Instance;
     public event EventHandler<EventArgs> OnSelectedChanged;
 
@@ -20,6 +29,9 @@ public class GridBuildingSystem : MonoBehaviour
     [Header("List of Buildings")]
     [SerializeField] List<BuildingTypeSO> buildingList;
     private BuildingTypeSO selectedBuilding;
+
+    [Header("Initial Grid State")]
+    [SerializeField] GridItem[] gridItems;
 
     [Header("Button action")]
     [SerializeField] InputActionReference lmb;
@@ -35,6 +47,23 @@ public class GridBuildingSystem : MonoBehaviour
         grid = new Grid<GridObject>(gridWidth, gridHeight, cellSize, Vector3.zero, (Grid<GridObject> g, int x, int y) => new GridObject(g, x, y));
 
         selectedBuilding = buildingList[0];
+
+        // Set initial grid state
+        if (gridItems.Length > 0)
+        {
+            for (int i = 0; i < gridItems.Length; i++)
+            {
+                List<Vector2Int> gridPositionList = gridItems[i].BuildingTypeSO.GetGridPositionList(new Vector2Int(gridItems[i].X, gridItems[i].Y), gridItems[i].Dir);
+                Vector2Int rotationOffset = gridItems[i].BuildingTypeSO.GetRotationOffset(gridItems[i].Dir);
+                Vector3 buildingWorldPosition = grid.GetWorldPosition(gridItems[i].X, gridItems[i].Y) +
+                                                new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.GetCellSize();
+                Building building = Building.Create(buildingWorldPosition, new Vector2Int(gridItems[i].X, gridItems[i].Y), gridItems[i].Dir, gridItems[i].BuildingTypeSO);
+                foreach (Vector2Int gridPosition in gridPositionList)
+                {
+                    grid.GetGridObject(gridPosition.x, gridPosition.y).SetBuilding(building);
+                }
+            }
+        }
     }
 
     public List<BuildingTypeSO> GetBuildingList() => buildingList;

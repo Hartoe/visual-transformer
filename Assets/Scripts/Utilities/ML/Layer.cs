@@ -52,6 +52,24 @@ namespace Utilities
             }
 #endregion
 
+            public void SetWeights(Matrix newWeights)
+            {
+                for (int i = 0; i < weights.Rows; i++)
+                {
+                    for (int j = 0; j < weights.Columns; j++)
+                        weights[i,j] = newWeights[i,j];
+                }
+            }
+
+            public void SetBiases(Matrix newBiases)
+            {
+                for (int i = 0; i < biases.Rows; i++)
+                {
+                    for (int j = 0; j < biases.Columns; j++)
+                        biases[i,j] = newBiases[i,j];
+                }
+            }
+
 #region Learning
             public Matrix CalculateOutputs(Matrix inputs)
             {

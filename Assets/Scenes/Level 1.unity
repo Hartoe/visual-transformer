@@ -555,7 +555,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 79.99998
+  field of view: 49.99999
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1737,7 +1737,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 2119584215}
   m_Follow: {fileID: 2119584215}
   m_Lens:
-    FieldOfView: 79.99998
+    FieldOfView: 49.99999
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1842,6 +1842,7 @@ GameObject:
   - component: {fileID: 1651449334}
   - component: {fileID: 1651449335}
   - component: {fileID: 1651449336}
+  - component: {fileID: 1651449337}
   m_Layer: 0
   m_Name: GridBuildingSystem
   m_TagString: Untagged
@@ -1876,24 +1877,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59262d21d9b97b41b286f6b7f60343e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 15
+  gridWidth: 10
   gridHeight: 10
   cellSize: 15
   buildingList:
   - {fileID: 11400000, guid: 4e83864b4a91b244da33b54678d8c07e, type: 2}
-  - {fileID: 11400000, guid: 53714c370cc3cc34ea294a07e79e6977, type: 2}
-  - {fileID: 11400000, guid: a51607249b16f1f49ab604b702cc3901, type: 2}
   - {fileID: 11400000, guid: 51bf8ac3fbe223947b35af395c3512ac, type: 2}
-  - {fileID: 11400000, guid: a02a0ce2833e7ff4bb533908776b52e5, type: 2}
-  - {fileID: 11400000, guid: 3cf8251b885bfe143ab62507ff76882b, type: 2}
-  - {fileID: 11400000, guid: 7302cfebe83e2ca4a9f3d392f83c5016, type: 2}
+  - {fileID: 11400000, guid: 30a2b6e723c7a194699af4e4e891a89b, type: 2}
+  - {fileID: 11400000, guid: a51607249b16f1f49ab604b702cc3901, type: 2}
   - {fileID: 11400000, guid: f20287479254c2a498040504a23db255, type: 2}
   - {fileID: 11400000, guid: 6176643743111bb4685b9295105acc79, type: 2}
-  - {fileID: 11400000, guid: 6681e09f3a31d1a4091819e8e3cb8965, type: 2}
-  - {fileID: 11400000, guid: 30a2b6e723c7a194699af4e4e891a89b, type: 2}
-  - {fileID: 11400000, guid: 511f4e9355a7c5b4db3513863bf20ca9, type: 2}
-  - {fileID: 11400000, guid: fe9eae5aad895b645be21db4dadda2dc, type: 2}
-  - {fileID: 11400000, guid: cccd9a65dfbc15444a36928279a7b483, type: 2}
+  - {fileID: 11400000, guid: 3cf8251b885bfe143ab62507ff76882b, type: 2}
+  gridItems:
+  - X: 0
+    Y: 1
+    Dir: 3
+    BuildingTypeSO: {fileID: 11400000, guid: a51607249b16f1f49ab604b702cc3901, type: 2}
   lmb: {fileID: 8409272431351684892, guid: 5c91d4374d25aaf44a39e52bd39dd196, type: 3}
 --- !u!114 &1651449336
 MonoBehaviour:
@@ -1909,6 +1908,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueTextSO: {fileID: 11400000, guid: 120d674f3d0ac644b9b6e443e45ce407, type: 2}
   dialogueHandler: {fileID: 724624918}
+--- !u!114 &1651449337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651449333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b6efbbed2c24b46984695d5835ea16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1655771069
 GameObject:
   m_ObjectHideFlags: 0
