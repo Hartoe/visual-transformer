@@ -107,7 +107,12 @@ namespace Utilities
             FileStream file;
 
             if (File.Exists(destination)) file = File.OpenWrite(destination);
-            else file = File.Create(destination);
+            else
+            {
+                FileInfo fi = new FileInfo(destination);
+                if (!fi.Directory.Exists) Directory.CreateDirectory(fi.DirectoryName);
+                file = File.Create(destination);
+            }
 
             BinaryFormatter bf = new BinaryFormatter();
             bf.Serialize(file, jsonObject);
@@ -127,6 +132,17 @@ namespace Utilities
             file.Close();
 
             return data;
+        }
+
+        public static string GetJSONPath(string name, int level)
+        {
+            return $"/lvl_{level}/{name.Replace(' ', '_')}.json";
+        }
+
+        public static string GetFileName(string path)
+        {
+            string bareName = Path.GetFileNameWithoutExtension(path);
+            return bareName.Replace('_', ' ');
         }
     }
 }

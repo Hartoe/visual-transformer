@@ -2,18 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utilities;
 using Utilities.ML;
 
 public class PositionalEmbedder : AFactory
 {
-    [Serializable]
-    private struct Size
-    {
-        public int width, height;
-
-        public (int, int) ToTuple() => (width, height);
-    }
-
     [SerializeField] Cost.CostType costType;
     [SerializeField] Activation.ActivationType activationType;
     [SerializeField] Intent itemPrefab;
@@ -24,9 +17,11 @@ public class PositionalEmbedder : AFactory
     [SerializeField] int outputRows = 7;
     [SerializeField] int outputColumns = 7;
 
+    [Header("Weights and Biases")]
+    [SerializeField] string JSONPath;
     private FullyConnectedNN network;
     private List<Intent> outputs = new List<Intent>();
-    private List<Resource> inputs = new List<Resource>();
+    private List<WorldItem> inputs = new List<WorldItem>();
     private bool mustGenerate = false;
     private PositionalEmbedding positionalEmbedding = new PositionalEmbedding();
 
@@ -35,6 +30,11 @@ public class PositionalEmbedder : AFactory
         network = new FullyConnectedNN((inputRows, inputColumns), (hiddenRows, hiddenColumns), (outputRows, outputColumns));
         network.SetActivationFunction(Activation.GetActivationFromType(activationType));
         network.SetCostFunction(Cost.GetCostFromType(costType));
+
+        if (!string.IsNullOrEmpty(JSONPath))
+        {
+            network.SetWeightsAndBiases(JSON.JSONToNetwork(JSON.LoadJSONFile(JSONPath)));
+        }
 
         base.Start();
     }
@@ -53,6 +53,10 @@ public class PositionalEmbedder : AFactory
             {
                 inputs.Add((Resource)item);
             }
+            UpdateInfoPanel();
+        } else if (item is Product)
+        {
+            inputs.Add((Product)item);
             UpdateInfoPanel();
         }
 
@@ -154,6 +158,15 @@ public class PositionalEmbedder : AFactory
                 panel.outputRows.text = outputRows.ToString();
             if (outputColumns != int.Parse(panel.outputColumns.text))
                 panel.outputColumns.text = outputColumns.ToString();
+            if (panel.weightsDropdown != null)    
+            {
+                if (JSONPath != JSON.GetJSONPath(panel.weightsDropdown.options[panel.weightsDropdown.value].text, panel.level))
+                {
+                    var optionsList = panel.weightsDropdown.options.Select(option => option.text).ToList();
+                    panel.weightsDropdown.value = optionsList.IndexOf(JSON.GetFileName(JSONPath));
+                }
+                panel.weightsDropdown.onValueChanged.AddListener(SetWeightsAndBiases);
+            }
 
             panel.costDropdown.onValueChanged.AddListener(SetCostFunction);
             panel.activationDropdown.onValueChanged.AddListener(SetActivationFunction);
@@ -163,7 +176,15 @@ public class PositionalEmbedder : AFactory
             panel.hiddenColumns.onValueChanged.AddListener(SetHiddenColumns);
             panel.outputRows.onValueChanged.AddListener(SetOutputRows);
             panel.outputColumns.onValueChanged.AddListener(SetOutputColumns);
+            
         }
+    }
+
+    private void SetWeightsAndBiases(int arg0)
+    {
+        NetworkInfoPanel panel = infoPanelInstance.GetComponent<NetworkInfoPanel>();
+        JSONPath = JSON.GetJSONPath(panel.weightsDropdown.options[arg0].text, panel.level);
+        ReloadNetwork();
     }
 
     private void SetOutputColumns(string arg0)
@@ -225,7 +246,7 @@ public class PositionalEmbedder : AFactory
         network = new FullyConnectedNN((inputRows, inputColumns), (hiddenRows, hiddenColumns), (outputRows, outputColumns));
         network.SetCostFunction(Cost.GetCostFromType(costType));
         network.SetActivationFunction(Activation.GetActivationFromType(activationType));
-        //TODO: Hotload weights and biases
+        network.SetWeightsAndBiases(JSON.JSONToNetwork(JSON.LoadJSONFile(JSONPath)));
     }
 
     new void OnDestroy()

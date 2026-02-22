@@ -1876,24 +1876,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59262d21d9b97b41b286f6b7f60343e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 15
-  gridHeight: 10
+  gridWidth: 5
+  gridHeight: 18
   cellSize: 15
   buildingList:
-  - {fileID: 11400000, guid: 4e83864b4a91b244da33b54678d8c07e, type: 2}
-  - {fileID: 11400000, guid: 53714c370cc3cc34ea294a07e79e6977, type: 2}
-  - {fileID: 11400000, guid: a51607249b16f1f49ab604b702cc3901, type: 2}
-  - {fileID: 11400000, guid: 51bf8ac3fbe223947b35af395c3512ac, type: 2}
-  - {fileID: 11400000, guid: a02a0ce2833e7ff4bb533908776b52e5, type: 2}
-  - {fileID: 11400000, guid: 3cf8251b885bfe143ab62507ff76882b, type: 2}
-  - {fileID: 11400000, guid: 7302cfebe83e2ca4a9f3d392f83c5016, type: 2}
-  - {fileID: 11400000, guid: f20287479254c2a498040504a23db255, type: 2}
-  - {fileID: 11400000, guid: 6176643743111bb4685b9295105acc79, type: 2}
-  - {fileID: 11400000, guid: 6681e09f3a31d1a4091819e8e3cb8965, type: 2}
-  - {fileID: 11400000, guid: 30a2b6e723c7a194699af4e4e891a89b, type: 2}
-  - {fileID: 11400000, guid: 511f4e9355a7c5b4db3513863bf20ca9, type: 2}
   - {fileID: 11400000, guid: fe9eae5aad895b645be21db4dadda2dc, type: 2}
-  - {fileID: 11400000, guid: cccd9a65dfbc15444a36928279a7b483, type: 2}
+  - {fileID: 11400000, guid: 4e83864b4a91b244da33b54678d8c07e, type: 2}
+  - {fileID: 11400000, guid: 7302cfebe83e2ca4a9f3d392f83c5016, type: 2}
+  - {fileID: 11400000, guid: 3854a08bc9422d749b8c9a14e5e62462, type: 2}
+  - {fileID: 11400000, guid: 7baba52c3808fcd4aabc8667e2d72bbd, type: 2}
+  - {fileID: 11400000, guid: a02a0ce2833e7ff4bb533908776b52e5, type: 2}
+  - {fileID: 11400000, guid: c128b56d1a0c9cf47ade0d2d7853a2b2, type: 2}
+  - {fileID: 11400000, guid: 511f4e9355a7c5b4db3513863bf20ca9, type: 2}
+  - {fileID: 11400000, guid: 9260c18b76e1d2f44b19617b4616bbc6, type: 2}
+  gridItems:
+  - X: 3
+    Y: 0
+    Dir: 2
+    BuildingTypeSO: {fileID: 11400000, guid: 7baba52c3808fcd4aabc8667e2d72bbd, type: 2}
+  - X: 1
+    Y: 17
+    Dir: 2
+    BuildingTypeSO: {fileID: 11400000, guid: 3854a08bc9422d749b8c9a14e5e62462, type: 2}
   lmb: {fileID: 8409272431351684892, guid: 5c91d4374d25aaf44a39e52bd39dd196, type: 3}
 --- !u!114 &1651449336
 MonoBehaviour:
@@ -2098,6 +2102,7 @@ GameObject:
   - component: {fileID: 1784237678}
   - component: {fileID: 1784237677}
   - component: {fileID: 1784237679}
+  - component: {fileID: 1784237680}
   m_Layer: 0
   m_Name: TimeTickSystem
   m_TagString: Untagged
@@ -2147,6 +2152,19 @@ MonoBehaviour:
   resetButton: {fileID: 1157934954}
   pauseButton: {fileID: 1255203777}
   startButton: {fileID: 1829722286}
+--- !u!114 &1784237680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784237676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d959d7d07b70d024c9d9dbecb70ff19a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextScene: Level 3
 --- !u!224 &1829722285 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8650148936155143860, guid: dfe4f0b3824a4154089e43f6124db0d6,

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad0c427fb7825743a01846ab8c00733, type: 3}
+  m_Name: Pick Last Factory SO
+  m_EditorClassIdentifier: 
+  nameString: Pick Last
+  prefab: {fileID: 3591565023759517473, guid: f7fba538c94b50341b2f6bcd3b489455, type: 3}
+  visual: {fileID: 3591565023759517473, guid: bdf858d1ba6fd124e8ea7d0d58c0ebaf, type: 3}
+  width: 1
+  height: 1
+  infoPanel: {fileID: 2606643661461617802, guid: 6ec41a3d4ec48d74da39839ff1061793,
+    type: 3}
+  image: {fileID: 2800000, guid: 756f008814864dc48b0aae9c5f8fb4ee, type: 3}

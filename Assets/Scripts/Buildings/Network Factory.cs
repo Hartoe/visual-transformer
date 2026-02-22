@@ -1,17 +1,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utilities;
 using Utilities.ML;
 
 public class NetworkFactory : AFactory
 {
+    [SerializeField] Intent itemPrefab;
+    [SerializeField] string weightsJSONPath;
+    [Header("Network Variables")]
     [SerializeField] Cost.CostType costType;
     [SerializeField] Activation.ActivationType activationType;
-    [SerializeField] Intent itemPrefab;
+    [Header("Input Layer")]
     [SerializeField] int inputRows = 7;
     [SerializeField] int inputColumns = 7;
+    [Header("Hidden Layer")]
     [SerializeField] int hiddenRows = 7;
     [SerializeField] int hiddenColumns = 20;
+    [Header("Output Layer")]
     [SerializeField] int outputRows = 7;
     [SerializeField] int outputColumns = 7;
 
@@ -25,7 +31,12 @@ public class NetworkFactory : AFactory
         network.SetActivationFunction(Activation.GetActivationFromType(activationType));
         network.SetCostFunction(Cost.GetCostFromType(costType));
 
-        //TODO: Find a way to pass pre-trained weights and biases
+        if (weightsJSONPath != "")
+        {
+            string weightsJSON = JSON.LoadJSONFile(weightsJSONPath);
+            JSON.NetworkJSON networkJSON = JSON.JSONToNetwork(weightsJSON);
+            network.SetWeightsAndBiases(networkJSON);
+        }
 
         base.Start();
     }
@@ -123,6 +134,11 @@ public class NetworkFactory : AFactory
                 panel.outputRows.text = outputRows.ToString();
             if (outputColumns != int.Parse(panel.outputColumns.text))
                 panel.outputColumns.text = outputColumns.ToString();
+            if (weightsJSONPath != JSON.GetJSONPath(panel.weightsDropdown.options[panel.weightsDropdown.value].text, panel.level))
+            {
+                var optionsList = panel.weightsDropdown.options.Select(option => option.text).ToList();
+                panel.weightsDropdown.value = optionsList.IndexOf(JSON.GetFileName(weightsJSONPath));
+            }
 
             panel.costDropdown.onValueChanged.AddListener(SetCostFunction);
             panel.activationDropdown.onValueChanged.AddListener(SetActivationFunction);
@@ -132,6 +148,7 @@ public class NetworkFactory : AFactory
             panel.hiddenColumns.onValueChanged.AddListener(SetHiddenColumns);
             panel.outputRows.onValueChanged.AddListener(SetOutputRows);
             panel.outputColumns.onValueChanged.AddListener(SetOutputColumns);
+            panel.weightsDropdown.onValueChanged.AddListener(SetWeightsAndBiases);
         }
     }
 
@@ -188,13 +205,20 @@ public class NetworkFactory : AFactory
         costType = (Cost.CostType)arg0;
         ReloadNetwork();
     }
+
+    private void SetWeightsAndBiases(int arg0)
+    {
+        NetworkInfoPanel panel = infoPanelInstance.GetComponent<NetworkInfoPanel>();
+        weightsJSONPath = JSON.GetJSONPath(panel.weightsDropdown.options[arg0].text, panel.level);
+        ReloadNetwork();
+    }
  
     private void ReloadNetwork()
     {
         network = new FullyConnectedNN((inputRows, inputColumns), (hiddenRows, hiddenColumns), (outputRows, outputColumns));
         network.SetCostFunction(Cost.GetCostFromType(costType));
         network.SetActivationFunction(Activation.GetActivationFromType(activationType));
-        //TODO: Hotload weights and biases
+        network.SetWeightsAndBiases(JSON.JSONToNetwork(JSON.LoadJSONFile(weightsJSONPath)));
     }
 
     new void OnDestroy()

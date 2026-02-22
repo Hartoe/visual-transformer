@@ -5,5 +5,6 @@ public class AttentionInfoPanel : MonoBehaviour
 {
     public TMP_InputField rowsInput;
     public TMP_InputField columnsInput;
-    //TODO: Add dropdown for weights and biases
+    public TMP_Dropdown weightsDropdown;
+    public int level = 1;
 }

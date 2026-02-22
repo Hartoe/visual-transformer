@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Level 1 Dialogue
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Welcome to the construction floor! Here you will build your transformer from
+    scratch. Before we start, it is good to review the controls.
+  - 'The camera controls are as follows:
+
+    - Use W A S D to move the camera
+
+    -
+    Use Q and E to rotate the camera
+
+    - Use the mouse wheel to zoom in and out'
+  - 'The building controls are as follows:
+
+    - Left mouse button to place a building
+
+    -
+    Right mouse button to remove a building
+
+    - Press B to toggle build mode
+
+    -
+    Press SPACE to pause and unpause the game'
+  - Don't worry! If you get stuck, need a refresher on the controls, or just want
+    a recap of the level goal, you can press the ? icon in the top right corner.
+  - 'Our very first step is to find a way to ENCODE the resources of our order in
+    such a way that it represents both what each item is as well as its position
+    in the sequence. '
+  - To do this, we must first turn our loose TOKENS into a single MATRIX, which we
+    can EMBED via the use of a neural network.
+  - Finally, we must add the POSITIONAL information to the EMBEDDING to complete
+    the first step.
+  - You can find all buildings you need in the build menu below. Good luck!

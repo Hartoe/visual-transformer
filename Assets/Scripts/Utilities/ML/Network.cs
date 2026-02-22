@@ -94,6 +94,31 @@ namespace Utilities
                     layers[i].SetActivationFunction(activation);
                 layers[layers.Length - 1].SetActivationFunction(outputActivation);
             }
+
+            public void SetWeightsAndBiases(JSON.NetworkJSON networkJSON)
+            {
+                if (networkJSON.layerJSONs.Count != layers.Length)
+                {
+                    Debug.LogError("Network JSON must be compatible with network");
+                    return;
+                }
+
+                for (int i = 0; i < layers.Length; i++)
+                {
+                    if (layers[i].weights.Shape != (networkJSON.layerJSONs[i].weights.rows, networkJSON.layerJSONs[i].weights.columns)
+                     || layers[i].biases.Shape != (networkJSON.layerJSONs[i].biases.rows, networkJSON.layerJSONs[i].biases.columns))
+                    {
+                        Debug.LogError("JSON import aborted, dimensions didn't match!");
+                        return;
+                    }
+                }
+
+                for (int i = 0; i < layers.Length; i++)
+                {
+                    layers[i].SetWeights(networkJSON.layerJSONs[i].weights.ToMatrix());
+                    layers[i].SetBiases(networkJSON.layerJSONs[i].biases.ToMatrix());
+                }
+            }
         }
 #endregion
 
@@ -221,6 +246,9 @@ namespace Utilities
                 queryLayer = new Layer((rows, cols), (rows, cols));
                 keyLayer = new Layer((rows, cols), (rows, cols));
                 valueLayer = new Layer((rows, cols), (rows, cols));
+                queryLayer.SetActivationFunction(Activation.GetActivationFromType(Activation.ActivationType.ReLU));
+                keyLayer.SetActivationFunction(Activation.GetActivationFromType(Activation.ActivationType.ReLU));
+                valueLayer.SetActivationFunction(Activation.GetActivationFromType(Activation.ActivationType.ReLU));
             }
 
             public Matrix CalculateOutputs(Matrix inputs)
@@ -231,19 +259,21 @@ namespace Utilities
                 Values = valueLayer.CalculateOutputs(Values);
 
                 // Calculate query/key properties
-                Matrix QKs = (Queries * Matrix.T(Keys)) / Math.Sqrt(Queries.Columns);
+                Matrix QKs = Queries * Matrix.T(Keys);
+                QKs /= Math.Sqrt(Queries.Columns);
+                Matrix SoftQK = new Matrix(QKs.Shape);
 
                 // Softmax
                 for (int i = 0; i < QKs.Rows; i++)
                 {
                     for (int j = 0; j < QKs.Columns; j++)
                     {
-                        QKs[i,j] = softmax.Activate(QKs, i, j);
+                        SoftQK[i,j] = softmax.Activate(QKs, i, j);
                     }
                 }
 
                 // Matmult with value matrix
-                Matrix QKVs = QKs * Values;
+                Matrix QKVs = SoftQK * Values;
 
                 return QKVs;
             }

@@ -555,7 +555,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 49.99999
+  field of view: 50
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1737,7 +1737,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 2119584215}
   m_Follow: {fileID: 2119584215}
   m_Lens:
-    FieldOfView: 49.99999
+    FieldOfView: 50
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1842,7 +1842,6 @@ GameObject:
   - component: {fileID: 1651449334}
   - component: {fileID: 1651449335}
   - component: {fileID: 1651449336}
-  - component: {fileID: 1651449337}
   m_Layer: 0
   m_Name: GridBuildingSystem
   m_TagString: Untagged
@@ -1877,22 +1876,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59262d21d9b97b41b286f6b7f60343e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 10
-  gridHeight: 10
+  gridWidth: 8
+  gridHeight: 5
   cellSize: 15
   buildingList:
   - {fileID: 11400000, guid: 4e83864b4a91b244da33b54678d8c07e, type: 2}
   - {fileID: 11400000, guid: 51bf8ac3fbe223947b35af395c3512ac, type: 2}
-  - {fileID: 11400000, guid: 30a2b6e723c7a194699af4e4e891a89b, type: 2}
-  - {fileID: 11400000, guid: a51607249b16f1f49ab604b702cc3901, type: 2}
-  - {fileID: 11400000, guid: f20287479254c2a498040504a23db255, type: 2}
+  - {fileID: 11400000, guid: b9e23f5888e59ab4d820235748b640a8, type: 2}
+  - {fileID: 11400000, guid: bf9ca29e8288fdd4e83a823ee818ed6d, type: 2}
+  - {fileID: 11400000, guid: 9e7bc7e7831e53a458c157c29be241f3, type: 2}
   - {fileID: 11400000, guid: 6176643743111bb4685b9295105acc79, type: 2}
-  - {fileID: 11400000, guid: 3cf8251b885bfe143ab62507ff76882b, type: 2}
   gridItems:
   - X: 0
-    Y: 1
+    Y: 2
     Dir: 3
-    BuildingTypeSO: {fileID: 11400000, guid: a51607249b16f1f49ab604b702cc3901, type: 2}
+    BuildingTypeSO: {fileID: 11400000, guid: bf9ca29e8288fdd4e83a823ee818ed6d, type: 2}
+  - X: 7
+    Y: 2
+    Dir: 3
+    BuildingTypeSO: {fileID: 11400000, guid: b9e23f5888e59ab4d820235748b640a8, type: 2}
   lmb: {fileID: 8409272431351684892, guid: 5c91d4374d25aaf44a39e52bd39dd196, type: 3}
 --- !u!114 &1651449336
 MonoBehaviour:
@@ -1906,20 +1908,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2690c7ab809e247afc4c961f27df0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueTextSO: {fileID: 11400000, guid: 120d674f3d0ac644b9b6e443e45ce407, type: 2}
+  dialogueTextSO: {fileID: 11400000, guid: b04f7889462438641ad86f58bf6c5429, type: 2}
   dialogueHandler: {fileID: 724624918}
---- !u!114 &1651449337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1651449333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95b6efbbed2c24b46984695d5835ea16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1655771069
 GameObject:
   m_ObjectHideFlags: 0
@@ -2109,6 +2099,7 @@ GameObject:
   - component: {fileID: 1784237678}
   - component: {fileID: 1784237677}
   - component: {fileID: 1784237679}
+  - component: {fileID: 1784237680}
   m_Layer: 0
   m_Name: TimeTickSystem
   m_TagString: Untagged
@@ -2158,6 +2149,19 @@ MonoBehaviour:
   resetButton: {fileID: 1157934954}
   pauseButton: {fileID: 1255203777}
   startButton: {fileID: 1829722286}
+--- !u!114 &1784237680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784237676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d959d7d07b70d024c9d9dbecb70ff19a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextScene: Level 2
 --- !u!224 &1829722285 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8650148936155143860, guid: dfe4f0b3824a4154089e43f6124db0d6,

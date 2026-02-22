@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utilities;
 using Utilities.ML;
 
 public class AttentionFactory : AFactory
@@ -8,10 +10,14 @@ public class AttentionFactory : AFactory
     [SerializeField] int rows;
     [SerializeField] int columns;
     [SerializeField] Intent itemPrefab;
+    [SerializeField] string queryJSONPath;
+    [SerializeField] string keyJSONPath;
+    [SerializeField] string valueJSONPath;
     private List<Intent> outputs = new List<Intent>();
     private Matrix? Q, K, V;
     private Attention attention;
     private bool qSet, kSet, vSet;
+    private string pathName;
 
     new void Start()
     {
@@ -19,6 +25,26 @@ public class AttentionFactory : AFactory
         qSet = false;
         kSet = false;
         vSet = false;
+
+        if (!string.IsNullOrEmpty(queryJSONPath))
+        {
+            JSON.LayerJSON queryJSON = JSON.JSONToLayer(JSON.LoadJSONFile(queryJSONPath));
+            attention.queryLayer.SetWeights(queryJSON.weights.ToMatrix());
+            attention.queryLayer.SetBiases(queryJSON.biases.ToMatrix());
+        }
+        if (!string.IsNullOrEmpty(keyJSONPath))
+        {
+            JSON.LayerJSON keyJSON = JSON.JSONToLayer(JSON.LoadJSONFile(keyJSONPath));
+            attention.keyLayer.SetWeights(keyJSON.weights.ToMatrix());
+            attention.keyLayer.SetBiases(keyJSON.biases.ToMatrix());
+        }
+        if (!string.IsNullOrEmpty(valueJSONPath))
+        {
+            JSON.LayerJSON valueJSON = JSON.JSONToLayer(JSON.LoadJSONFile(valueJSONPath));
+            attention.valueLayer.SetWeights(valueJSON.weights.ToMatrix());
+            attention.valueLayer.SetBiases(valueJSON.biases.ToMatrix());
+        }
+
         base.Start();
     }
 
@@ -81,6 +107,9 @@ public class AttentionFactory : AFactory
             } catch
             {
                 Debug.Log("Wrong dimensions!");
+                Debug.Log($"Q:\n{Q}");
+                Debug.Log($"K:\n{K}");
+                Debug.Log($"V:\n{V}");
             }
         }
     }
@@ -126,10 +155,35 @@ public class AttentionFactory : AFactory
                 panel.rowsInput.text = rows.ToString();
             if (columns != int.Parse(panel.columnsInput.text))
                 panel.columnsInput.text = columns.ToString();
+            if (panel.weightsDropdown != null)
+            {
+                if (!string.IsNullOrEmpty(pathName) && pathName != panel.weightsDropdown.options[panel.weightsDropdown.value].text)
+                {
+                    var optionsList = panel.weightsDropdown.options.Select(option => option.text).ToList();
+                    panel.weightsDropdown.value = optionsList.IndexOf(pathName);
+                }
+                panel.weightsDropdown.onValueChanged.AddListener(ReloadWeightsAndBiases);
+            }
 
             panel.rowsInput.onValueChanged.AddListener(ChangeRowValue);
             panel.columnsInput.onValueChanged.AddListener(ChangeColumnValue);
         }
+    }
+
+    private void ReloadWeightsAndBiases(int arg0)
+    {
+        AttentionInfoPanel panel = infoPanelInstance.GetComponent<AttentionInfoPanel>();
+        pathName = panel.weightsDropdown.options[arg0].text;
+        JSON.LayerJSON queryJSON = JSON.JSONToLayer(JSON.LoadJSONFile($"/lvl_{panel.level}/{pathName}_query_weights.json"));
+        JSON.LayerJSON keyJSON = JSON.JSONToLayer(JSON.LoadJSONFile($"/lvl_{panel.level}/{pathName}_key_weights.json"));
+        JSON.LayerJSON valueJSON = JSON.JSONToLayer(JSON.LoadJSONFile($"/lvl_{panel.level}/{pathName}_value_weights.json"));
+
+        attention.queryLayer.SetWeights(queryJSON.weights.ToMatrix());
+        attention.queryLayer.SetBiases(queryJSON.biases.ToMatrix());
+        attention.keyLayer.SetWeights(keyJSON.weights.ToMatrix());
+        attention.keyLayer.SetBiases(keyJSON.biases.ToMatrix());
+        attention.valueLayer.SetWeights(valueJSON.weights.ToMatrix());
+        attention.valueLayer.SetBiases(valueJSON.biases.ToMatrix());
     }
 
     private void ChangeRowValue(string value)

@@ -97,7 +97,7 @@ namespace Utilities
             public static Matrix operator *(Matrix left, Matrix right)
             {
                 if (left.Columns != right.Rows)
-                    throw new InvalidOperationException("Invalid matrix dimensions for multiplication!");
+                    throw new InvalidOperationException($"Invalid matrix dimensions for multiplication! {left.Shape} * {right.Shape}");
 
                 int rowsLeft = left.Rows;
                 int colsLeft = left.Columns;
@@ -130,7 +130,7 @@ namespace Utilities
             public static Matrix ParallelDot(Matrix left, Matrix right)
             {
                 if (left.Columns != right.Rows)
-                    throw new InvalidOperationException("Invalid matrix dimensions for multiplication!");
+                    throw new InvalidOperationException($"Invalid matrix dimensions for multiplication! {left.Shape} * {right.Shape}");
 
                 int rowsLeft = left.Rows;
                 int colsLeft = left.Columns;
@@ -194,7 +194,7 @@ namespace Utilities
                 int rows = left.Rows;
                 int cols = left.Columns;
                 if (left.Shape != right.Shape)
-                    throw new InvalidOperationException("Invalid matrix dimensions for addition!");
+                    throw new InvalidOperationException($"Invalid matrix dimensions for addition! {left.Shape} + {right.Shape}");
 
                 Matrix result = new Matrix(rows, cols);
                 for (int i = 0; i < rows; i++)

@@ -11,5 +11,6 @@ public class NetworkInfoPanel : MonoBehaviour
     public TMP_InputField hiddenColumns;
     public TMP_InputField outputRows;
     public TMP_InputField outputColumns;
-    //TODO: Add dropdown for weights/biases
+    public TMP_Dropdown weightsDropdown;
+    public int level = 1;
 }

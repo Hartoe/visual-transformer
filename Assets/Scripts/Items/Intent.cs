@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using Utilities;
 
 public class Intent : WorldItem
 {
@@ -19,6 +20,7 @@ public class Intent : WorldItem
     private RGBColor red, green, blue;
     private Coroutine changeColors;
     [SerializeField] new Renderer renderer;
+    [SerializeField] string JSONPath;
 
     void Start()
     {
@@ -26,6 +28,12 @@ public class Intent : WorldItem
         TimeTickSystem.OnTick += CheckMoved;
         changeColors = StartCoroutine(ShiftColors());
         red.increase = true;
+
+        if (!string.IsNullOrEmpty(JSONPath))
+        {
+            string matrixJSON = JSON.LoadJSONFile(JSONPath);
+            state = JSON.JSONToMatrix(matrixJSON);
+        }
     }
 
     private IEnumerator ShiftColors()

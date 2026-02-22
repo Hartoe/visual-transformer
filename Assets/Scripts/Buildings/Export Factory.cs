@@ -2,14 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+using Utilities;
 using Utilities.ML;
 using static Utilities.JSON;
 
 public class ExportFactory : AFactory
 {
+    public static UnityEvent OnLevelComplete = new UnityEvent();
     [SerializeField] double epsilon = 0.0001;
-    [SerializeField] MatrixJSON testJSON;
+    [SerializeField] string JSONFilePath;
     private List<Matrix> inputs = new List<Matrix>();
+    private Matrix expectedMatrix;
+
+    new void Start()
+    {
+        if (JSONFilePath != "") expectedMatrix = JSONToMatrix(LoadJSONFile(JSONFilePath));
+        else expectedMatrix = new Matrix();
+        base.Start();
+    }
 
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
@@ -29,9 +40,7 @@ public class ExportFactory : AFactory
             UpdateInfoPanel();
             Matrix check = inputs.First();
             inputs.RemoveAt(0);
-            Debug.Log(check);
-            if (CheckSimilar(check, testJSON.ToMatrix())) Debug.Log($"Matrices match!");
-            else Debug.Log("Matrices don't match!");
+            if (CheckSimilar(check, expectedMatrix)) OnLevelComplete.Invoke();
         }
     }
 
@@ -43,7 +52,7 @@ public class ExportFactory : AFactory
         {
             for (int j = 0; j < A.Columns; j++)
             {
-                if (Math.Abs(A[i,j] - B[i,j]) > epsilon)
+                if (Math.Abs(Math.Abs(A[i,j]) - Math.Abs(B[i,j])) > epsilon)
                     return false;
             }
         }
@@ -58,7 +67,7 @@ public class ExportFactory : AFactory
             if (inputs.Count > 0)
             {
                 Matrix current = inputs.First();
-                panel.SetText(current, CheckSimilar(current, testJSON.ToMatrix()));
+                panel.SetText(current, CheckSimilar(current, expectedMatrix));
             }
             else
                 panel.SetText(null);
