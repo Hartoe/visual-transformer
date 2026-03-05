@@ -10,9 +10,9 @@ public class EncodingInfoPanel : MonoBehaviour
         text.text = "Current Encoding:";
     }
 
-    public void SetText(Resource[] items)
+    public void SetText(WorldItem[] items)
     {
-        foreach (Resource item in items)
+        foreach (WorldItem item in items)
             text.text += $"\n{item.state}";
     }
 }

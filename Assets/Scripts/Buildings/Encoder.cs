@@ -71,11 +71,13 @@ public class Encoder : AFactory
         {
             // Save the matrix of the item
             inputs.Add(item.state);
+            item.MoveTo(Center);
+            item.DestroyOnArrival();
         }
 
-        //TODO: Handle wrong input with smoke effect and popup
-
-        Destroy(item.gameObject);
+        Break("The wrong type of item was passed!");
+        item.MoveTo(Center);
+        item.DestroyOnArrival();
     }
 
     public override WorldItem RemoveFromOutput((int, int) cell)
@@ -107,14 +109,13 @@ public class Encoder : AFactory
                 Matrix networkMatrix = network.CalculateOutputs(middleNorm);
                 Matrix output = layerNorm.CalculateOutputs(networkMatrix + middleNorm);
 
-                WorldItem newItem = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
+                WorldItem newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
                 newItem.state = output;
                 outputs.Add(newItem);
             }
             catch
             {
-                //TODO: Handle wrong dimensions of input
-                Debug.Log("Wrong dimensions of input");
+                Break("Wrong dimensions for encoder input!");
             }
         }
     }
@@ -141,5 +142,11 @@ public class Encoder : AFactory
                 InputCells.Add((cellX - 1, cellY));
                 break;
         }
+    }
+
+    protected override void Reset()
+    {
+        outputs = new List<WorldItem>();
+        inputs = new List<Matrix>();
     }
 }

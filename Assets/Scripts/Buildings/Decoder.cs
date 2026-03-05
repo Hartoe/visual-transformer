@@ -86,22 +86,30 @@ public class Decoder : AFactory
 
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
-        if (cell == InputCells[0]) {
-            // If A is null, set A and put the factory on occupied
-            if (!decoderSet)
-            {
-                decoderMatrix = item.state;
-                decoderSet = true;
+        if (item is Intent)
+        {
+            if (cell == InputCells[0]) {
+                // If A is null, set A and put the factory on occupied
+                if (!decoderSet)
+                {
+                    decoderMatrix = item.state;
+                    decoderSet = true;
+                }
+            } else if (cell == InputCells[1]) {
+                // If B is null, set B and put the factory on occupied
+                if (!encoderSet)
+                {
+                    encoderMatrix = item.state;
+                    encoderSet = true;
+                }
             }
-        } else if (cell == InputCells[1]) {
-            // If B is null, set B and put the factory on occupied
-            if (!encoderSet)
-            {
-                encoderMatrix = item.state;
-                encoderSet = true;
-            }
+            item.MoveTo(Center);
+            item.DestroyOnArrival();
+            return;
         }
-        Destroy(item.gameObject);
+        Break("The wrong type of item was passed!");
+        item.MoveTo(Center);
+        item.DestroyOnArrival();
     }
 
     public override WorldItem RemoveFromOutput((int, int) cell)
@@ -124,17 +132,35 @@ public class Decoder : AFactory
             decoderAttention.Queries = decoderMatrix;
             decoderAttention.Keys = decoderMatrix;
             decoderAttention.Values = decoderMatrix;
-            Matrix decoderAttentionMatrix = decoderAttention.CalculateOutputs(decoderMatrix);
-            Matrix decoderAddNormMatrix = layerNorm.CalculateOutputs(decoderAttentionMatrix + decoderMatrix);
+            Matrix decoderAttentionMatrix;
+            Matrix decoderAddNormMatrix;
+            try
+            {
+                decoderAttentionMatrix = decoderAttention.CalculateOutputs(decoderMatrix);
+                decoderAddNormMatrix = layerNorm.CalculateOutputs(decoderAttentionMatrix + decoderMatrix);
+            }
+            catch
+            {
+                Break("Wrong dimensions for decoder input!");
+                return;
+            }
             mixedAttention.Queries = decoderAddNormMatrix;
             mixedAttention.Values = encoderMatrix;
             mixedAttention.Keys = encoderMatrix;
-            Matrix mixedAttentionMatrix = mixedAttention.CalculateOutputs(decoderAddNormMatrix);
-            Matrix mixedAddNormMatrix = layerNorm.CalculateOutputs(mixedAttentionMatrix + decoderAddNormMatrix);
-            Matrix networkMatrix = network.CalculateOutputs(mixedAddNormMatrix);
-            Matrix output = layerNorm.CalculateOutputs(networkMatrix + mixedAddNormMatrix);
-            
-            WorldItem newItem = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
+            Matrix mixedAttentionMatrix, mixedAddNormMatrix, networkMatrix, output;
+            try
+            {
+                mixedAttentionMatrix = mixedAttention.CalculateOutputs(decoderAddNormMatrix);
+                mixedAddNormMatrix = layerNorm.CalculateOutputs(mixedAttentionMatrix + decoderAddNormMatrix);
+                networkMatrix = network.CalculateOutputs(mixedAddNormMatrix);
+                output = layerNorm.CalculateOutputs(networkMatrix + mixedAddNormMatrix);
+            }
+            catch
+            {
+                Break("Wrong dimensions for encoder component!");
+                return;
+            }
+            WorldItem newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
 
@@ -169,5 +195,19 @@ public class Decoder : AFactory
                 InputCells.Add((cellX + 2, cellY + 2));
                 break;
         }
+    }
+
+    public override bool Occupied((int, int) cell)
+    {
+        if (cell == InputCells[0]) return decoderSet || broken;
+        if (cell == InputCells[1]) return encoderSet || broken;
+        return broken;
+    }
+
+    protected override void Reset()
+    {
+        decoderSet = false;
+        encoderSet = false;
+        outputs = new List<WorldItem>();
     }
 }

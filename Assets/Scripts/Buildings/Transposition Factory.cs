@@ -16,11 +16,14 @@ public class TranspositionFactory : AFactory
         {
             // Save the matrix of the item
             inputs.Add(item.state);
+            item.MoveTo(Center);
+            item.DestroyOnArrival();
+            return;
         }
 
-        //TODO: Handle wrong input with smoke effect and popup
-
-        Destroy(item.gameObject);
+        Break("The wrong type of item was passed!");
+        item.MoveTo(Center);
+        item.DestroyOnArrival();
     }
 
     public override WorldItem RemoveFromOutput((int, int) cell)
@@ -42,7 +45,7 @@ public class TranspositionFactory : AFactory
             Matrix input = inputs.First();
             inputs.RemoveAt(0);
             Matrix output = Matrix.T(input);
-            Intent newItem = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
+            Intent newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
         }
@@ -77,5 +80,11 @@ public class TranspositionFactory : AFactory
         foreach (Intent item in outputs)
             Destroy(item.gameObject);
         base.OnDestroy();
+    }
+
+    protected override void Reset()
+    {
+        inputs = new List<Matrix>();
+        outputs = new List<Intent>();
     }
 }

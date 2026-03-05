@@ -72,7 +72,8 @@ public class AttentionFactory : AFactory
                 qSet = true;
             }
         }
-        Destroy(item.gameObject);
+        item.MoveTo(Center);
+        item.DestroyOnArrival();
     }
 
     public override WorldItem RemoveFromOutput((int, int) cell)
@@ -98,7 +99,7 @@ public class AttentionFactory : AFactory
             try
             {
                 Matrix outputState = attention.CalculateOutputs((Matrix)Q);
-                Intent output = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
+                Intent output = Instantiate(itemPrefab, Center, Quaternion.identity);
                 output.state = outputState;
                 K = null;
                 V = null;
@@ -106,10 +107,7 @@ public class AttentionFactory : AFactory
                 outputs.Add(output);
             } catch
             {
-                Debug.Log("Wrong dimensions!");
-                Debug.Log($"Q:\n{Q}");
-                Debug.Log($"K:\n{K}");
-                Debug.Log($"V:\n{V}");
+                Break("Incompatible dimensions between matrices!");
             }
         }
     }
@@ -199,5 +197,24 @@ public class AttentionFactory : AFactory
         if (columns <= 0) columns = 1;
 
         attention = new Attention(rows, columns);
+    }
+
+    public override bool Occupied((int, int) cell)
+    {
+        if (cell == InputCells[0]) return vSet || broken;
+        if (cell == InputCells[1]) return kSet || broken;
+        if (cell == InputCells[2]) return qSet || broken;
+        return broken;
+    }
+
+    protected override void Reset()
+    {
+        outputs = new List<Intent>();
+        Q = null;
+        V = null;
+        K = null;
+        qSet = false;
+        vSet = false;
+        kSet = false;
     }
 }

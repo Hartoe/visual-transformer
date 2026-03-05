@@ -7,29 +7,29 @@ public class EncodingFactory : AFactory
 {
     [SerializeField] Intent itemPrefab;
     private List<WorldItem> outputs = new List<WorldItem>();
-    private List<Resource> inputs = new List<Resource>();
+    private List<WorldItem> inputs = new List<WorldItem>();
     private bool mustGenerate = false;
 
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
         // Check if item is a RESOURCE
-        if (item is Resource)
+        if (item is Resource || item is Product)
         {
-            if (((Resource)item).resourceType == ResourceType.ORDER)
+            if (item is Resource)
             {
-                inputs.Add((Resource)item);
-                mustGenerate = true;
+                if (((Resource)item).resourceType == ResourceType.ORDER)
+                    mustGenerate = true;
             }
-            else
-            {
-                inputs.Add((Resource)item);
-            }
+            inputs.Add(item);
             UpdateInfoPanel();
+            item.MoveTo(Center);
+            item.DestroyOnArrival();
+            return;
         }
 
-        //TODO: Handle wrong input with smoke effect and popup
-
-        Destroy(item.gameObject);
+        Break("The wrong type of item was passed!");
+        item.MoveTo(Center);
+        item.DestroyOnArrival();
     }
 
     public override WorldItem RemoveFromOutput((int, int) cell)
@@ -57,7 +57,7 @@ public class EncodingFactory : AFactory
         }
         Matrix finalState = new Matrix(finalMatrix);
 
-        Intent newItem = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
+        Intent newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
         newItem.state = finalState;
 
         outputs.Add(newItem);
@@ -75,7 +75,7 @@ public class EncodingFactory : AFactory
 
     public override bool Occupied((int, int) cell)
     {
-        return mustGenerate;
+        return mustGenerate || broken;
     }
 
     protected override void FillCellLists()
@@ -117,5 +117,12 @@ public class EncodingFactory : AFactory
         foreach (WorldItem item in outputs)
             Destroy(item.gameObject);
         base.OnDestroy();
+    }
+
+    protected override void Reset()
+    {
+        mustGenerate = false;
+        outputs = new List<WorldItem>();
+        inputs = new List<WorldItem>();
     }
 }

@@ -55,7 +55,7 @@ public class ImportFactory : AFactory
                 if (building.GetBuildingTypeSO().nameString == "Conveyor" && amount > 0)
                 {
                     // Create new world item
-                    WorldItem newItem = Instantiate(itemPrefabs[currentItem], GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
+                    WorldItem newItem = Instantiate(itemPrefabs[currentItem], Center, Quaternion.identity);
                     outputs.Add((0, newItem));
                     currentItem++;
                     if (currentItem >= itemPrefabs.Count)
@@ -110,5 +110,13 @@ public class ImportFactory : AFactory
         foreach ((int, WorldItem) item in outputs)
             Destroy(item.Item2.gameObject);
         base.OnDestroy();
+    }
+
+    protected override void Reset()
+    {
+        currentItem = 0;
+        amount = 1;
+        status = "Waiting";
+        outputs = new List<(int, WorldItem)>();
     }
 }

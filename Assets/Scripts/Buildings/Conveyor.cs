@@ -6,8 +6,12 @@ using UnityEngine;
 
 public class Conveyor : Building
 {
+    public bool occupiedAtStart, reserved;
+
     // Item that is currently on the conveyor
-    WorldItem worldItem;
+    public WorldItem currentItem, nextItem;
+    public GridBuildingSystem.GridObject NextCell;
+    public GridBuildingSystem.GridObject[] InputCells;
     int cellX, cellY;
 
     // Conveyor neighbourhood
@@ -17,7 +21,6 @@ public class Conveyor : Building
 #region Constructor
     void Start()
     {
-        TimeTickSystem.OnTick += MoveWorldItem;
         TimeTickSystem.OnTick += UpdateInfoPanel;
 
         // Get current conveyor grid position
@@ -33,11 +36,16 @@ public class Conveyor : Building
         upCell = GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY + 1);
         downCell = GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY - 1);
 
+        // Set relation of the surrounding cells
+        NextCell = GetNextCell();
+        InputCells = GetInputCells();
+
         UpdateConveyorModel();
     }
-#endregion
 
-#region Update Conveyor Model
+    #endregion
+
+    #region Update Conveyor Model
     public void UpdateConveyorModel(int depth = 0)
     {
         if (depth > 1) return;
@@ -133,113 +141,45 @@ public class Conveyor : Building
     }
 #endregion
 
-#region Update World Item
-    private void MoveWorldItem(object sender, TimeTickSystem.TickEventArgs e)
+    #region Helper Functions
+    public (int, int) CellPosition() => (cellX, cellY);
+
+    private GridBuildingSystem.GridObject GetNextCell()
     {
-        // Check if the conveyor belt has an item it contains
-        if (Occupied())
+        GridBuildingSystem.GridObject nextCell;
+        switch (dir)
         {
-            // Check if the item hasn't already moved this update
-            if (!worldItem.Moved)
-            {
-                // Check which cell is the next cell
-                GridBuildingSystem.GridObject nextCell;
-                switch (dir)
-                {
-                    default:
-                    case BuildingTypeSO.Dir.Down:
-                        nextCell = downCell;
-                        break;
-                    case BuildingTypeSO.Dir.Left:
-                        nextCell = leftCell;
-                        break;
-                    case BuildingTypeSO.Dir.Up:
-                        nextCell = upCell;
-                        break;
-                    case BuildingTypeSO.Dir.Right:
-                        nextCell = rightCell;
-                        break;
-                }
-
-                if (nextCell != null)
-                {
-                    Building nextBuilding = nextCell.GetBuilding();
-                    if (nextBuilding != null)
-                    {
-                        if (nextBuilding.GetBuildingTypeSO().nameString == "Conveyor")
-                        {
-                            if (!((Conveyor)nextBuilding).Occupied())
-                            {
-                                ((Conveyor)nextBuilding).SetItem(worldItem);
-                                worldItem.MoveTo(nextCell.Center());
-                                SetItem(null);
-                            }
-                        }
-                        else if (((AFactory)nextBuilding).InputCells.Contains((cellX, cellY)))
-                        {
-                            if (!((AFactory)nextBuilding).Occupied((cellX, cellY)))
-                            {
-                                ((AFactory)nextBuilding).AddFromInput(worldItem, (cellX, cellY));
-                                worldItem.MoveTo(nextCell.Center());
-                                SetItem(null);
-                            }
-                        }
-                    }
-                }
-            }
+            default:
+            case BuildingTypeSO.Dir.Down:
+                nextCell = downCell;
+                break;
+            case BuildingTypeSO.Dir.Left:
+                nextCell = leftCell;
+                break;
+            case BuildingTypeSO.Dir.Up:
+                nextCell = upCell;
+                break;
+            case BuildingTypeSO.Dir.Right:
+                nextCell = rightCell;
+                break;
         }
-
-        // Check if the conveyor is ready to receive a new item
-        if (!Occupied())
-        {
-            List<GridBuildingSystem.GridObject> inputCells = new List<GridBuildingSystem.GridObject>();
-            switch (dir)
-            {
-                default:
-                case BuildingTypeSO.Dir.Down:        
-                    inputCells.AddRange(new GridBuildingSystem.GridObject[3]{leftCell, rightCell, upCell});
-                    break;
-                case BuildingTypeSO.Dir.Up:
-                    inputCells.AddRange(new GridBuildingSystem.GridObject[3]{leftCell, rightCell, downCell});
-                    break;
-                case BuildingTypeSO.Dir.Left:
-                    inputCells.AddRange(new GridBuildingSystem.GridObject[3]{downCell, rightCell, upCell});
-                    break;
-                case BuildingTypeSO.Dir.Right:
-                    inputCells.AddRange(new GridBuildingSystem.GridObject[3]{leftCell, downCell, upCell});
-                    break;
-            }
-
-            foreach (GridBuildingSystem.GridObject cell in inputCells)
-            {
-                // Get the cell building
-                if (cell != null)
-                {
-                    Building building = cell.GetBuilding();
-                    if (building != null)
-                    {
-                        if (building.GetBuildingTypeSO().nameString != "Conveyor") // Conveyors pass but dont poll
-                        {
-                            if (((AFactory)building).OutputCells.Contains((cellX, cellY)))
-                            {
-                                WorldItem newItem = ((AFactory)building).RemoveFromOutput((cellX, cellY));
-                                if (newItem != null)
-                                {
-                                    SetItem(newItem);
-                                    worldItem.MoveTo(GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center());
-                                }
-                            }
-                        } 
-                    }
-                }
-            }
-        }
-
+        return nextCell;
     }
-#endregion
-
-#region Helper Functions
-    public bool Occupied() => worldItem != null;
+    private GridBuildingSystem.GridObject[] GetInputCells()
+    {
+        switch (dir)
+        {
+            default:
+            case BuildingTypeSO.Dir.Down:        
+                return new GridBuildingSystem.GridObject[3]{leftCell, rightCell, upCell};
+            case BuildingTypeSO.Dir.Up:
+                return new GridBuildingSystem.GridObject[3]{leftCell, rightCell, downCell};
+            case BuildingTypeSO.Dir.Left:
+                return new GridBuildingSystem.GridObject[3]{downCell, rightCell, upCell};
+            case BuildingTypeSO.Dir.Right:
+                return new GridBuildingSystem.GridObject[3]{leftCell, downCell, upCell};
+        }
+    }
 
     private void UpdateInfoPanel(object sender, TimeTickSystem.TickEventArgs e)
     {
@@ -250,43 +190,23 @@ public class Conveyor : Building
     {
         if (infoPanelInstance != null)
         {
-            if (worldItem != null)
-                infoPanelInstance.GetComponent<PassInfoPanel>().SetText(worldItem);
+            if (currentItem != null)
+                infoPanelInstance.GetComponent<PassInfoPanel>().SetText(currentItem);
             else infoPanelInstance.GetComponent<PassInfoPanel>().SetText(null);
         }
     }
 
     public void SetItem(WorldItem item)
     {
-        worldItem = item;
+        currentItem = item;
+        if (item != null) currentItem.MoveTo(GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center());
         UpdateInfoPanel();
     }
 
-    public WorldItem GetItem()
-    {
-        return worldItem;
-    }
-
-    private Vector2Int GetDirectionVector(BuildingTypeSO.Dir direction)
-    {
-        switch (dir)
-        {
-            default:
-            case BuildingTypeSO.Dir.Down:
-                return new Vector2Int(0, -1);
-            case BuildingTypeSO.Dir.Left:
-                return new Vector2Int(-1, 0);
-            case BuildingTypeSO.Dir.Up:
-                return new Vector2Int(0, 1);
-            case BuildingTypeSO.Dir.Right:
-                return new Vector2Int(1, 0);
-        }
-    }
 #endregion
     void OnDestroy()
     {
-        TimeTickSystem.OnTick -= MoveWorldItem;
         TimeTickSystem.OnTick -= UpdateInfoPanel;
-        if (worldItem != null) Destroy(worldItem.gameObject);
+        if (currentItem != null) Destroy(currentItem.gameObject);
     }
 }

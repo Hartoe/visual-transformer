@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using UnityEngine;
+using Utilities.ML;
 public class DuplicationFactory : AFactory
 {
     List<(int, WorldItem)> outputs = new List<(int, WorldItem)>();
-    private WorldItem itemToDuplicate;
+    [SerializeField] Intent itemToDuplicate;
+    private Matrix itemState;
     private bool mustDuplicate = false;
 
     new void Start()
@@ -13,8 +16,20 @@ public class DuplicationFactory : AFactory
 
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
-        itemToDuplicate = item;
-        mustDuplicate = true;
+        // Check if item is INTENT
+        if (item is Intent)
+        {
+            // Save the matrix of the item
+            itemState = item.state;
+            item.MoveTo(Center);
+            item.DestroyOnArrival();
+            mustDuplicate = true;
+            return;
+        }
+
+        Break("The wrong type of item was passed!");
+        item.MoveTo(Center);
+        item.DestroyOnArrival();
     }
 
     public override WorldItem RemoveFromOutput((int, int) cell)
@@ -35,16 +50,20 @@ public class DuplicationFactory : AFactory
     {
         if (mustDuplicate)
         {
-            WorldItem duplicate = (WorldItem)itemToDuplicate.Clone();
-            outputs.Add((1, itemToDuplicate));
-            outputs.Add((0, duplicate));
+            Intent item1 = Instantiate(itemToDuplicate, Center, Quaternion.identity);
+            item1.state = itemState;
+            Intent item2 = Instantiate(itemToDuplicate, Center, Quaternion.identity);
+            item2.state = itemState;
+
+            outputs.Add((1, item1));
+            outputs.Add((0, item2));
             mustDuplicate = false;
         }
     }
 
     public override bool Occupied((int, int) cell)
     {
-        return mustDuplicate;
+        return mustDuplicate || broken;
     }
 
     protected override void FillCellLists()
@@ -96,8 +115,13 @@ public class DuplicationFactory : AFactory
         {
             Destroy(kvp.Item2);
         }
-        Destroy(itemToDuplicate);
         TimeTickSystem.OnTick -= UpdateInfoPanel;
         base.OnDestroy();
+    }
+
+    protected override void Reset()
+    {
+        mustDuplicate = false;
+        outputs = new List<(int, WorldItem)>();
     }
 }

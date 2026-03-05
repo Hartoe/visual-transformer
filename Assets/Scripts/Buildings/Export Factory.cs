@@ -93,4 +93,9 @@ public class ExportFactory : AFactory
                 break;
         }
     }
+
+    protected override void Reset()
+    {
+        inputs = new List<Matrix>();
+    }
 }

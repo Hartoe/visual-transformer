@@ -5,6 +5,7 @@ using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class GridBuildingSystem : MonoBehaviour
@@ -38,6 +39,7 @@ public class GridBuildingSystem : MonoBehaviour
     private Grid<GridObject> grid;
     private BuildingTypeSO.Dir dir = BuildingTypeSO.Dir.Down;
     private bool buildingActive = true;
+    private BuildingManager buildingManager;
 
     private void Awake()
     {
@@ -45,25 +47,11 @@ public class GridBuildingSystem : MonoBehaviour
         Instance = this;
 
         grid = new Grid<GridObject>(gridWidth, gridHeight, cellSize, Vector3.zero, (Grid<GridObject> g, int x, int y) => new GridObject(g, x, y));
+        buildingManager = gameObject.AddComponent<BuildingManager>();
 
         selectedBuilding = buildingList[0];
 
-        // Set initial grid state
-        if (gridItems.Length > 0)
-        {
-            for (int i = 0; i < gridItems.Length; i++)
-            {
-                List<Vector2Int> gridPositionList = gridItems[i].BuildingTypeSO.GetGridPositionList(new Vector2Int(gridItems[i].X, gridItems[i].Y), gridItems[i].Dir);
-                Vector2Int rotationOffset = gridItems[i].BuildingTypeSO.GetRotationOffset(gridItems[i].Dir);
-                Vector3 buildingWorldPosition = grid.GetWorldPosition(gridItems[i].X, gridItems[i].Y) +
-                                                new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.GetCellSize();
-                Building building = Building.Create(buildingWorldPosition, new Vector2Int(gridItems[i].X, gridItems[i].Y), gridItems[i].Dir, gridItems[i].BuildingTypeSO);
-                foreach (Vector2Int gridPosition in gridPositionList)
-                {
-                    grid.GetGridObject(gridPosition.x, gridPosition.y).SetBuilding(building);
-                }
-            }
-        }
+        InitializeGrid();
     }
 
     public List<BuildingTypeSO> GetBuildingList() => buildingList;
@@ -114,37 +102,13 @@ public class GridBuildingSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B)) SetBuildActive(!buildingActive);
         if (buildingActive)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 int x, y;
                 grid.GetXY(Utilities.Input.MouseToWorldPosition(), out x, out y);
 
-                List<Vector2Int> gridPositionList = selectedBuilding.GetGridPositionList(new Vector2Int(x, y), dir);
-                bool canBuild = true;
-                foreach (Vector2Int gridPosition in gridPositionList)
-                {
-                    GridObject go = grid.GetGridObject(gridPosition.x, gridPosition.y);
-                    if (go == null || !go.CanBuild())
-                    {
-                        canBuild = false;
-                        break;
-                    }
-                }
-                if (canBuild)
-                {
-                    Vector2Int rotationOffset = selectedBuilding.GetRotationOffset(dir);
-                    Vector3 buildingWorldPosition = grid.GetWorldPosition(x, y) +
-                                                    new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.GetCellSize();
-                    Building building = Building.Create(buildingWorldPosition, new Vector2Int(x, y), dir, selectedBuilding);
-                    foreach (Vector2Int gridPosition in gridPositionList)
-                    {
-                        grid.GetGridObject(gridPosition.x, gridPosition.y).SetBuilding(building);
-                    }
-                }
-                else
-                {
-                    Utilities.GUI.CreateWorldTextPopup("Cannot Build Here!", localPosition: Utilities.Input.MouseToWorldPosition(), color: Color.red);
-                }
+                CreateBuilding(selectedBuilding, x, y, dir);
+                SubgoalManager.Instance.ReCrawl = true;
             }
 
             if (Input.GetMouseButtonDown(1))
@@ -155,12 +119,19 @@ public class GridBuildingSystem : MonoBehaviour
                     Building building = gridObject.GetBuilding();
                     if (building != null)
                     {
-                        building.DestroySelf();
-                        List<Vector2Int> gridPositionList = building.GetGridPositionList();
-                        foreach (Vector2Int gridPosition in gridPositionList)
+                        if (!building.Indestructable)
                         {
-                            grid.GetGridObject(gridPosition.x, gridPosition.y).ClearBuilding();
+                            if (building is Conveyor) buildingManager.conveyors.Remove((Conveyor)building);
+                            else if (building is AFactory) buildingManager.factories.Remove((AFactory)building);
+                            building.DestroySelf();
+                            List<Vector2Int> gridPositionList = building.GetGridPositionList();
+                            foreach (Vector2Int gridPosition in gridPositionList)
+                            {
+                                grid.GetGridObject(gridPosition.x, gridPosition.y).ClearBuilding();
+                            }
                         }
+                        else
+                            Utilities.GUI.CreateWorldTextPopup("Cannot Remove Building!", localPosition: Utilities.Input.MouseToWorldPosition() + new Vector3(0, 10 ,0), color: Color.red);
                     }
                 }
             }
@@ -183,7 +154,7 @@ public class GridBuildingSystem : MonoBehaviour
         }
         else
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 int x, y;
                 grid.GetXY(Utilities.Input.MouseToWorldPosition(), out x, out y);
@@ -199,6 +170,39 @@ public class GridBuildingSystem : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    private void CreateBuilding(BuildingTypeSO buildingSO, int x, int y, BuildingTypeSO.Dir dir, bool indestructable = false)
+    {
+        List<Vector2Int> gridPositionList = buildingSO.GetGridPositionList(new Vector2Int(x, y), dir);
+        bool canBuild = true;
+        foreach (Vector2Int gridPosition in gridPositionList)
+        {
+            GridObject go = grid.GetGridObject(gridPosition.x, gridPosition.y);
+            if (go == null || !go.CanBuild())
+            {
+                canBuild = false;
+                break;
+            }
+        }
+        if (canBuild)
+        {
+            Vector2Int rotationOffset = buildingSO.GetRotationOffset(dir);
+            Vector3 buildingWorldPosition = grid.GetWorldPosition(x, y) +
+                                            new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.GetCellSize();
+            Building building = Building.Create(buildingWorldPosition, new Vector2Int(x, y), dir, buildingSO);
+            building.Indestructable = indestructable;
+            if (building is Conveyor) buildingManager.conveyors.Add((Conveyor)building);
+            else if (building is AFactory) buildingManager.factories.Add((AFactory)building);
+            foreach (Vector2Int gridPosition in gridPositionList)
+            {
+                grid.GetGridObject(gridPosition.x, gridPosition.y).SetBuilding(building);
+            }
+        }
+        else
+        {
+            Utilities.GUI.CreateWorldTextPopup("Cannot Build Here!", localPosition: Utilities.Input.MouseToWorldPosition(), color: Color.red);
         }
     }
 
@@ -258,6 +262,20 @@ public class GridBuildingSystem : MonoBehaviour
                         }
                     }
                 }
+            }
+        }
+
+        InitializeGrid();
+    }
+
+    private void InitializeGrid()
+    {
+        // Set initial grid state
+        if (gridItems.Length > 0)
+        {
+            for (int i = 0; i < gridItems.Length; i++)
+            {
+                CreateBuilding(gridItems[i].BuildingTypeSO, gridItems[i].X, gridItems[i].Y, gridItems[i].Dir, true);
             }
         }
     }

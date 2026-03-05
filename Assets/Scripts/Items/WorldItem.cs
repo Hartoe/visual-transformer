@@ -10,6 +10,8 @@ public class WorldItem : MonoBehaviour, ICloneable
     public Matrix state;
     public bool Moved;
     public Vector3 targetPosition { get; protected set; }
+    private float epsilon = 0.001f;
+    private bool toBeDestroyed = false;
 
     void Start()
     {
@@ -25,12 +27,22 @@ public class WorldItem : MonoBehaviour, ICloneable
     void Update()
     {
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 15f);
+        if (toBeDestroyed)
+        {
+            if (Vector3.Distance(transform.position, targetPosition) <= epsilon)
+                Destroy(gameObject);
+        }
     }
 
     public void MoveTo(Vector3 position)
     {
         targetPosition = position;
         Moved = true;
+    }
+
+    public void DestroyOnArrival()
+    {
+        toBeDestroyed = true;
     }
 
     void OnDestroy()

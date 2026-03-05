@@ -23,11 +23,14 @@ public class ActivationFactory : AFactory
         {
             // Save the matrix of the item
             inputs.Add(item.state);
+            item.MoveTo(Center);
+            item.DestroyOnArrival();
+            return;
         }
 
-        //TODO: Handle wrong input with smoke effect and popup
-
-        Destroy(item.gameObject);
+        Break("The wrong type of item was passed!");
+        item.MoveTo(Center);
+        item.DestroyOnArrival();
     }
 
     public override WorldItem RemoveFromOutput((int, int) cell)
@@ -56,7 +59,7 @@ public class ActivationFactory : AFactory
                     output[i,j] = activationFunction.Activate(input, i, j);
                 }
             }
-            WorldItem newItem = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
+            WorldItem newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
         }
@@ -92,7 +95,28 @@ public class ActivationFactory : AFactory
         {
             ActivationInfoPanel panel = infoPanelInstance.GetComponent<ActivationInfoPanel>();
             if ((int)activationType != panel.Dropdown.value)
+            {
                 panel.Dropdown.value = (int)activationType;
+            }
+            switch(activationType)
+            {
+                default:
+                case Activation.ActivationType.Sigmoid:
+                    panel.Function.sprite = panel.SigmoidFunction;
+                    break;
+                case Activation.ActivationType.TanH:
+                    panel.Function.sprite = panel.TanHFunction;
+                    break;
+                case Activation.ActivationType.ReLU:
+                    panel.Function.sprite = panel.ReLUFunction;
+                    break;
+                case Activation.ActivationType.SiLU:
+                    panel.Function.sprite = panel.SiLUFunction;
+                    break;
+                case Activation.ActivationType.Softmax:
+                    panel.Function.sprite = panel.SoftmaxFunction;
+                    break;
+            }
 
             panel.Dropdown.onValueChanged.AddListener(ChangeActivatorFunction);
         }
@@ -102,6 +126,7 @@ public class ActivationFactory : AFactory
     {
         activationType = (Activation.ActivationType)value;
         activationFunction = Activation.GetActivationFromType(activationType);
+        UpdateInfoPanel();
     }
 
     new void OnDestroy()
@@ -109,5 +134,11 @@ public class ActivationFactory : AFactory
         foreach (WorldItem item in outputs)
             Destroy(item.gameObject);
         base.OnDestroy();
+    }
+
+    protected override void Reset()
+    {
+        outputs = new List<WorldItem>();
+        inputs = new List<Matrix>();
     }
 }

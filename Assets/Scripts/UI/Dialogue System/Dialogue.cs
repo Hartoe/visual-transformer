@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Dialogue : MonoBehaviour
 {
-    [SerializeField] DialogueTextSO dialogueTextSO;
-    [SerializeField] DialogueHandler dialogueHandler;
+    [SerializeField] public DialogueTextSO dialogueTextSO;
+    [SerializeField] public DialogueHandler dialogueHandler;
+    public UnityEvent OnDialogueEnd = new UnityEvent();
 
     bool showFirst = true;
 
@@ -22,7 +22,11 @@ public class Dialogue : MonoBehaviour
             {
                 dialogueHandler.DisplayNextParagraph(dialogueTextSO);
             }
-            if (dialogueHandler.Finished) showFirst = false;
+            if (dialogueHandler.Finished)
+            {
+                showFirst = false;
+                OnDialogueEnd.Invoke();
+            }
         }
     }
 

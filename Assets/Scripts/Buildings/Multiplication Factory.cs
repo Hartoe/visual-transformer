@@ -35,7 +35,8 @@ public class MultiplicationFactory : AFactory
                 matrixBSet = true;
             }
         }
-        Destroy(item.gameObject);
+        item.MoveTo(Center);
+        item.DestroyOnArrival();
     }
 
     public override WorldItem RemoveFromOutput((int, int) cell)
@@ -57,16 +58,17 @@ public class MultiplicationFactory : AFactory
             try
             {
                 Matrix C = ((Matrix)A) * ((Matrix)B);
-                Intent output = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
+                Intent output = Instantiate(itemPrefab, Center, Quaternion.identity);
                 output.state = C;
                 A = null;
                 B = null;
+                matrixASet = false;
+                matrixBSet = false;
                 outputs.Add(output);
             }
             catch
             {
-                //TODO: handle wrong dimension passed
-                Debug.Log("Wrong matrix dimensions given!");
+                Break("Incompatible matrix dimensions for multiplication!");
             }
         }
     }
@@ -101,9 +103,9 @@ public class MultiplicationFactory : AFactory
 
     public override bool Occupied((int, int) cell)
     {
-        if (cell == InputCells[0]) return matrixASet;
-        if (cell == InputCells[1]) return matrixBSet;
-        return false;
+        if (cell == InputCells[0]) return matrixASet || broken;
+        if (cell == InputCells[1]) return matrixBSet || broken;
+        return broken;
     }
 
     private void UpdateInfoPanel(object sender, TimeTickSystem.TickEventArgs e)
@@ -148,5 +150,14 @@ public class MultiplicationFactory : AFactory
             Destroy(item.gameObject);
         TimeTickSystem.OnTick -= UpdateInfoPanel;
         base.OnDestroy();
+    }
+
+    protected override void Reset()
+    {
+        A = null;
+        B = null;
+        matrixASet = false;
+        matrixBSet = false;
+        outputs = new List<Intent>();
     }
 }

@@ -11,16 +11,19 @@ public class ScalingFactory : AFactory
     private List<Matrix> inputs = new List<Matrix>();
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
-        // Check if item is INTENT
+        // Check if item is a RESOURCE
         if (item is Intent)
         {
             // Save the matrix of the item
             inputs.Add(item.state);
+            item.MoveTo(Center);
+            item.DestroyOnArrival();
+            return;
         }
 
-        //TODO: Handle wrong input with smoke effect and popup
-
-        Destroy(item.gameObject);
+        Break("The wrong type of item was passed!");
+        item.MoveTo(Center);
+        item.DestroyOnArrival();
     }
 
     public override WorldItem RemoveFromOutput((int, int) cell)
@@ -42,7 +45,7 @@ public class ScalingFactory : AFactory
             Matrix input = inputs.First();
             inputs.RemoveAt(0);
             Matrix output = input / Math.Sqrt(input.Columns);
-            WorldItem newItem = Instantiate(itemPrefab, GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center(), Quaternion.identity);
+            WorldItem newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
 
@@ -78,5 +81,11 @@ public class ScalingFactory : AFactory
         foreach (WorldItem item in outputs)
             Destroy(item.gameObject);
         base.OnDestroy();
+    }
+
+    protected override void Reset()
+    {
+        inputs = new List<Matrix>();
+        outputs = new List<WorldItem>();
     }
 }
