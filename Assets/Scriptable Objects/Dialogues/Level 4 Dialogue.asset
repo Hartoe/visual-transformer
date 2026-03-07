@@ -14,4 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - Level 4 Dialogue
+  - We are almost done with our transformer! But first, we need to build a DECODER.
+  - The DECODER is very similar to the ENCODER. First you create the POSITIONAL EMBEDDING
+    with previous output tokens or padding tokens if none were made before.
+  - Then you pass the result through ATTENTION. Don't forget to add the residual
+    connections and normalizing the result!
+  - Then you pass it through to another ATTENTION mechanism, but feed the output
+    embedding of the ENCODER into the VALUE and KEY slots. Be sure to pick the correct
+    weights for the mixed ATTENTION!
+  - Finally, you finish off the same way as the ENCODER. Pass the normalized output
+    into a NEURAL NETWORK, add the residual, and normalize one last time.

@@ -31,10 +31,12 @@ MonoBehaviour:
     -
     Right mouse button to remove a building
 
-    - Press B to toggle build mode
+    - Press R to rotate a building
 
     -
-    Press SPACE to pause and unpause the game'
+    Press B to toggle build mode
+
+    - Press SPACE to pause and unpause the game'
   - Don't worry! If you get stuck, need a refresher on the controls, or just want
     a recap of the level goal, you can press the ? icon in the top right corner.
   - 'Our very first step is to find a way to ENCODE the resources of our order in

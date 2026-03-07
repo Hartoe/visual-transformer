@@ -38,7 +38,7 @@ public class GridBuildingSystem : MonoBehaviour
     [SerializeField] InputActionReference lmb;
     private Grid<GridObject> grid;
     private BuildingTypeSO.Dir dir = BuildingTypeSO.Dir.Down;
-    private bool buildingActive = true;
+    [SerializeField] private bool buildingActive = true;
     private BuildingManager buildingManager;
 
     private void Awake()
@@ -49,7 +49,8 @@ public class GridBuildingSystem : MonoBehaviour
         grid = new Grid<GridObject>(gridWidth, gridHeight, cellSize, Vector3.zero, (Grid<GridObject> g, int x, int y) => new GridObject(g, x, y));
         buildingManager = gameObject.AddComponent<BuildingManager>();
 
-        selectedBuilding = buildingList[0];
+        if (buildingList.Count > 0)
+            selectedBuilding = buildingList[0];
 
         InitializeGrid();
     }
@@ -108,7 +109,6 @@ public class GridBuildingSystem : MonoBehaviour
                 grid.GetXY(Utilities.Input.MouseToWorldPosition(), out x, out y);
 
                 CreateBuilding(selectedBuilding, x, y, dir);
-                SubgoalManager.Instance.ReCrawl = true;
             }
 
             if (Input.GetMouseButtonDown(1))

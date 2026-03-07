@@ -14,4 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - Level 2 Dialogue
+  - 'Great! Now that we have the initial EMBEDDING, it is time to build the core
+    of the transformer model:
+
+
+    The ATTENTION mechanism.'
+  - 'To start, we''ll need three different versions of our starting EMBEDDING: One
+    for the QUERY, one for the KEY, and one for the VALUE embeddings. Be sure to
+    use the right weights for each of the embeddings (you can change the weights
+    by clicking on a network factory outside of build mode).'
+  - The activation function of the networks should also be set to ReLU!
+  - 'When the embeddings have been made, multiply the QUERY and KEY embeddings together
+    (you''ll need to transpose the KEY embedding to make the multiplication work). '
+  - 'The result of the multiplication can then be SCALED based on the dimensions
+    of the matrix and put through a SOFTMAX.
+
+
+    The created EMBEDDING represents
+    how strong each token correlates to each other token.'
+  - Finally, you can multiply that EMBEDDING with the VALUE matrix to create the
+    final output of the ATTENTION mechanism.

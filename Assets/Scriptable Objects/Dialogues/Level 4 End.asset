@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - Level 4 end
+  - Way to go!
+  - You have officially made every component needed for a complete transformer!
+  - Let's finish it off by putting everything build thus far together.

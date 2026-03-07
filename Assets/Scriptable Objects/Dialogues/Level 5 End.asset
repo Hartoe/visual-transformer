@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - Level 5 end
+  - You did it!
+  - You have successfully made the new transformer production line for the Neural
+    Factory!
+  - Let's quickly look back to how far you have come...

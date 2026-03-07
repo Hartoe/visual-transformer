@@ -43,24 +43,16 @@ public class Grid<TGridObject>
         bool showDebug = true;
         if (showDebug)
         {
-            TextMeshPro[,] debugTextArray = new TextMeshPro[width, height];
-
             for (int x = 0; x < gridArray.GetLength(0); x++)
             {
                 for (int y = 0; y < gridArray.GetLength(1); y++)
                 {
-                    debugTextArray[x, y] = Utilities.GUI.CreateWorldText(gridArray[x, y]?.ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, 0, cellSize) * 0.5f, 20, Color.white, TMPro.TextAlignmentOptions.Center);
                     Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
                     Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
                 }
             }
             Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
             Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
-
-            OnGridObjectChanged += (object sender, OnGridObjectChangedEventArgs args) =>
-            {
-                debugTextArray[args.x, args.y].text = gridArray[args.x, args.y]?.ToString();
-            };
         }
     }
 

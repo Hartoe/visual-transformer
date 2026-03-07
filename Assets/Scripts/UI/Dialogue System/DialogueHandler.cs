@@ -20,6 +20,7 @@ public class DialogueHandler : MonoBehaviour
     private Coroutine typeDialogueCoroutine;
     private const string HTML_ALPHA = "<color=#00000000>";
     private const float MAX_TYPE_TIME = 0.1f;
+    private bool buildState;
 
     public void DisplayNextParagraph(DialogueTextSO dialogueText)
     {
@@ -51,6 +52,7 @@ public class DialogueHandler : MonoBehaviour
 
     private void StartDialogue(DialogueTextSO dialogueText)
     {
+        buildState= GridBuildingSystem.Instance.GetBuildActive();
         GridBuildingSystem.Instance.SetBuildActive(false);
         buildMenu.SetActive(false);
         
@@ -68,7 +70,7 @@ public class DialogueHandler : MonoBehaviour
 
     private void EndDialogue()
     {
-        GridBuildingSystem.Instance.SetBuildActive(true);
+        GridBuildingSystem.Instance.SetBuildActive(buildState);
         buildMenu.SetActive(true);
         dialogues.Clear();
         hasEnded = false;

@@ -121,17 +121,9 @@ namespace Utilities
 
         public static string LoadJSONFile(string path)
         {
-            string destination = Application.persistentDataPath + path;
-            FileStream file;
-
-            if (File.Exists(destination)) file = File.OpenRead(destination);
-            else return "";
-
-            BinaryFormatter bf = new BinaryFormatter();
-            string data = (string) bf.Deserialize(file);
-            file.Close();
-
-            return data;
+            string destination = path.Replace(".json", "").Substring(1);
+            var data = Resources.Load<TextAsset>(destination);
+            return data.text;
         }
 
         public static string GetJSONPath(string name, int level)

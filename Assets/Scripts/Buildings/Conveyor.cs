@@ -113,10 +113,13 @@ public class Conveyor : Building
                 return true;
             return false;
         }
-        else // It is a factory building
+        else if (building is AFactory)
         {
-            return ((AFactory)building).OutputCells.Contains((cellX, cellY));
+            if (((AFactory)building).OutputCells != null)
+                return ((AFactory)building).OutputCells.Contains((cellX, cellY));
+            return false;
         }
+        return false;
     }
 
     private void SetModelDir(params string[] names)

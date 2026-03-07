@@ -14,4 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - Level 5 Dialogue
+  - You have done amazing so far! Now, its time to finish the job.
+  - Put all the components that you have build together to create the final transformer.
+  - Feed both the input and output TOKENS in their own POSITIONAL EMBEDDER (Don't
+    forget to set the correct weights!)
+  - Then, feed the input EMBEDDING into the ENCODER.
+  - Next, feed both the output EMBEDDING and the result of the ENCODER into the DECODER.
+  - Finally, pass the result into one last NEURAL NETWORK, use the Pick Last building
+    to get the final row of the output matrix, and apply a SOFTMAX function to it.
+  - This final result will be the probabilities of the next output TOKEN in the sequence!
+  - Good luck!

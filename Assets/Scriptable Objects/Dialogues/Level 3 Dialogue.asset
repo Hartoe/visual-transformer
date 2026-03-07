@@ -14,4 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - Level 3 Dialogue
+  - It is time to use what you have made so far and create the ENCODER!
+  - First use the POSITIONAL EMBEDDER to get the starting embedding from the resource
+    TOKENS.
+  - Then feed the EMBEDDING into the ATTENTION mechanism that you have created.
+  - However, keep a copy of the original embedding around and add it back into the
+    result of the ATTENTION mechanism. This is called a residual connection and helps
+    with retaining previous information.
+  - Normalize the result to keep the values from exploding into huge numbers before
+    you continue. Then pass the result into a NEURAL NETWORK.
+  - Be sure to also add a residual connection here!
+  - After normalizing the output, you have officially built your first ENCODER!

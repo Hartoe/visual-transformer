@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Dialogue 5
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - This part of the transformer is known as the DECODER
+  - It starts off in a similar vein to the ENCODER. However, before it feeds its
+    EMBEDDING into a NEURAL NETWORK, it first uses another pass of the ATTENTION
+    mechanism.
+  - This time, the output EMBEDDING of the ENCODER is used, in addition to the DECODER
+    EMBEDDING to determine the correlation between the input tokens contextual relationships
+    and the output token contextual relationships.
+  - This mixed EMBEDDING is then fed into a NEURAL NETWORK, similar to the ENCODER.

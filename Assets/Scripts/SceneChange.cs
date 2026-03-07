@@ -16,7 +16,7 @@ public class SceneChange : MonoBehaviour
         ExportFactory.OnLevelComplete.AddListener(HandleLevelEnd);
     }
 
-    private void HandleLevelEnd()
+    public void HandleLevelEnd()
     {
         // Optional dialogue handling
         if (dialogueSO != null)
@@ -35,7 +35,7 @@ public class SceneChange : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
+        StartCoroutine(LoadLevel((SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings));
     }
 
     IEnumerator LoadLevel(int levelIndex)
