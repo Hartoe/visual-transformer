@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,5 +14,14 @@ public class HintButton : MonoBehaviour
     private void ToggleHintPanel()
     {
         hintPanel.SetActive(!hintPanel.activeSelf);
+    }
+
+    void Update()
+    {
+        // Check if escape is pressed (close panel)
+        if (Input.GetKeyDown(KeyCode.Escape) && hintPanel.activeSelf)
+        {
+            ToggleHintPanel();
+        }
     }
 }

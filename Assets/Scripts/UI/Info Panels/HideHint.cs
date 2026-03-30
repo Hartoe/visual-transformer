@@ -13,5 +13,15 @@ public class HideHint : MonoBehaviour
             HintButton.SetActive(false);
         else if (transform.childCount == 0 && !HintButton.activeSelf)
             HintButton.SetActive(true);
+
+        // Check if escape is pressed (close panel)
+        if (Input.GetKeyDown(KeyCode.Escape) && transform.childCount > 0)
+        {
+            foreach (Transform child in transform)
+            {
+                Destroy(child.gameObject);
+            }
+            HintButton.SetActive(true);
+        }
     }
 }
