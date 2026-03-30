@@ -555,7 +555,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 79.99705
+  field of view: 70.00004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1588,8 +1588,8 @@ Transform:
   m_GameObject: {fileID: 738139190}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 60, y: 0, z: 37.5}
-  m_LocalScale: {x: 12, y: 1, z: 7.5}
+  m_LocalPosition: {x: 75, y: 0, z: 37.5}
+  m_LocalScale: {x: 15, y: 1, z: 7.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2357,7 +2357,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 2119584215}
   m_Follow: {fileID: 2119584215}
   m_Lens:
-    FieldOfView: 79.99705
+    FieldOfView: 70.00004
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -2818,7 +2818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59262d21d9b97b41b286f6b7f60343e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 8
+  gridWidth: 10
   gridHeight: 5
   cellSize: 15
   buildingList:
@@ -2831,7 +2831,7 @@ MonoBehaviour:
     Y: 2
     Dir: 3
     BuildingTypeSO: {fileID: 11400000, guid: bf9ca29e8288fdd4e83a823ee818ed6d, type: 2}
-  - X: 7
+  - X: 9
     Y: 2
     Dir: 3
     BuildingTypeSO: {fileID: 11400000, guid: b9e23f5888e59ab4d820235748b640a8, type: 2}

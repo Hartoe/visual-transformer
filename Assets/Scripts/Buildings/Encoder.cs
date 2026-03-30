@@ -73,6 +73,7 @@ public class Encoder : AFactory
             inputs.Add(item.state);
             item.MoveTo(Center);
             item.DestroyOnArrival();
+            return;
         }
 
         Break("The wrong type of item was passed!");

@@ -19,7 +19,7 @@ public class Intent : WorldItem
 
     private RGBColor red, green, blue;
     private Coroutine changeColors;
-    [SerializeField] new Renderer renderer;
+    [SerializeField] Renderer renderer;
     [SerializeField] string JSONPath;
 
     void Start()

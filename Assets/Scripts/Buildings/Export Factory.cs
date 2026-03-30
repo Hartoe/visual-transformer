@@ -41,6 +41,7 @@ public class ExportFactory : AFactory
             Matrix check = inputs.First();
             inputs.RemoveAt(0);
             if (CheckSimilar(check, expectedMatrix)) OnLevelComplete.Invoke();
+            else Break("The input does not match the expected output!");
         }
     }
 
