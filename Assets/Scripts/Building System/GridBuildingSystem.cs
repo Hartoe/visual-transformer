@@ -96,7 +96,6 @@ public class GridBuildingSystem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B)) SetBuildActive(!buildingActive);
         if (buildingActive)
         {
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
@@ -104,10 +103,24 @@ public class GridBuildingSystem : MonoBehaviour
                 int x, y;
                 grid.GetXY(Utilities.Input.MouseToWorldPosition(), out x, out y);
 
-                CreateBuilding(selectedBuilding, x, y, dir);
+                GridObject selectedCell = grid.GetGridObject(x, y);
+                if (selectedCell != null)
+                {
+                    Building building = selectedCell.GetBuilding();
+                    if (building != null)
+                    {
+                        // Show building info screen
+                        building.ShowInfoPanel();
+                    }
+                    else
+                    {
+                        // Place new building
+                        CreateBuilding(selectedBuilding, x, y, dir);
+                    }
+                }
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && !EventSystem.current.IsPointerOverGameObject())
             {
                 GridObject gridObject = grid.GetGridObject(Utilities.Input.MouseToWorldPosition());
                 if (gridObject != null)
@@ -147,25 +160,6 @@ public class GridBuildingSystem : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha8) && buildingList.Count > 7) SetBuildingType(buildingList[7]);
             if (Input.GetKeyDown(KeyCode.Alpha9) && buildingList.Count > 8) SetBuildingType(buildingList[8]);
             if (Input.GetKeyDown(KeyCode.Alpha0) && buildingList.Count > 9) SetBuildingType(buildingList[9]);
-        }
-        else
-        {
-            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-            {
-                int x, y;
-                grid.GetXY(Utilities.Input.MouseToWorldPosition(), out x, out y);
-
-                GridObject selectedCell = grid.GetGridObject(x, y);
-                if (selectedCell != null)
-                {
-                    Building building = selectedCell.GetBuilding();
-                    if (building != null)
-                    {
-                        // Show building info screen
-                        building.ShowInfoPanel();
-                    }
-                }
-            }
         }
     }
 
