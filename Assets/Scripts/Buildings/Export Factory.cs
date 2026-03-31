@@ -7,12 +7,11 @@ using Utilities;
 using Utilities.ML;
 using static Utilities.JSON;
 
-public class ExportFactory : AFactory
+public class ExportFactory : PassThroughFactory
 {
     public static UnityEvent OnLevelComplete = new UnityEvent();
     [SerializeField] double epsilon = 0.0001;
     [SerializeField] string JSONFilePath;
-    private List<Matrix> inputs = new List<Matrix>();
     private Matrix expectedMatrix;
 
     new void Start()
@@ -26,11 +25,6 @@ public class ExportFactory : AFactory
     {
         inputs.Add(item.state);
         Destroy(item.gameObject);
-    }
-
-    public override WorldItem RemoveFromOutput((int, int) cell)
-    {
-        throw new System.NotImplementedException();
     }
 
     protected override void Action(object sender, TimeTickSystem.TickEventArgs e)
@@ -93,10 +87,5 @@ public class ExportFactory : AFactory
                 InputCells.Add((cellX - 1, cellY));
                 break;
         }
-    }
-
-    protected override void Reset()
-    {
-        inputs = new List<Matrix>();
     }
 }

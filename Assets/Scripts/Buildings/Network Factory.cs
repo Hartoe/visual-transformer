@@ -4,7 +4,7 @@ using UnityEngine;
 using Utilities;
 using Utilities.ML;
 
-public class NetworkFactory : AFactory
+public class NetworkFactory : PassThroughFactory
 {
     [SerializeField] Intent itemPrefab;
     [SerializeField] string weightsJSONPath;
@@ -22,8 +22,6 @@ public class NetworkFactory : AFactory
     [SerializeField] int outputColumns = 7;
 
     private FullyConnectedNN network;
-    private List<WorldItem> outputs = new List<WorldItem>();
-    private List<Matrix> inputs = new List<Matrix>();
 
     new void Start()
     {
@@ -39,35 +37,6 @@ public class NetworkFactory : AFactory
         }
 
         base.Start();
-    }
-
-    public override void AddFromInput(WorldItem item, (int, int) cell)
-    {
-        // Check if item is a RESOURCE
-        if (item is Intent)
-        {
-            // Save the matrix of the item
-            inputs.Add(item.state);
-            item.MoveTo(Center);
-            item.DestroyOnArrival();
-            return;
-        }
-
-        Break("The wrong type of item was passed!");
-        item.MoveTo(Center);
-        item.DestroyOnArrival();
-    }
-
-    public override WorldItem RemoveFromOutput((int, int) cell)
-    {
-        // Check if outputs list is empty, return null
-        if (outputs.Count <= 0) return null;
-
-        // if not pop first item
-        WorldItem item = outputs.First();
-        outputs.RemoveAt(0);
-
-        return item;
     }
 
     protected override void Action(object sender, TimeTickSystem.TickEventArgs e)
@@ -88,30 +57,6 @@ public class NetworkFactory : AFactory
                 Break("Incompatible matrix dimensions for the network!");
             }
 
-        }
-    }
-
-    protected override void FillCellLists()
-    {
-        switch(dir)
-        {
-            default:
-            case BuildingTypeSO.Dir.Down:
-                OutputCells.Add((cellX, cellY - 1));
-                InputCells.Add((cellX, cellY + 1));
-                break;
-            case BuildingTypeSO.Dir.Left:
-                OutputCells.Add((cellX - 1, cellY));
-                InputCells.Add((cellX + 1, cellY));
-                break;
-            case BuildingTypeSO.Dir.Up:
-                OutputCells.Add((cellX, cellY + 1));
-                InputCells.Add((cellX, cellY - 1));
-                break;
-            case BuildingTypeSO.Dir.Right:
-                OutputCells.Add((cellX + 1, cellY));
-                InputCells.Add((cellX - 1, cellY));
-                break;
         }
     }
 
@@ -221,18 +166,5 @@ public class NetworkFactory : AFactory
         network.SetCostFunction(Cost.GetCostFromType(costType));
         network.SetActivationFunction(Activation.GetActivationFromType(activationType));
         network.SetWeightsAndBiases(JSON.JSONToNetwork(JSON.LoadJSONFile(weightsJSONPath)));
-    }
-
-    new void OnDestroy()
-    {
-        foreach (WorldItem item in outputs)
-            Destroy(item.gameObject);
-        base.OnDestroy();
-    }
-
-    protected override void Reset()
-    {
-        inputs = new List<Matrix>();
-        outputs = new List<WorldItem>();
     }
 }

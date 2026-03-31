@@ -1,28 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ImportFactory : AFactory
+public class ImportFactory : PassThroughFactory
 {
-    List<(int, WorldItem)> outputs = new List<(int, WorldItem)>();
-
     [SerializeField] List<WorldItem> itemPrefabs;
     [SerializeField] int amount;
     int currentItem = 0;
     string status = "Waiting";
-
-    public override WorldItem RemoveFromOutput((int, int) cell)
-    {
-        if (outputs.Count <= 0) return null;
-
-        // Get index for cell from output cells
-        int index = OutputCells.IndexOf(cell);
-
-        // Search for index in outputs list
-        (_, WorldItem item) = outputs.Find((kvp) => kvp.Item1 == index);
-        outputs.Remove((index, item));
-
-        return item;
-    }
 
     protected override void FillCellLists()
     {
@@ -56,7 +40,7 @@ public class ImportFactory : AFactory
                 {
                     // Create new world item
                     WorldItem newItem = Instantiate(itemPrefabs[currentItem], Center, Quaternion.identity);
-                    outputs.Add((0, newItem));
+                    outputs.Add(newItem);
                     currentItem++;
                     if (currentItem >= itemPrefabs.Count)
                     {
@@ -77,11 +61,6 @@ public class ImportFactory : AFactory
         UpdateInfoPanel();
     }
 
-    public override void AddFromInput(WorldItem item, (int, int) cell)
-    {
-        throw new System.NotImplementedException();
-    }
-
     protected override void UpdateInfoPanel()
     {
         if (infoPanelInstance != null)
@@ -99,17 +78,8 @@ public class ImportFactory : AFactory
 
     private void ResetGeneration()
     {
-        currentItem = 0;
-        amount = 1;
-        status = "Waiting";
+        Reset();
         UpdateInfoPanel();
-    }
-
-    new void OnDestroy()
-    {
-        foreach ((int, WorldItem) item in outputs)
-            Destroy(item.Item2.gameObject);
-        base.OnDestroy();
     }
 
     protected override void Reset()
@@ -117,6 +87,6 @@ public class ImportFactory : AFactory
         currentItem = 0;
         amount = 1;
         status = "Waiting";
-        outputs = new List<(int, WorldItem)>();
+        base.Reset();
     }
 }

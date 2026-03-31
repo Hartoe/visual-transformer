@@ -17,6 +17,18 @@ public class GridBuildingSystem : MonoBehaviour
 
     public static GridBuildingSystem Instance;
     public event EventHandler<EventArgs> OnSelectedChanged;
+    
+    public class VisualArgs : EventArgs
+    {
+        public bool setActive;
+        public static VisualArgs Hide = new VisualArgs(false);
+        public static VisualArgs Show = new VisualArgs(true);
+        public VisualArgs(bool active)
+        {
+            setActive = active;
+        }
+    }
+    public event EventHandler<VisualArgs> OnHideVisual;
 
     [Header("Grid Size")]
     [SerializeField] int gridWidth = 10;
@@ -98,53 +110,41 @@ public class GridBuildingSystem : MonoBehaviour
     {
         if (buildingActive)
         {
-            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-            {
-                int x, y;
-                grid.GetXY(Utilities.Input.MouseToWorldPosition(), out x, out y);
+            bool leftMousePress = Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject();
+            bool rightMousePress = Input.GetMouseButtonDown(1) && !EventSystem.current.IsPointerOverGameObject();
 
-                GridObject selectedCell = grid.GetGridObject(x, y);
-                if (selectedCell != null)
+            int x, y;
+            grid.GetXY(Utilities.Input.MouseToWorldPosition(), out x, out y);
+
+            GridObject selectedCell = grid.GetGridObject(x, y);
+            if (selectedCell != null)
+            {
+                Building building = selectedCell.GetBuilding();
+                if (building != null)
                 {
-                    Building building = selectedCell.GetBuilding();
-                    if (building != null)
+                    OnHideVisual.Invoke(this, VisualArgs.Hide);
+
+                    if (leftMousePress)
                     {
-                        // Show building info screen
                         building.ShowInfoPanel();
                     }
-                    else
+                    else if (rightMousePress)
                     {
-                        // Place new building
+                        DestroyBuilding(building);
+                    }
+                }
+                else
+                {
+                    OnHideVisual.Invoke(this, VisualArgs.Show);
+
+                    if (leftMousePress)
+                    {
                         CreateBuilding(selectedBuilding, x, y, dir);
                     }
                 }
-            }
 
-            if (Input.GetMouseButtonDown(1) && !EventSystem.current.IsPointerOverGameObject())
-            {
-                GridObject gridObject = grid.GetGridObject(Utilities.Input.MouseToWorldPosition());
-                if (gridObject != null)
-                {
-                    Building building = gridObject.GetBuilding();
-                    if (building != null)
-                    {
-                        if (!building.Indestructable)
-                        {
-                            if (building is Conveyor) buildingManager.conveyors.Remove((Conveyor)building);
-                            else if (building is AFactory) buildingManager.factories.Remove((AFactory)building);
-                            building.DestroySelf();
-                            List<Vector2Int> gridPositionList = building.GetGridPositionList();
-                            foreach (Vector2Int gridPosition in gridPositionList)
-                            {
-                                grid.GetGridObject(gridPosition.x, gridPosition.y).ClearBuilding();
-                            }
-                        }
-                        else
-                            Utilities.GUI.CreateWorldTextPopup("Cannot Remove Building!", localPosition: Utilities.Input.MouseToWorldPosition() + new Vector3(0, 10 ,0), color: Color.red);
-                    }
-                }
             }
-            
+           
             if (Input.GetKeyDown(KeyCode.R))
             {
                 dir = BuildingTypeSO.GetNextDir(dir);
@@ -194,6 +194,23 @@ public class GridBuildingSystem : MonoBehaviour
         {
             Utilities.GUI.CreateWorldTextPopup("Cannot Build Here!", localPosition: Utilities.Input.MouseToWorldPosition(), color: Color.red);
         }
+    }
+
+    private void DestroyBuilding(Building building)
+    {
+        if (!building.Indestructable)
+        {
+            if (building is Conveyor) buildingManager.conveyors.Remove((Conveyor)building);
+            else if (building is AFactory) buildingManager.factories.Remove((AFactory)building);
+            building.DestroySelf();
+            List<Vector2Int> gridPositionList = building.GetGridPositionList();
+            foreach (Vector2Int gridPosition in gridPositionList)
+            {
+                grid.GetGridObject(gridPosition.x, gridPosition.y).ClearBuilding();
+            }
+        }
+        else
+            Utilities.GUI.CreateWorldTextPopup("Cannot Remove Building!", localPosition: Utilities.Input.MouseToWorldPosition() + new Vector3(0, 10 ,0), color: Color.red);
     }
 
     public void SetBuildingType(BuildingTypeSO building)

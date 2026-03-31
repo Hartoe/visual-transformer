@@ -5,7 +5,7 @@ using UnityEngine;
 using Utilities;
 using Utilities.ML;
 
-public class Encoder : AFactory
+public class Encoder : PassThroughFactory
 {
     [SerializeField] Intent itemPrefab;
     [Header("Network Functions")]
@@ -22,9 +22,6 @@ public class Encoder : AFactory
     [SerializeField] string attentionPath;
     [SerializeField] int level;
     [SerializeField] string networkPath;
-
-    private List<WorldItem> outputs = new List<WorldItem>();
-    private List<Matrix> inputs = new List<Matrix>();
     
     private FullyConnectedNN network;
     private Attention attention;
@@ -62,35 +59,6 @@ public class Encoder : AFactory
         }
 
         base.Start();
-    }
-
-    public override void AddFromInput(WorldItem item, (int, int) cell)
-    {
-        // Check if item is a RESOURCE
-        if (item is Intent)
-        {
-            // Save the matrix of the item
-            inputs.Add(item.state);
-            item.MoveTo(Center);
-            item.DestroyOnArrival();
-            return;
-        }
-
-        Break("The wrong type of item was passed!");
-        item.MoveTo(Center);
-        item.DestroyOnArrival();
-    }
-
-    public override WorldItem RemoveFromOutput((int, int) cell)
-    {
-        // Check if outputs list is empty, return null
-        if (outputs.Count <= 0) return null;
-
-        // if not pop first item
-        WorldItem item = outputs.First();
-        outputs.RemoveAt(0);
-
-        return item;
     }
 
     protected override void Action(object sender, TimeTickSystem.TickEventArgs e)
@@ -143,11 +111,5 @@ public class Encoder : AFactory
                 InputCells.Add((cellX - 1, cellY));
                 break;
         }
-    }
-
-    protected override void Reset()
-    {
-        outputs = new List<WorldItem>();
-        inputs = new List<Matrix>();
     }
 }

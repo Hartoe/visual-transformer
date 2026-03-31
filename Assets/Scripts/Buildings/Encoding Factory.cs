@@ -3,16 +3,14 @@ using System.Linq;
 using UnityEngine;
 using Utilities.ML;
 
-public class EncodingFactory : AFactory
+public class EncodingFactory : PassThroughFactory
 {
     [SerializeField] Intent itemPrefab;
-    private List<WorldItem> outputs = new List<WorldItem>();
-    private List<WorldItem> inputs = new List<WorldItem>();
     private bool mustGenerate = false;
 
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
-        // Check if item is a RESOURCE
+        // Check if item is a RESOURCE or PRODUCT
         if (item is Resource || item is Product)
         {
             if (item is Resource)
@@ -20,7 +18,7 @@ public class EncodingFactory : AFactory
                 if (((Resource)item).resourceType == ResourceType.ORDER)
                     mustGenerate = true;
             }
-            inputs.Add(item);
+            inputs.Add(item.state);
             UpdateInfoPanel();
             item.MoveTo(Center);
             item.DestroyOnArrival();
@@ -32,18 +30,6 @@ public class EncodingFactory : AFactory
         item.DestroyOnArrival();
     }
 
-    public override WorldItem RemoveFromOutput((int, int) cell)
-    {
-        // Check if outputs list is empty, return null
-        if (outputs.Count <= 0) return null;
-
-        // if not pop first item
-        WorldItem item = outputs.First();
-        outputs.RemoveAt(0);
-
-        return item;
-    }
-
     private void GenerateOutputItem()
     {
         // Generate the final matrix
@@ -52,7 +38,7 @@ public class EncodingFactory : AFactory
         {
             for (int j = 0; j < Resource.ResourceCount; j++)
             {
-                finalMatrix[i,j] = inputs[i].state[0,j];
+                finalMatrix[i,j] = inputs[i][0,j];
             }
         }
         Matrix finalState = new Matrix(finalMatrix);
@@ -78,30 +64,6 @@ public class EncodingFactory : AFactory
         return mustGenerate || broken;
     }
 
-    protected override void FillCellLists()
-    {
-        switch(dir)
-        {
-            default:
-            case BuildingTypeSO.Dir.Down:
-                OutputCells.Add((cellX, cellY - 1));
-                InputCells.Add((cellX, cellY + 1));
-                break;
-            case BuildingTypeSO.Dir.Left:
-                OutputCells.Add((cellX - 1, cellY));
-                InputCells.Add((cellX + 1, cellY));
-                break;
-            case BuildingTypeSO.Dir.Up:
-                OutputCells.Add((cellX, cellY + 1));
-                InputCells.Add((cellX, cellY - 1));
-                break;
-            case BuildingTypeSO.Dir.Right:
-                OutputCells.Add((cellX + 1, cellY));
-                InputCells.Add((cellX - 1, cellY));
-                break;
-        }
-    }
-
     protected override void UpdateInfoPanel()
     {
         if (infoPanelInstance != null)
@@ -112,17 +74,9 @@ public class EncodingFactory : AFactory
         }
     }
 
-    new void OnDestroy()
-    {
-        foreach (WorldItem item in outputs)
-            Destroy(item.gameObject);
-        base.OnDestroy();
-    }
-
     protected override void Reset()
     {
         mustGenerate = false;
-        outputs = new List<WorldItem>();
-        inputs = new List<WorldItem>();
+        base.Reset();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 using Utilities;
 using Utilities.ML;
 
-public class PositionalEmbedder : AFactory
+public class PositionalEmbedder : PassThroughFactory
 {
     [SerializeField] Cost.CostType costType;
     [SerializeField] Activation.ActivationType activationType;
@@ -20,8 +20,6 @@ public class PositionalEmbedder : AFactory
     [Header("Weights and Biases")]
     [SerializeField] string JSONPath;
     private FullyConnectedNN network;
-    private List<Intent> outputs = new List<Intent>();
-    private List<WorldItem> inputs = new List<WorldItem>();
     private bool mustGenerate = false;
     private PositionalEmbedding positionalEmbedding = new PositionalEmbedding();
 
@@ -41,7 +39,7 @@ public class PositionalEmbedder : AFactory
 
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
-        // Check if item is a RESOURCE
+        // Check if item is a RESOURCE or PRODUCT
         if (item is Resource || item is Product)
         {
             if (item is Resource)
@@ -49,7 +47,7 @@ public class PositionalEmbedder : AFactory
                 if (((Resource)item).resourceType == ResourceType.ORDER)
                     mustGenerate = true;
             }
-            inputs.Add(item);
+            inputs.Add(item.state);
             UpdateInfoPanel();
             item.MoveTo(Center);
             item.DestroyOnArrival();
@@ -59,18 +57,6 @@ public class PositionalEmbedder : AFactory
         Break("The wrong type of item was passed!");
         item.MoveTo(Center);
         item.DestroyOnArrival();
-    }
-
-    public override WorldItem RemoveFromOutput((int, int) cell)
-    {
-        // Check if outputs list is empty, return null
-        if (outputs.Count <= 0) return null;
-
-        // if not pop first item
-        WorldItem item = outputs.First();
-        outputs.RemoveAt(0);
-
-        return item;
     }
 
     protected override void Action(object sender, TimeTickSystem.TickEventArgs e)
@@ -90,7 +76,7 @@ public class PositionalEmbedder : AFactory
         {
             for (int j = 0; j < Resource.ResourceCount; j++)
             {
-                tokenEmbeddingArray[i,j] = inputs[i].state[0,j];
+                tokenEmbeddingArray[i,j] = inputs[i][0,j];
             }
         }
         Matrix tokenEmbedding = new Matrix(tokenEmbeddingArray);
@@ -245,17 +231,9 @@ public class PositionalEmbedder : AFactory
         network.SetWeightsAndBiases(JSON.JSONToNetwork(JSON.LoadJSONFile(JSONPath)));
     }
 
-    new void OnDestroy()
-    {
-        foreach (WorldItem item in outputs)
-            Destroy(item.gameObject);
-        base.OnDestroy();
-    }
-
     protected override void Reset()
     {
         mustGenerate = false;
-        inputs = new List<WorldItem>();
-        outputs = new List<Intent>();
+        base.Reset();
     }
 }

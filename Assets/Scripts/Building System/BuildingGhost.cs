@@ -10,6 +10,15 @@ public class BuildingGhost : MonoBehaviour
         RefreshVisuals();
 
         GridBuildingSystem.Instance.OnSelectedChanged += Instance_OnSelectedChanged;
+        GridBuildingSystem.Instance.OnHideVisual += Instance_OnHideVisual;
+    }
+
+    private void Instance_OnHideVisual(object sender, GridBuildingSystem.VisualArgs e)
+    {
+        if (visual.gameObject.activeSelf && !e.setActive)
+            visual.gameObject.SetActive(false);
+        if (!visual.gameObject.activeSelf && e.setActive)
+            visual.gameObject.SetActive(true);
     }
 
     private void Instance_OnSelectedChanged(object sender, System.EventArgs e)
@@ -25,7 +34,6 @@ public class BuildingGhost : MonoBehaviour
             targetPosition.y = 1f;
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 15f);
             transform.rotation = Quaternion.Lerp(transform.rotation, GridBuildingSystem.Instance.GetBuildingRotation(), Time.deltaTime * 15f);
-            if (!visual.gameObject.activeSelf) visual.gameObject.SetActive(true);
         }
         else
         {

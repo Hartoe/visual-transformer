@@ -5,7 +5,7 @@ using UnityEngine;
 using Utilities;
 using Utilities.ML;
 
-public class AttentionFactory : AFactory
+public class AttentionFactory : MultiInputFactory
 {
     [SerializeField] int rows;
     [SerializeField] int columns;
@@ -13,18 +13,12 @@ public class AttentionFactory : AFactory
     [SerializeField] string queryJSONPath;
     [SerializeField] string keyJSONPath;
     [SerializeField] string valueJSONPath;
-    private List<Intent> outputs = new List<Intent>();
-    private Matrix? Q, K, V;
     private Attention attention;
-    private bool qSet, kSet, vSet;
     private string pathName;
 
     new void Start()
     {
         attention = new Attention(rows, columns);
-        qSet = false;
-        kSet = false;
-        vSet = false;
 
         if (!string.IsNullOrEmpty(queryJSONPath))
         {
@@ -48,62 +42,20 @@ public class AttentionFactory : AFactory
         base.Start();
     }
 
-    public override void AddFromInput(WorldItem item, (int, int) cell)
-    {
-        if (cell == InputCells[0]) {
-            // If A is null, set A and put the factory on occupied
-            if (!vSet)
-            {
-                V = item.state;
-                vSet = true;
-            }
-        } else if (cell == InputCells[1]) {
-            // If B is null, set B and put the factory on occupied
-            if (!kSet)
-            {
-                K = item.state;
-                kSet = true;
-            }
-        } else if (cell == InputCells[2]) {
-            // If B is null, set B and put the factory on occupied
-            if (!qSet)
-            {
-                Q = item.state;
-                qSet = true;
-            }
-        }
-        item.MoveTo(Center);
-        item.DestroyOnArrival();
-    }
-
-    public override WorldItem RemoveFromOutput((int, int) cell)
-    {
-        // Check if outputs list is empty, return null
-        if (outputs.Count <= 0) return null;
-
-        // if not pop first item
-        WorldItem item = outputs.First();
-        outputs.RemoveAt(0);
-
-        return item;
-    }
-
     protected override void Action(object sender, TimeTickSystem.TickEventArgs e)
     {
-        if (Q != null && V != null && K != null)
+        if (setFlags[0].Item1 && setFlags[1].Item1 && setFlags[2].Item1)
         {
-            attention.Queries = (Matrix)Q;
-            attention.Values = (Matrix)V;
-            attention.Keys = (Matrix)K;
+            attention.Queries = (Matrix)setFlags[2].Item2;
+            attention.Values = (Matrix)setFlags[0].Item2;
+            attention.Keys = (Matrix)setFlags[1].Item2;
 
             try
             {
-                Matrix outputState = attention.CalculateOutputs((Matrix)Q);
+                Matrix outputState = attention.CalculateOutputs((Matrix)setFlags[2].Item2);
                 Intent output = Instantiate(itemPrefab, Center, Quaternion.identity);
                 output.state = outputState;
-                K = null;
-                V = null;
-                Q = null;
+                Reset();
                 outputs.Add(output);
             } catch
             {
@@ -197,24 +149,5 @@ public class AttentionFactory : AFactory
         if (columns <= 0) columns = 1;
 
         attention = new Attention(rows, columns);
-    }
-
-    public override bool Occupied((int, int) cell)
-    {
-        if (cell == InputCells[0]) return vSet || broken;
-        if (cell == InputCells[1]) return kSet || broken;
-        if (cell == InputCells[2]) return qSet || broken;
-        return broken;
-    }
-
-    protected override void Reset()
-    {
-        outputs = new List<Intent>();
-        Q = null;
-        V = null;
-        K = null;
-        qSet = false;
-        vSet = false;
-        kSet = false;
     }
 }

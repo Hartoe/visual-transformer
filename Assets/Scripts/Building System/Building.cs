@@ -45,9 +45,7 @@ public class Building : MonoBehaviour
     }
 
     protected virtual void UpdateInfoPanel()
-    {
-        
-    }
+    {}
 
     public void DestroySelf()
     {

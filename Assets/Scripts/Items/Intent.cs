@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using Utilities;
+using Utilities.ML;
 
 public class Intent : WorldItem
 {
@@ -26,7 +28,7 @@ public class Intent : WorldItem
     {
         targetPosition = transform.position;
         TimeTickSystem.OnTick += CheckMoved;
-        changeColors = StartCoroutine(ShiftColors());
+        //changeColors = StartCoroutine(ShiftColors());
         red.increase = true;
 
         if (!string.IsNullOrEmpty(JSONPath))
@@ -34,6 +36,73 @@ public class Intent : WorldItem
             string matrixJSON = JSON.LoadJSONFile(JSONPath);
             state = JSON.JSONToMatrix(matrixJSON);
         }
+
+        renderer.material.SetColor("_BaseColor", GetColorFromMatrix(state));
+    }
+
+    private double[] Flatten(Matrix matrix)
+    {
+        double[] result = new double[matrix.Rows * matrix.Columns];
+        
+        int x = 0;
+        for (int i = 0; i < matrix.Rows; i++)
+        {
+            for (int j = 0; j < matrix.Columns; j++)
+            {
+                result[x++] = matrix[i,j];
+            }
+        }
+
+        return result;
+    }
+
+    private double[] Normalize(double[] array)
+    {
+        double min = array.Min();
+        double max = array.Max();
+        double range = max - min;
+
+        if (range == 0.0)
+            return array.Select(_ => 0.0).ToArray();
+
+        return array.Select(x => (x - min) / range).ToArray();
+    }
+
+    private Color GetColorFromMatrix(Matrix matrix)
+    {
+        // Flatten matrix to get a 1 dimensional array
+        double[] flat = Flatten(matrix);
+
+        // Normalize the array
+        double[] norm = Normalize(flat);
+
+        // Split the array in three equal parts (as close as possible)
+        int size = norm.Length;
+        int baseSize = size / 3;
+        int remainder = size % 3;
+
+        int redSize = baseSize + (remainder > 0 ? 1 : 0);
+        int greenSize = baseSize + (remainder > 1 ? 1 : 0);
+        int blueSize = baseSize;
+
+        double[] redComponent = new double[redSize];
+        double[] greenComponent = new double[greenSize];
+        double[] blueComponent = new double[blueSize];
+
+        Array.Copy(norm, 0, redComponent, 0, redSize);
+        Array.Copy(norm, redSize, greenComponent, 0, greenSize);
+        Array.Copy(norm, redSize + greenSize, blueComponent, 0, blueSize);
+
+        // Calculate average of each of the three parts
+        double red = redComponent.Average();
+        double green = greenComponent.Average();
+        double blue = blueComponent.Average();
+
+        Debug.Log(matrix.ToString());
+        Debug.Log($"{red}, {green}, {blue}");
+
+        // Use averages as R G B in the final color
+        return new Color((float)red, (float)green, (float)blue);
     }
 
     private IEnumerator ShiftColors()

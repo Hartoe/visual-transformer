@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using Utilities.ML;
 
 public class EncodingInfoPanel : MonoBehaviour
 {
@@ -10,9 +11,9 @@ public class EncodingInfoPanel : MonoBehaviour
         text.text = "Current Encoding:";
     }
 
-    public void SetText(WorldItem[] items)
+    public void SetText(Matrix[] items)
     {
-        foreach (WorldItem item in items)
-            text.text += $"\n{item.state}";
+        foreach (Matrix item in items)
+            text.text += $"\n{item}";
     }
 }

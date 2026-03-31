@@ -594,7 +594,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 50
+  field of view: 40.00002
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2723,7 +2723,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 2119584215}
   m_Follow: {fileID: 2119584215}
   m_Lens:
-    FieldOfView: 50
+    FieldOfView: 40.00002
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -3023,11 +3023,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c128b56d1a0c9cf47ade0d2d7853a2b2, type: 2}
   gridItems:
   - X: 0
-    Y: 3
+    Y: 1
     Dir: 3
     BuildingTypeSO: {fileID: 11400000, guid: 7baba52c3808fcd4aabc8667e2d72bbd, type: 2}
   - X: 17
-    Y: 1
+    Y: 3
     Dir: 3
     BuildingTypeSO: {fileID: 11400000, guid: 3854a08bc9422d749b8c9a14e5e62462, type: 2}
   lmb: {fileID: 8409272431351684892, guid: 5c91d4374d25aaf44a39e52bd39dd196, type: 3}

@@ -4,7 +4,7 @@ using UnityEngine;
 using Utilities;
 using Utilities.ML;
 
-public class Decoder : AFactory
+public class Decoder : MultiInputFactory
 {
     [SerializeField] Intent itemPrefab;
     [Header("Network Functions")]
@@ -26,11 +26,6 @@ public class Decoder : AFactory
     private Attention mixedAttention;
     private FullyConnectedNN network;
     private LayerNorm layerNorm;
-
-    private List<WorldItem> outputs = new List<WorldItem>();
-    private Matrix decoderMatrix, encoderMatrix;
-    private bool decoderSet = false;
-    private bool encoderSet = false;
 
     new void Start()
     {
@@ -88,19 +83,11 @@ public class Decoder : AFactory
     {
         if (item is Intent)
         {
-            if (cell == InputCells[0]) {
-                // If A is null, set A and put the factory on occupied
-                if (!decoderSet)
+            for (int i = 0; i < setFlags.Count; i++)
+            {
+                if (cell == InputCells[i] && !setFlags[i].Item1)
                 {
-                    decoderMatrix = item.state;
-                    decoderSet = true;
-                }
-            } else if (cell == InputCells[1]) {
-                // If B is null, set B and put the factory on occupied
-                if (!encoderSet)
-                {
-                    encoderMatrix = item.state;
-                    encoderSet = true;
+                    setFlags[i] = (true, item.state);
                 }
             }
             item.MoveTo(Center);
@@ -112,32 +99,20 @@ public class Decoder : AFactory
         item.DestroyOnArrival();
     }
 
-    public override WorldItem RemoveFromOutput((int, int) cell)
-    {
-        // Check if outputs list is empty, return null
-        if (outputs.Count <= 0) return null;
-
-        // if not pop first item
-        WorldItem item = outputs.First();
-        outputs.RemoveAt(0);
-
-        return item;
-    }
-
     protected override void Action(object sender, TimeTickSystem.TickEventArgs e)
     {
-        if (decoderSet && encoderSet)
+        if (setFlags[0].Item1 && setFlags[1].Item1)
         {
             // decoder-only attention
-            decoderAttention.Queries = decoderMatrix;
-            decoderAttention.Keys = decoderMatrix;
-            decoderAttention.Values = decoderMatrix;
+            decoderAttention.Queries = (Matrix)setFlags[0].Item2;
+            decoderAttention.Keys = (Matrix)setFlags[0].Item2;
+            decoderAttention.Values = (Matrix)setFlags[0].Item2;
             Matrix decoderAttentionMatrix;
             Matrix decoderAddNormMatrix;
             try
             {
-                decoderAttentionMatrix = decoderAttention.CalculateOutputs(decoderMatrix);
-                decoderAddNormMatrix = layerNorm.CalculateOutputs(decoderAttentionMatrix + decoderMatrix);
+                decoderAttentionMatrix = decoderAttention.CalculateOutputs((Matrix)setFlags[0].Item2);
+                decoderAddNormMatrix = layerNorm.CalculateOutputs(decoderAttentionMatrix + (Matrix)setFlags[0].Item2);
             }
             catch
             {
@@ -145,8 +120,8 @@ public class Decoder : AFactory
                 return;
             }
             mixedAttention.Queries = decoderAddNormMatrix;
-            mixedAttention.Values = encoderMatrix;
-            mixedAttention.Keys = encoderMatrix;
+            mixedAttention.Values = (Matrix)setFlags[1].Item2;;
+            mixedAttention.Keys = (Matrix)setFlags[1].Item2;;
             Matrix mixedAttentionMatrix, mixedAddNormMatrix, networkMatrix, output;
             try
             {
@@ -164,8 +139,7 @@ public class Decoder : AFactory
             newItem.state = output;
             outputs.Add(newItem);
 
-            decoderSet = false;
-            encoderSet = false;
+            Reset();
         }
     }
 
@@ -195,19 +169,5 @@ public class Decoder : AFactory
                 InputCells.Add((cellX + 2, cellY + 2));
                 break;
         }
-    }
-
-    public override bool Occupied((int, int) cell)
-    {
-        if (cell == InputCells[0]) return decoderSet || broken;
-        if (cell == InputCells[1]) return encoderSet || broken;
-        return broken;
-    }
-
-    protected override void Reset()
-    {
-        decoderSet = false;
-        encoderSet = false;
-        outputs = new List<WorldItem>();
     }
 }

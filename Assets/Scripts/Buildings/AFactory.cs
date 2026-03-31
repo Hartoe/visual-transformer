@@ -64,6 +64,7 @@ public abstract class AFactory : Building
         protected void Break(string message)
         {
                 broken = true;
+                Reset();
                 if (smokeInstance != null) Destroy(smokeInstance);
                 smokeInstance = Instantiate(SmokeParticles, Center, Quaternion.Euler(-90, 0, 0));
                 brokenMenu.gameObject.SetActive(true);
