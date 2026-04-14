@@ -23,6 +23,11 @@ public class TimeTickSystem : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            HandlePause();
+        }
+
         if (DoTimeTick)
         {
             tickTimer += Time.deltaTime;
@@ -33,5 +38,17 @@ public class TimeTickSystem : MonoBehaviour
                 if (OnTick != null) OnTick(this, new TickEventArgs{tick = tick});
             }
         }
+    }
+
+    public void HandlePause()
+    {
+        DoTimeTick = !DoTimeTick;
+    }
+
+    public void HandleReset()
+    {
+        GridBuildingSystem.Instance.ResetGrid();
+        SubgoalManager.Instance.Reset();
+        SubgoalMenu.Instance.Reset();
     }
 }

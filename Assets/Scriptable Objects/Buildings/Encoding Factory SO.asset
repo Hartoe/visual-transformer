@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ad0c427fb7825743a01846ab8c00733, type: 3}
   m_Name: Encoding Factory SO
   m_EditorClassIdentifier: 
-  nameString: Encoding Factory
+  nameString: Matrix Factory
   prefab: {fileID: 3591565023759517473, guid: 5a588e52d0d5ca849b43d57bf3240955, type: 3}
   visual: {fileID: 3591565023759517473, guid: 773f4d106a6b3ec40b79697ddfaad046, type: 3}
   width: 1

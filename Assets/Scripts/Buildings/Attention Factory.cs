@@ -57,6 +57,7 @@ public class AttentionFactory : MultiInputFactory
                 output.state = outputState;
                 Reset();
                 outputs.Add(output);
+                Invoke(buildingTypeSO.nameString, output.state);
             } catch
             {
                 Break("Incompatible dimensions between matrices!");

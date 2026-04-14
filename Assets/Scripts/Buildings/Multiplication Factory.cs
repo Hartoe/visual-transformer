@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utilities;
 using Utilities.ML;
 
 public class MultiplicationFactory : MultiInputFactory
@@ -24,6 +25,8 @@ public class MultiplicationFactory : MultiInputFactory
                 output.state = C;
                 ClearMatrices();
                 outputs.Add(output);
+                
+                Invoke(buildingTypeSO.nameString, output.state);
             }
             catch
             {

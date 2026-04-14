@@ -24,6 +24,7 @@ public class AdditionFactory : MultiInputFactory
                 output.state = C;
                 ClearMatrices();
                 outputs.Add(output);
+                Invoke(buildingTypeSO.nameString, output.state);
             }
             catch
             {
@@ -68,7 +69,10 @@ public class AdditionFactory : MultiInputFactory
     new void OnDestroy()
     {
         foreach (Intent item in outputs)
-            Destroy(item.gameObject);
+        {
+            if (item != null)
+                Destroy(item.gameObject);
+        }
         TimeTickSystem.OnTick -= UpdateInfoPanel;
         base.OnDestroy();
     }

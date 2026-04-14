@@ -98,9 +98,6 @@ public class Intent : WorldItem
         double green = greenComponent.Average();
         double blue = blueComponent.Average();
 
-        Debug.Log(matrix.ToString());
-        Debug.Log($"{red}, {green}, {blue}");
-
         // Use averages as R G B in the final color
         return new Color((float)red, (float)green, (float)blue);
     }

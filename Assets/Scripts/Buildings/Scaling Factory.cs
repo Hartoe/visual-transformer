@@ -17,7 +17,7 @@ public class ScalingFactory : PassThroughFactory
             WorldItem newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
-
+            Invoke(buildingTypeSO.nameString, newItem.state);
         }
     }
 }

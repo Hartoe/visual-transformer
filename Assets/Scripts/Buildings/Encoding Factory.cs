@@ -47,6 +47,7 @@ public class EncodingFactory : PassThroughFactory
         newItem.state = finalState;
 
         outputs.Add(newItem);
+        Invoke(buildingTypeSO.nameString, newItem.state);
     }
 
     protected override void Action(object sender, TimeTickSystem.TickEventArgs e)

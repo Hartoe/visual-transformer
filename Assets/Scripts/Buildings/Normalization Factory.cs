@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utilities;
 using Utilities.ML;
 
 public class NormalizationFactory : PassThroughFactory
@@ -27,7 +28,7 @@ public class NormalizationFactory : PassThroughFactory
             WorldItem newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
-
+            Invoke(buildingTypeSO.nameString, newItem.state);
         }
     }
 

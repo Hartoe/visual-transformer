@@ -1,10 +1,23 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utilities.ML;
 
 public abstract class AFactory : Building
 {
         [SerializeField] GameObject SmokeParticles;
         [SerializeField] BrokenMenu brokenMenu;
+        public class FactoryArgs
+        {
+                public string nameString;
+                public Matrix state;
+                public FactoryArgs(string nameString, Matrix state)
+                {
+                        this.nameString = nameString;
+                        this.state = state;
+                }
+        }
+        public static event EventHandler<FactoryArgs> OnActionComplete;
         public List<(int, int)> OutputCells { get; protected set; }
         public List<(int, int)> InputCells { get; protected set; }
         public List<(WorldItem, (int, int))> NewItems { get; protected set; }
@@ -77,5 +90,11 @@ public abstract class AFactory : Building
                 Destroy(smokeInstance);
                 brokenMenu.gameObject.SetActive(false);
                 Reset();
+        }
+
+        protected void Invoke(string nameString, Matrix state)
+        {
+                if (this == null || nameString == null || state == null || OnActionComplete == null) return;
+                OnActionComplete.Invoke(this, new FactoryArgs(nameString, state));
         }
 }

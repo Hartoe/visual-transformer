@@ -34,24 +34,9 @@ public class ExportFactory : PassThroughFactory
             UpdateInfoPanel();
             Matrix check = inputs.First();
             inputs.RemoveAt(0);
-            if (CheckSimilar(check, expectedMatrix)) OnLevelComplete.Invoke();
+            if (check.Similar(expectedMatrix)) OnLevelComplete.Invoke();
             else Break("The input does not match the expected output!");
         }
-    }
-
-    private bool CheckSimilar(Matrix A, Matrix B)
-    {
-        if (A.Shape != B.Shape) return false;
-
-        for (int i = 0; i < A.Rows; i++)
-        {
-            for (int j = 0; j < A.Columns; j++)
-            {
-                if (Math.Abs(Math.Abs(A[i,j]) - Math.Abs(B[i,j])) > epsilon)
-                    return false;
-            }
-        }
-        return true;
     }
 
     protected override void UpdateInfoPanel()
@@ -62,7 +47,7 @@ public class ExportFactory : PassThroughFactory
             if (inputs.Count > 0)
             {
                 Matrix current = inputs.First();
-                panel.SetText(current, CheckSimilar(current, expectedMatrix));
+                panel.SetText(current, current.Similar(expectedMatrix));
             }
             else
                 panel.SetText(null);

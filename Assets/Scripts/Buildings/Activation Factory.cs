@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utilities;
 using Utilities.ML;
 
 public class ActivationFactory : PassThroughFactory
@@ -32,6 +33,7 @@ public class ActivationFactory : PassThroughFactory
             WorldItem newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
+            Invoke(buildingTypeSO.nameString, newItem.state);
         }
     }
 

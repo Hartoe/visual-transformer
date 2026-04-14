@@ -16,6 +16,7 @@ public class TranspositionFactory : PassThroughFactory
             Intent newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
+            Invoke(buildingTypeSO.nameString, newItem.state);
         }
     }
 }

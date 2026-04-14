@@ -58,6 +58,7 @@ public class DuplicationFactory : AFactory
             outputs.Add((1, item1));
             outputs.Add((0, item2));
             mustDuplicate = false;
+            Invoke(buildingTypeSO.nameString, item1.state);
         }
     }
 

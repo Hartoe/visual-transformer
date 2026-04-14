@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 
 public class CameraSystem : MonoBehaviour
 {
+    public static bool DoCameraMovement = true;
+
     [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
 
     [Header("Movement Speeds")]
@@ -47,9 +49,12 @@ public class CameraSystem : MonoBehaviour
         currentMousePosition = mousePosition.action.ReadValue<Vector2>();
         inputDirection = move.action.ReadValue<Vector2>();
 
-        HandleCameraMovement();
-        HandleCameraRotation();
-        HandleCameraZoom();
+        if (DoCameraMovement)
+        {
+            HandleCameraMovement();
+            HandleCameraRotation();
+            HandleCameraZoom();
+        }
     }
 
     private void HandleCameraMovement()

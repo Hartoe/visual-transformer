@@ -61,33 +61,36 @@ public class PositionalEmbedder : PassThroughFactory
 
     protected override void Action(object sender, TimeTickSystem.TickEventArgs e)
     {
-        if (mustGenerate)
+        if (mustGenerate && inputs.Count != 0)
         {
-            GenerateOutputItem();
-            inputs.Clear();
             mustGenerate = false;
-        }
-    }
-
-    private void GenerateOutputItem()
-    {
-        double[,] tokenEmbeddingArray = new double[inputs.Count,Resource.ResourceCount];
-        for (int i = 0; i < inputs.Count; i++)
-        {
-            for (int j = 0; j < Resource.ResourceCount; j++)
+            double[,] tokenEmbeddingArray = new double[inputs.Count,Resource.ResourceCount];
+            for (int i = 0; i < inputs.Count; i++)
             {
-                tokenEmbeddingArray[i,j] = inputs[i][0,j];
+                for (int j = 0; j < Resource.ResourceCount; j++)
+                {
+                    tokenEmbeddingArray[i,j] = inputs[i][0,j];
+                }
             }
+            Matrix tokenEmbedding = new Matrix(tokenEmbeddingArray);
+
+            try
+            {
+                tokenEmbedding = network.CalculateOutputs(tokenEmbedding);
+                tokenEmbedding = positionalEmbedding.CalculateOutputs(tokenEmbedding);
+            }
+            catch
+            {
+                Break("Dimensions of the input were wrong!");
+            }
+
+            Intent newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
+            newItem.state = tokenEmbedding;
+            outputs.Add(newItem);
+            Invoke(buildingTypeSO.nameString, newItem.state);
+            inputs.Clear();
+            return;
         }
-        Matrix tokenEmbedding = new Matrix(tokenEmbeddingArray);
-
-        tokenEmbedding = network.CalculateOutputs(tokenEmbedding);
-        tokenEmbedding = positionalEmbedding.CalculateOutputs(tokenEmbedding);
-
-        Intent newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
-        newItem.state = tokenEmbedding;
-
-        outputs.Add(newItem);
     }
 
     public override bool Occupied((int, int) cell)

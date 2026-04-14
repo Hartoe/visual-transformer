@@ -104,9 +104,9 @@ public class Decoder : MultiInputFactory
         if (setFlags[0].Item1 && setFlags[1].Item1)
         {
             // decoder-only attention
-            decoderAttention.Queries = (Matrix)setFlags[0].Item2;
-            decoderAttention.Keys = (Matrix)setFlags[0].Item2;
-            decoderAttention.Values = (Matrix)setFlags[0].Item2;
+            decoderAttention.Queries = (Matrix)(setFlags[0].Item2);
+            decoderAttention.Keys = (Matrix)(setFlags[0].Item2);
+            decoderAttention.Values = (Matrix)(setFlags[0].Item2);
             Matrix decoderAttentionMatrix;
             Matrix decoderAddNormMatrix;
             try
@@ -138,8 +138,11 @@ public class Decoder : MultiInputFactory
             WorldItem newItem = Instantiate(itemPrefab, Center, Quaternion.identity);
             newItem.state = output;
             outputs.Add(newItem);
-
-            Reset();
+            Invoke(buildingTypeSO.nameString, newItem.state);
+            for (int i = 0; i < setFlags.Count; i++)
+            {
+                setFlags[i] = (false, null);
+            }
         }
     }
 

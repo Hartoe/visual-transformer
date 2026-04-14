@@ -236,9 +236,65 @@ namespace Utilities
                         result[i, j] = matrix[i, j] - scalar;
                 return result;
             }
+
+            public static bool operator ==(Matrix left, Matrix right)
+            {
+                return left.Equals(right);
+            }
+            public static bool operator !=(Matrix left, Matrix right)
+            {
+                return !(left == right);
+            }
+            public override bool Equals(object obj)
+            {
+                // Cast the object to a matrix
+                Matrix other;
+                try
+                {
+                    other = (Matrix)obj;
+                }
+                catch
+                {
+                    return false;
+                }
+
+                // Check if the dimensions of the matrices are equal
+                if (Shape != other.Shape)
+                    return false;
+
+                // Loop through the matrix and see if each element is the same
+                for (int i = 0; i < Rows; i++)
+                {
+                    for (int j = 0; j < Columns; j++)
+                    {
+                        if (this[i,j] != other[i,j])
+                            return false;
+                    }
+                }
+
+                return true;
+            }
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
 #endregion
 
 #region Helper Functions
+            public bool Similar(Matrix other, double epsilon = 0.0001)
+            {
+                if (Shape != other.Shape) return false;
+
+                for (int i = 0; i < Rows; i++)
+                {
+                    for (int j = 0; j < Columns; j++)
+                    {
+                        if (Math.Abs(Math.Abs(this[i,j]) - Math.Abs(other[i,j])) > epsilon)
+                            return false;
+                    }
+                }
+                return true;
+            }
             public void ForEach(Action<int, int> action)
             {
                 for (int i = 0; i < Rows; i++)
@@ -270,6 +326,18 @@ namespace Utilities
                         sb.Append(this[i, j].ToString("0.###")).Append('\t');
                     sb.AppendLine();
                 }
+                return sb.ToString();
+            }
+            public string ToJSON()
+            {
+                var sb = new System.Text.StringBuilder();
+                sb.Append($"{{\"rows\":{Rows},\"columns:\"{Columns},\"data\":[");
+                for (int i = 0; i < Rows; i++)
+                {
+                    for (int j = 0; j < Columns; j++)
+                        sb.Append(this[i, j].ToString()).Append(',');
+                }
+                sb.Append("]}");
                 return sb.ToString();
             }
         }

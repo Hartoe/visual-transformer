@@ -8,6 +8,7 @@ public class HighlightObjects : MonoBehaviour
     public bool Finished = false;
     public List<GameObject> gameObjects = new List<GameObject>();
     float growTime = 0.8f;
+    float waitTime = 2.0f;
     Color hightlightColor = Color.green;
 
     public void Highlight()
@@ -35,6 +36,13 @@ public class HighlightObjects : MonoBehaviour
             }
             yield return null;
         }
+        float waitTimer = 0.0f;
+        Finished = true;
+        while (waitTimer < waitTime)
+        {
+            waitTimer += Time.deltaTime;
+            yield return null;
+        }
         while (timer > 0.0f)
         {
             timer -= Time.deltaTime;
@@ -51,7 +59,6 @@ public class HighlightObjects : MonoBehaviour
             yield return null;
         }
 
-        Finished = true;
         yield return null;
     }
 }

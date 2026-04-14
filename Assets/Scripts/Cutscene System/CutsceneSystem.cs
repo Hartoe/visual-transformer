@@ -16,6 +16,7 @@ public class CutsceneSystem : MonoBehaviour
 
     public void PlayCutscene()
     {
+        CameraSystem.DoCameraMovement = false;
         StartCoroutine(RunCutscene());
     }
 
@@ -58,6 +59,7 @@ public class CutsceneSystem : MonoBehaviour
     private void EndCutscene()
     {
         sceneChange.HandleLevelEnd();
+        CameraSystem.DoCameraMovement = true;
     }
 
     private void ActivateCamera(CinemachineVirtualCamera stepCamera)
