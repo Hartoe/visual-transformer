@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Sub Dialogue 3
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Oh no! It seems the NETWORK FACTORY broke down! Don't worry, we can easily fix
+    the problem.
+  - A broken down building will not accept new resources until the problem has been
+    acknowledged. By clicking on the red icon above the broken building, you can
+    gain information about what went wrong. When you click on the information popup
+    it will disappear and the building will be ready to accept new items once more.
+  - If you need extra time to change the configuration of your factory without the
+    items already on the conveyor belts getting in the way, you can always pause
+    the game by pressing the pause button in the top right corner, or by pressing
+    the Spacebar.
+  - Click on the icon above the NETWORK FACTORY and find out what went wrong.

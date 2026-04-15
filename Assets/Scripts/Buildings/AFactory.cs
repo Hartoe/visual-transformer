@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Utilities.ML;
 
@@ -18,6 +19,10 @@ public abstract class AFactory : Building
                 }
         }
         public static event EventHandler<FactoryArgs> OnActionComplete;
+        public static void Invoke(object sender, string name, Matrix state)
+        {
+                OnActionComplete.Invoke(sender, new FactoryArgs(name, state));
+        }
         public List<(int, int)> OutputCells { get; protected set; }
         public List<(int, int)> InputCells { get; protected set; }
         public List<(WorldItem, (int, int))> NewItems { get; protected set; }

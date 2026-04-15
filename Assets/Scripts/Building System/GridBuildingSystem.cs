@@ -17,6 +17,7 @@ public class GridBuildingSystem : MonoBehaviour
 
     public static GridBuildingSystem Instance;
     public event EventHandler<EventArgs> OnSelectedChanged;
+    public BuildingManager BuildingManager { get { return buildingManager; } }
     
     public class VisualArgs : EventArgs
     {
