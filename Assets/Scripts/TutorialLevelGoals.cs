@@ -18,15 +18,18 @@ public class TutorialLevelGoals : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Key input for subgoals
-        if (Input.GetKeyDown(KeyCode.W))
-            AFactory.Invoke(this, "W", Matrix.Identity(1));
-        if (Input.GetKeyDown(KeyCode.A))
-            AFactory.Invoke(this, "A", Matrix.Identity(1));
-        if (Input.GetKeyDown(KeyCode.S))
-            AFactory.Invoke(this, "S", Matrix.Identity(1));
-        if (Input.GetKeyDown(KeyCode.D))
-            AFactory.Invoke(this, "D", Matrix.Identity(1));
+        if (CameraSystem.DoCameraMovement)
+        {
+            // Key input for subgoals
+            if (Input.GetKeyDown(KeyCode.W))
+                AFactory.Invoke(this, "W", Matrix.Identity(1));
+            if (Input.GetKeyDown(KeyCode.A))
+                AFactory.Invoke(this, "A", Matrix.Identity(1));
+            if (Input.GetKeyDown(KeyCode.S))
+                AFactory.Invoke(this, "S", Matrix.Identity(1));
+            if (Input.GetKeyDown(KeyCode.D))
+                AFactory.Invoke(this, "D", Matrix.Identity(1));
+        }
 
         // Building event for subgoals
         if (buildingCount < buildingManager.factories.Count)

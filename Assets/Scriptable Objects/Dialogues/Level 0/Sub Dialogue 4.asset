@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - It seems the NETWORK FACTORY expects a different kind of item than resources...
-  - 
+  - It seems the NETWORK FACTORY expects a different kind of item than it has been
+    supplied. This probably means a different building should be use before feeding
+    the item into the NETWORK FACTORY.
+  - Remove the NETWORK FACTORY by clicking on it with your right mouse button. Next,
+    place a MATRIX FACTORY in its place.
+  - The MATRIX FACTORY concatinates loose resources into a single matrix. Don't forget
+    to reset the IMPORT buidling if it isn't generating its resources anymore!

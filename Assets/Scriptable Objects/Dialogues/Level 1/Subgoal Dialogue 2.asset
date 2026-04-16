@@ -14,5 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - "Now that you have made the embedding, only one step is left...\t"
-  - Add the positional encoding to the embedding!
+  - Now that you have made the EMBEDDING, only one step is left in building the POSITIONAL
+    ENCODER...
+  - The EMBEDDING you created contains syntactic information about the RESOURCES,
+    representing each item in its own way. However, it doesn't contain any information
+    about the relation between these items. A set of nails might be used to make
+    a table, but when paired next to a circuit board and plastic it becomes clearer
+    what the end product should be.
+  - To facilitate the understanding of the relationship between each RESOURCE in
+    the EMBEDDING, we should add some additional information about the position of
+    each item in the sequence.
+  - By using a mixture of a sine and cosine function, we can create unique offsets
+    for each item in the EMBEDDING. These offsets can just be added onto our existing
+    EMBEDDING.
+  - Pass your newly created EMBEDDING into the POSITIONAL FACTORY to add positional
+    information to the embedding.

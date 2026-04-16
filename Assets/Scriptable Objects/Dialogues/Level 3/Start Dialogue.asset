@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Start Dialogue
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - It is time to use what you have made so far and create the ENCODER!
+  - The ENCODER takes the output embedding of the POSITIONAL ENCODER and ENCODES
+    the embedding to represent the contextual, semantic, and syntactic meaning instead
+    of the original resources themselves.
+  - This is done by first adding the output of ATTENTION to the embedding to add
+    semantic information. Then a NEURAL NETWORK embeds it further to properly represent
+    the context added by the ATTENTION in the embedding.
+  - The first steps to making the ENCODER is to use the POSITIONAL ENCODER that you
+    made on the first factory floor and use that embedding in an ATTENTION FACTORY.
+  - Don't forget to duplicate an additional copy of the initial embedding before
+    the ATTENTION, as you will need the unaltered embedding in the next step!

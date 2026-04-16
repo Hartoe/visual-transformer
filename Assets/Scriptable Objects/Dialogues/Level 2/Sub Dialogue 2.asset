@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Sub Dialogue 2
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Now that the relation between each token is represented in this QUERY/KEY embedding,
+    we can use it to scale the VALUE embedding based on how much each of the tokens
+    is affected by the other tokens in the sequence.
+  - However, we will need to clean up the numbers a bit before we do that!
+  - The multiplication might have enlarged certain numbers so much that they would
+    trump the more subtle influences of other components. To fix this, we SCALE the
+    numbers down based on the dimensions of the embedding.
+  - Next, we apply another ACTIVATION function called a SOFTMAX. The SOFTMAX function
+    scales each number so they keep their ratios, but add up to 1. This is great
+    to represent percentages, which works well in this use case!

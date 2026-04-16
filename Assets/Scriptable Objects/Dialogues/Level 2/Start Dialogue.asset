@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Start Dialogue
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - 'Great! Now that we have the initial EMBEDDING, it is time to build the core
+    of the transformer model:
+
+
+    The ATTENTION mechanism.'
+  - ATTENTION is the mechanism which will learn the semantic relations between each
+    token in the EMBEDDING and add that information to it.
+  - "You might remember that our EMBEDDING already contains syntactic information.
+    Syntactic information is the information about the token itself, what it is,
+    and where in the sequence it is. Semantic information is about what each token
+    means and conveys, and how its position impacts its relationship with the surrounding
+    tokens in the EMBEDDING.\t"
+  - To get this information, ATTENTION uses three different EMBEDDINGS based on the
+    initial EMBEDDING which you created on the previous floor. These three embeddings
+    are called the QUERY, KEY, and VALUE embeddings.
+  - To make these embeddings, create duplicates of the initial embedding and use
+    NEURAL NETWORKS to embed each of them in their own way. Before embedding, set
+    each of the WEIGHTS AND BIASES to the corresponding embedding (query, key, and
+    value respectively)
+  - In addition, the ACTIVATION function should be set to ReLU. This makes it so
+    any value that is below 0, will be treated as 0 within the nodes of the network.
+    ACTIVATION functions add non-linearity to NEURAL NETWORKS, allowing them to handle
+    more complex problems.

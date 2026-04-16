@@ -21,6 +21,7 @@ public class DialogueHandler : MonoBehaviour
     private const string HTML_ALPHA = "<color=#00000000>";
     private const float MAX_TYPE_TIME = 0.1f;
     private bool buildState;
+    private bool movementState;
 
     public void DisplayNextParagraph(DialogueTextSO dialogueText)
     {
@@ -55,6 +56,9 @@ public class DialogueHandler : MonoBehaviour
         buildState= GridBuildingSystem.Instance.GetBuildActive();
         GridBuildingSystem.Instance.SetBuildActive(false);
         buildMenu.SetActive(false);
+
+        movementState = CameraSystem.DoCameraMovement;
+        CameraSystem.DoCameraMovement = false;
         
         if (!gameObject.activeSelf)
         {
@@ -71,6 +75,7 @@ public class DialogueHandler : MonoBehaviour
     private void EndDialogue()
     {
         GridBuildingSystem.Instance.SetBuildActive(buildState);
+        CameraSystem.DoCameraMovement = movementState;
         buildMenu.SetActive(true);
         dialogues.Clear();
         hasEnded = false;

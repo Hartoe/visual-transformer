@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - Good job!
-  - Now feed the final embedding to the output factory.
+  - Great job! There is only one final step left.
+  - Pass your final EMBEDDING with the positional information to the factory EXPORT
+    building!

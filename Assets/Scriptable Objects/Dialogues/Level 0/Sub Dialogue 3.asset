@@ -22,6 +22,6 @@ MonoBehaviour:
     it will disappear and the building will be ready to accept new items once more.
   - If you need extra time to change the configuration of your factory without the
     items already on the conveyor belts getting in the way, you can always pause
-    the game by pressing the pause button in the top right corner, or by pressing
+    the game by pressing the pause button in the top left corner, or by pressing
     the Spacebar.
   - Click on the icon above the NETWORK FACTORY and find out what went wrong.

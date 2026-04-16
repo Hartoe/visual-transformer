@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee63670c81cb2234886bdcfe1919b692, type: 3}
+  m_Script: {fileID: 11500000, guid: c677e853bb2347c468eac1550f79b004, type: 3}
   m_Name: Subgoal 0_4
   m_EditorClassIdentifier: 
-  Title: Change the size and weights of the network factory
-  factoryName: Network Factory
-  matrixPath: /goals/0_4.json
+  Title: Check out what broke the Network Factory
+  factoryName: 
+  matrixPath: 
+  buildingName: Network Factory Fix

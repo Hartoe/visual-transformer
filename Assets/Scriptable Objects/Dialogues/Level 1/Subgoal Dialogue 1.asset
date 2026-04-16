@@ -14,5 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - Good job making the matrix!
-  - Now create the embedding.
+  - Good job! Now that we have a representation of the sequence of RESOURCES, we
+    can make them into an EMBEDDING.
+  - An EMBEDDING is a fancy word for representing concepts and objects with vectors,
+    where each component of a vector represents a unique attribute. Using these component,
+    each vector can represent a multitude of concepts or objects.
+  - In the case of our factory, one such component might map to how hard or soft
+    a material is for example. A high number in that component might map to wood
+    or metal, while a low number might map to fabric.
+  - This mapping from a matrix to an EMBEDDING is done by using a NEURAL NETWORK.
+    This set of connections map each component in the matrix to a network of nodes
+    with learnable weights and biases. By training a NETWORK to map certain inputs
+    to expected outputs, you can nudge the weights and biases to improve the NETWORKS
+    ability to correctly generate the expected outputs with new inputs.
+  - Let's put this knowledge to use! Take the output of the MATRIX FACTORY and create
+    an EMBEDDING using the NETWORK FACTORY.

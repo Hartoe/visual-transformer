@@ -87,6 +87,7 @@ public abstract class AFactory : Building
                 smokeInstance = Instantiate(SmokeParticles, Center, Quaternion.Euler(-90, 0, 0));
                 brokenMenu.gameObject.SetActive(true);
                 brokenMenu.SetMessage(message);
+                OnActionComplete.Invoke(this, new FactoryArgs(buildingTypeSO.nameString + " Break", Matrix.Identity(1)));
         }
 
         public void Fix()
@@ -95,6 +96,7 @@ public abstract class AFactory : Building
                 Destroy(smokeInstance);
                 brokenMenu.gameObject.SetActive(false);
                 Reset();
+                OnActionComplete.Invoke(this, new FactoryArgs(buildingTypeSO.nameString + " Fix", Matrix.Identity(1)));
         }
 
         protected void Invoke(string nameString, Matrix state)

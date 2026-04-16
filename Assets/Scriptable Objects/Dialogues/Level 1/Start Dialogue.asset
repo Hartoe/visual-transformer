@@ -14,36 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - Welcome to the construction floor! Here you will build your transformer from
-    scratch. Before we start, it is good to review the controls.
-  - 'The camera controls are as follows:
-
-    - Use W A S D to move the camera
-
-    -
-    Use Q and E to rotate the camera
-
-    - Use the mouse wheel to zoom in and out'
-  - 'The building controls are as follows:
-
-    - Left mouse button to place a building
-
-    -
-    Right mouse button to remove a building
-
-    - Press R to rotate a building
-
-    -
-    Press B to toggle build mode
-
-    - Press SPACE to pause and unpause the game'
-  - Don't worry! If you get stuck, need a refresher on the controls, or just want
-    a recap of the level goal, you can press the ? icon in the top right corner.
-  - 'Our very first step is to find a way to ENCODE the resources of our order in
-    such a way that it represents both what each item is as well as its position
-    in the sequence. '
-  - To do this, we must first turn our loose TOKENS into a single MATRIX, which we
-    can EMBED via the use of a neural network.
-  - Finally, we must add the POSITIONAL information to the EMBEDDING to complete
-    the first step.
-  - You can find all buildings you need in the build menu below. Good luck!
+  - Our very first step is to find a way to represent the RESOURCES in such a way
+    that it preserves both what each resource is and where in the sequence the resources
+    was. A transformer does this with its POSITIONAL ENCODER!
+  - The POSITIONAL ENCODER takes the loose resources, represents them as a single
+    matrix, EMBEDS that matrix using a NEURAL NETWORK, and finally adds positional
+    information to that EMBEDDING.
+  - To make a matrix from RESOURCES, each type of resource is represented as its
+    own vector. The vector has dimensions equal to the amount of unique RESOURCES
+    we expect to use in the factory. In our case this is seven!
+  - To start building our POSITIONAL ENCODER, take the RESOURCES supplied by the
+    IMPORT building and feed them into a MATRIX FACTORY to create a single matrix
+    representing each resource in the sequence.

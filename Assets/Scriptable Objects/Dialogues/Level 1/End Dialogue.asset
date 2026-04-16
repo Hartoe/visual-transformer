@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - 'Great job! Now that we have our positional embedding in place, we can start
-    with the core of the Transformer model: the ATTENTION HEAD'
+  - 'Now that we have our POSITIONAL ENCODER in place, we can move on to the next
+    component:
+
+    ATTENTION, the heart of the TRANSFORMER model!'

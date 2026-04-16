@@ -86,7 +86,6 @@ GameObject:
   - component: {fileID: 8650148936155143860}
   - component: {fileID: 3541216509177494885}
   - component: {fileID: 175490360177065162}
-  - component: {fileID: 6116204409929903857}
   m_Layer: 5
   m_Name: Tab Button
   m_TagString: Untagged
@@ -152,21 +151,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6116204409929903857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8279964244694421638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a18df02457a66d46848b151a0a3b263, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnTabSelected:
-    m_PersistentCalls:
-      m_Calls: []
-  isSelected: 0
-  selectedColor: {r: 0.29957277, g: 0.6415094, b: 0.47242162, a: 0.39215687}
-  unselectedColor: {r: 0.5254902, g: 0.6745098, b: 0.69803923, a: 0.39215687}
