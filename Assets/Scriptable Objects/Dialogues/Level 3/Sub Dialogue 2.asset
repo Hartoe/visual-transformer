@@ -16,7 +16,7 @@ MonoBehaviour:
   dialogues:
   - Now that you have your NORMALIZED embedding, we can move on to the next couple
     of steps of our ENCODER.
-  - First,  this new embedding must be refed into a NEURAL NETWORK to consolidate
+  - First, this new embedding must be re-fed into a NEURAL NETWORK to consolidate
     the information of the POSITIONAL ENCODER and the ATTENTION mechanism. Don't
     forget to keep a duplication of your NORMALIZED embedding around for future RESIDUAL
     CONNECTIONS!

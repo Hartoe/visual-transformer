@@ -15,7 +15,7 @@ MonoBehaviour:
   characterName: Axion
   dialogues:
   - This part of the transformer is known as the ENCODER
-  - It feeds the POSITIONAL EMBEDDING into the ATTENTION mechanism to extract contextual
-    information about the relations between the TOKENS in the EMBEDDING.
-  - This new EMBEDDING is then fed into a NEURAL NETWORK to further encode the new
-    information into the EMBEDDING.
+  - It feeds the initial EMBEDDING into the ATTENTION mechanism to extract contextual
+    and semantic information about the relations between the TOKENS in the EMBEDDING.
+  - This new EMBEDDING is then fed into a NEURAL NETWORK to further refine and represent
+    the new information into the EMBEDDING.

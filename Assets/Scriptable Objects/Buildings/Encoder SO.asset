@@ -17,6 +17,6 @@ MonoBehaviour:
   visual: {fileID: 3591565023759517473, guid: 1fef9bbbf1045ec4c9a25b1f69138ac7, type: 3}
   width: 2
   height: 3
-  infoPanel: {fileID: 2606643661461617802, guid: e9e64952f62f91e44bc4e33126be4006,
+  infoPanel: {fileID: 2606643661461617802, guid: 034665e0d6adb074b981594a49b5601e,
     type: 3}
   image: {fileID: 2800000, guid: e21babb33f5e580478835f9cb01bdd64, type: 3}

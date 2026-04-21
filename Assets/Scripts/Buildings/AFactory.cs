@@ -1,11 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Utilities.ML;
 
 public abstract class AFactory : Building
 {
+        [SerializeField] float wiggleScale = 0.05f;
+        [SerializeField] bool unbreakable = false;
         [SerializeField] GameObject SmokeParticles;
         [SerializeField] BrokenMenu brokenMenu;
         public class FactoryArgs
@@ -30,6 +32,7 @@ public abstract class AFactory : Building
         protected bool broken = false;
         protected GameObject smokeInstance;
         protected Vector3 Center => GridBuildingSystem.Instance.GetGrid().GetGridObject(cellX, cellY).Center();
+        protected Coroutine coroutineOnAction;
 
         protected void Start()
         {
@@ -76,11 +79,12 @@ public abstract class AFactory : Building
 
         public virtual bool Occupied((int, int) cell)
         {
-                return broken;
+                return broken || !InputCells.Contains(cell);
         }
 
         protected void Break(string message)
         {
+                if (unbreakable) return;
                 broken = true;
                 Reset();
                 if (smokeInstance != null) Destroy(smokeInstance);
@@ -103,5 +107,37 @@ public abstract class AFactory : Building
         {
                 if (this == null || nameString == null || state == null || OnActionComplete == null) return;
                 OnActionComplete.Invoke(this, new FactoryArgs(nameString, state));
+        }
+
+        protected IEnumerator AnimateOnAction()
+        {
+                float time = 0;
+                while (true)
+                {
+                        time += Time.deltaTime;
+                        time = time % (2 * Mathf.PI);
+
+                        float xScale = Mathf.Sin(time);
+                        float yScale = Mathf.Cos(time);
+                        float zScale = Mathf.Sin(time - (Mathf.PI/2));
+                        Vector3 wiggle = new Vector3(xScale, yScale, zScale);
+                        gameObject.transform.localScale = Vector3.one + (wiggleScale * wiggle);
+
+                        yield return null;
+                }
+        }
+
+        protected void StartAnimation()
+        {
+                if (coroutineOnAction == null) coroutineOnAction = StartCoroutine(AnimateOnAction());
+        }
+        protected void StopAnimation()
+        {
+                if (coroutineOnAction != null)
+                {
+                        StopCoroutine(coroutineOnAction);
+                        coroutineOnAction = null;
+                }
+                gameObject.transform.localScale = Vector3.one;
         }
 }

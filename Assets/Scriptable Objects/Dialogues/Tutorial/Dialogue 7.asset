@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - And that's it!
-  - Now it is up to you to build each of those components and create your very own
-    transformer!
+  - And that's it! Don't worry if it is all a bit overwhelming, I'll be here each
+    step of the way.
+  - Now, it is up to you to build each of these components and create your very own
+    TRANSFORMER!

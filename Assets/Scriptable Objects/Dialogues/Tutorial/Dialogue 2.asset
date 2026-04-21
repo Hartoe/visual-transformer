@@ -15,17 +15,17 @@ MonoBehaviour:
   characterName: Axion
   dialogues:
   - Here you can see the complete production line of the TRANSFORMER.
-  - In general, the TRANSFORMER takes a sequence of resources (also known as TOKENS),
+  - In general, a TRANSFORMER takes a sequence of resources (also known as TOKENS),
     which it then represents in an abstract way called an EMBEDDING. The EMBEDDING
-    tries to encapsulate as much of the semantic meaning of a TOKEN as possible.
-  - This EMBEDDING is then passed through some very clever mechanisms called ATTENTION
-    to add additional contextual information to the EMBEDDING. The result of the
-    ATTENTION mechanism is then compared to the contexual EMBEDDING of the possible
-    products (our output TOKENS).
+    tries to contain as much of the semantic, syntactic, and contextual meaning of
+    the TOKENS as possible.
+  - This EMBEDDING is created via a clever mechanism called ATTENTION, which tries
+    to learn the relationships and context of each TOKEN within the given SEQUENCE.
+    These relationships can then be compared to the learned relationships of the
+    possible output TOKENS.
   - Finally, this comparison is used to determine which possible output TOKEN is
     expected to be produced. Though this is a probabilistic output, with enough training
-    the TRANSFORMER can guess the correct output TOKEN in a plethora of new and unknown
-    cases.
+    the TRANSFORMER can guess the correct output TOKEN.
   - Pfew...
   - Don't worry! I know it can seem like a lot, but we'll guide you through each
     part step-by-step.

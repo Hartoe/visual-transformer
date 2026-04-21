@@ -30,7 +30,7 @@ public class BuildingManager : MonoBehaviour
 
         foreach (var factory in factories)
         {
-            factory.NewItems.Clear();
+            if (factory != null) factory.NewItems.Clear();
         }
     }
 

@@ -19,9 +19,9 @@ MonoBehaviour:
   - An EMBEDDING is a fancy word for representing concepts and objects with vectors,
     where each component of a vector represents a unique attribute. Using these component,
     each vector can represent a multitude of concepts or objects.
-  - In the case of our factory, one such component might map to how hard or soft
-    a material is for example. A high number in that component might map to wood
-    or metal, while a low number might map to fabric.
+  - For example, in the case of our factory one such component might map to how hard
+    or soft a material is. A high number in that component might map to wood or metal,
+    while a low number might map to fabric.
   - This mapping from a matrix to an EMBEDDING is done by using a NEURAL NETWORK.
     This set of connections map each component in the matrix to a network of nodes
     with learnable weights and biases. By training a NETWORK to map certain inputs

@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - This part of the transformer is known as the DECODER
-  - It starts off in a similar vein to the ENCODER. However, before it feeds its
-    EMBEDDING into a NEURAL NETWORK, it first uses another pass of the ATTENTION
-    mechanism.
-  - This time, the output EMBEDDING of the ENCODER is used, in addition to the DECODER
-    EMBEDDING to determine the correlation between the input tokens contextual relationships
-    and the output token contextual relationships.
-  - This mixed EMBEDDING is then fed into a NEURAL NETWORK, similar to the ENCODER.
+  - Next up is the DECODER.
+  - Similar to the ENCODER, the DECODER is used to calculate the contextual and semantic
+    information on a SEQUENCE. However, instead of the input sequence, it uses the
+    possible OUTPUT TOKENS.
+  - It then compares the contextual relationship between the possible output tokens
+    to the relationship learned by the ENCODER and sees which relations align.

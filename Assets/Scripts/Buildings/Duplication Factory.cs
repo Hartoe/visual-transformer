@@ -24,6 +24,7 @@ public class DuplicationFactory : AFactory
             item.MoveTo(Center);
             item.DestroyOnArrival();
             mustDuplicate = true;
+            if (coroutineOnAction == null) StartAnimation();
             return;
         }
 
@@ -42,6 +43,8 @@ public class DuplicationFactory : AFactory
         // Search for index in outputs list
         (_, WorldItem item) = outputs.Find((kvp) => kvp.Item1 == index);
         outputs.Remove((index, item));
+
+        if (outputs.Count <= 0) StopAnimation();
 
         return item;
     }
@@ -64,7 +67,7 @@ public class DuplicationFactory : AFactory
 
     public override bool Occupied((int, int) cell)
     {
-        return mustDuplicate || broken;
+        return mustDuplicate || broken || !InputCells.Contains(cell);
     }
 
     protected override void FillCellLists()

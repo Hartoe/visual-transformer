@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
-  m_Name: Level 5 End
+  m_Name: Sub Dialogue 1
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - You did it!
-  - You have successfully made the new transformer production line for the Neural
-    Factory!
-  - Let's quickly look back to how far you have come...
+  - Amazing! Once you have your NORMALIZED embedding, you have to use the ATTENTION
+    mechanism again.
+  - HOWEVER!
+  - Instead of using the same embedding for the QUERY, KEY, and VALUE embedding,
+    you use the output embedding of the ENCODER for the KEY and VALUE embeddings.
+    In addition, set the weights and biases used by the ATTENTION factory to 'mixed'

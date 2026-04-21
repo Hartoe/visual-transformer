@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Axion
   dialogues:
-  - This part of the transformer is known as the POSITIONAL EMBEDDING
-  - These components create the initial embedding of the input and output TOKEN sequence.
-  - The TOKENS are put into a single matrix and EMBEDDED. Additional information
-    about the position of each TOKEN in the sequence is also added to the EMBEDDING.
+  - This part of the transformer is known as the POSITIONAL ENCODER.
+  - These components create the first EMBEDDING of the input and output TOKEN sequence,
+    which represents the syntactic, or conceptual, information of each token as well
+    as its position in the sequence.

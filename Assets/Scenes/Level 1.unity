@@ -184,7 +184,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 50.00001
+  field of view: 59.99999
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -752,7 +752,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 2119584215}
   m_Follow: {fileID: 2119584215}
   m_Lens:
-    FieldOfView: 50.00001
+    FieldOfView: 59.99999
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1439,6 +1439,36 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: HandlePause
       objectReference: {fileID: 0}
+    - target: {fileID: 5615522940789225178, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5615522940789225178, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5615522940789225178, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5615522940789225178, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5615522940789225178, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5615522940789225178, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6908219596461048080, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1558,6 +1588,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Game UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8783780905968332989, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8783780905968332989, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8783780905968332989, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8783780905968332989, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8783780905968332989, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8783780905968332989, guid: 803de3331a00d2540a9ca9fe2d05ff5a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

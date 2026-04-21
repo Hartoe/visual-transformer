@@ -92,6 +92,7 @@ public class Decoder : MultiInputFactory
             }
             item.MoveTo(Center);
             item.DestroyOnArrival();
+            if (coroutineOnAction == null) StartAnimation();
             return;
         }
         Break("The wrong type of item was passed!");

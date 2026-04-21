@@ -17,5 +17,5 @@ MonoBehaviour:
   - Let's take one final look at the transformer!
   - It was probably rather daunting the first time that you saw it. But now...
   - Now you know exactly what each part does!
-  - You can see the POSITIONAL EMBEDDING at the start, creating the initial semantic
+  - You can see the POSITIONAL ENCODER at the start, creating the initial semantic
     EMBEDDING.

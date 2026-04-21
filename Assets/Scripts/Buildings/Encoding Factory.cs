@@ -22,6 +22,7 @@ public class EncodingFactory : PassThroughFactory
             UpdateInfoPanel();
             item.MoveTo(Center);
             item.DestroyOnArrival();
+            if (coroutineOnAction == null) StartAnimation();
             return;
         }
 
@@ -62,7 +63,7 @@ public class EncodingFactory : PassThroughFactory
 
     public override bool Occupied((int, int) cell)
     {
-        return mustGenerate || broken;
+        return mustGenerate || broken || !InputCells.Contains(cell);
     }
 
     protected override void UpdateInfoPanel()

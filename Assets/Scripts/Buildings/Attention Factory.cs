@@ -102,10 +102,6 @@ public class AttentionFactory : MultiInputFactory
         if (infoPanelInstance != null)
         {
             AttentionInfoPanel panel = infoPanelInstance.GetComponent<AttentionInfoPanel>();
-            if (rows != int.Parse(panel.rowsInput.text))
-                panel.rowsInput.text = rows.ToString();
-            if (columns != int.Parse(panel.columnsInput.text))
-                panel.columnsInput.text = columns.ToString();
             if (panel.weightsDropdown != null)
             {
                 if (!string.IsNullOrEmpty(pathName) && pathName != panel.weightsDropdown.options[panel.weightsDropdown.value].text)
@@ -115,9 +111,6 @@ public class AttentionFactory : MultiInputFactory
                 }
                 panel.weightsDropdown.onValueChanged.AddListener(ReloadWeightsAndBiases);
             }
-
-            panel.rowsInput.onValueChanged.AddListener(ChangeRowValue);
-            panel.columnsInput.onValueChanged.AddListener(ChangeColumnValue);
         }
     }
 
@@ -135,20 +128,5 @@ public class AttentionFactory : MultiInputFactory
         attention.keyLayer.SetBiases(keyJSON.biases.ToMatrix());
         attention.valueLayer.SetWeights(valueJSON.weights.ToMatrix());
         attention.valueLayer.SetBiases(valueJSON.biases.ToMatrix());
-    }
-
-    private void ChangeRowValue(string value)
-    {
-        rows = int.Parse(value);
-        if (rows <= 0) rows = 1;
-
-        attention = new Attention(rows, columns);
-    }
-    private void ChangeColumnValue(string value)
-    {
-        columns = int.Parse(value);
-        if (columns <= 0) columns = 1;
-
-        attention = new Attention(rows, columns);
     }
 }

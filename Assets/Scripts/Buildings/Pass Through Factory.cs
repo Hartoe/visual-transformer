@@ -18,6 +18,7 @@ public class PassThroughFactory : AFactory
             inputs.Add(item.state);
             item.MoveTo(Center);
             item.DestroyOnArrival();
+            if (coroutineOnAction == null) StartAnimation();
             return;
         }
 
@@ -34,6 +35,8 @@ public class PassThroughFactory : AFactory
         // if not pop first item
         WorldItem item = outputs.First();
         outputs.RemoveAt(0);
+
+        if (outputs.Count <= 0) StopAnimation();
 
         return item;
     }
@@ -73,7 +76,7 @@ public class PassThroughFactory : AFactory
     new void OnDestroy()
     {
         foreach (WorldItem item in outputs)
-            Destroy(item.gameObject);
+            if (item != null) Destroy(item.gameObject);
         base.OnDestroy();
     }
 }

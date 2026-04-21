@@ -23,6 +23,7 @@ public class MultiInputFactory : AFactory
         {
             if (cell == InputCells[i] && !setFlags[i].Item1)
             {
+                if (coroutineOnAction == null) StartAnimation();
                 setFlags[i] = (true, item.state);
             }
         }
@@ -39,6 +40,8 @@ public class MultiInputFactory : AFactory
         // if not pop first item
         WorldItem item = outputs.First();
         outputs.RemoveAt(0);
+
+        if (outputs.Count <= 0) StopAnimation();
 
         return item;
     }
@@ -79,7 +82,7 @@ public class MultiInputFactory : AFactory
         {
             if (cell == InputCells[i]) return setFlags[i].Item1 || broken;
         }
-        return broken;
+        return broken || !InputCells.Contains(cell);
     }
 
     protected override void Reset()

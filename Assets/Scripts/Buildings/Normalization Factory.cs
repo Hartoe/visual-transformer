@@ -37,28 +37,6 @@ public class NormalizationFactory : PassThroughFactory
         if (infoPanelInstance != null)
         {
             NormalizationInfoPanel panel = infoPanelInstance.GetComponent<NormalizationInfoPanel>();
-            if (rows != int.Parse(panel.rowsInput.text))
-                panel.rowsInput.text = rows.ToString();
-            if (cols != int.Parse(panel.columnsInput.text))
-                panel.columnsInput.text = cols.ToString();
-
-            panel.rowsInput.onValueChanged.AddListener(ChangeRowValue);
-            panel.columnsInput.onValueChanged.AddListener(ChangeColumnValue);
         }
-    }
-
-    private void ChangeRowValue(string value)
-    {
-        rows = int.Parse(value);
-        if (rows <= 0) rows = 1;
-
-        layerNorm = new LayerNorm(rows, cols);
-    }
-    private void ChangeColumnValue(string value)
-    {
-        cols = int.Parse(value);
-        if (cols <= 0) cols = 1;
-
-        layerNorm = new LayerNorm(rows, cols);
     }
 }

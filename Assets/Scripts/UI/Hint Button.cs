@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class HintButton : MonoBehaviour
@@ -20,6 +21,12 @@ public class HintButton : MonoBehaviour
     {
         // Check if escape is pressed (close panel)
         if (Input.GetKeyDown(KeyCode.Escape) && hintPanel.activeSelf)
+        {
+            ToggleHintPanel();
+        }
+
+        // Check if mouse button is pressed over no UI element (close panel)
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && hintPanel.activeSelf)
         {
             ToggleHintPanel();
         }

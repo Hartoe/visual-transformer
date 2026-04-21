@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee63670c81cb2234886bdcfe1919b692, type: 3}
   m_Name: Subgoal 4_3
   m_EditorClassIdentifier: 
-  Title: Duplicate the embedding and apply attention to one of them, use the second
-    input for the key and value matrix
+  Title: Apply attention, using the encoder embedding for the key and value input
   factoryName: Attention Factory
   matrixPath: /goals/4_3.json

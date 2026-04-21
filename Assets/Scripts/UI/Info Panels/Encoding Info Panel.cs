@@ -8,7 +8,7 @@ public class EncodingInfoPanel : MonoBehaviour
 
     public void ResetText()
     {
-        text.text = "Current Encoding:";
+        text.text = "Current Matrix:";
     }
 
     public void SetText(Matrix[] items)

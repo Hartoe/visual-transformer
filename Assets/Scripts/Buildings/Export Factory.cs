@@ -24,6 +24,7 @@ public class ExportFactory : PassThroughFactory
     public override void AddFromInput(WorldItem item, (int, int) cell)
     {
         inputs.Add(item.state);
+        if (coroutineOnAction == null) StartAnimation();
         Destroy(item.gameObject);
     }
 
@@ -36,6 +37,7 @@ public class ExportFactory : PassThroughFactory
             inputs.RemoveAt(0);
             if (check.Similar(expectedMatrix)) OnLevelComplete.Invoke();
             else Break("The input does not match the expected output!");
+            StopAnimation();
         }
     }
 
