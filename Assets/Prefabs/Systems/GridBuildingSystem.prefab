@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2945636730639983937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4289016493691381342}
+  - component: {fileID: 9115887701770475693}
+  - component: {fileID: 206220496735634593}
+  m_Layer: 0
+  m_Name: GridBuildingSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4289016493691381342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2945636730639983937}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.590896, y: -60.602367, z: 20.430902}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9115887701770475693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2945636730639983937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59262d21d9b97b41b286f6b7f60343e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridWidth: 10
+  gridHeight: 5
+  cellSize: 15
+  buildingList:
+  - {fileID: 11400000, guid: 4e83864b4a91b244da33b54678d8c07e, type: 2}
+  - {fileID: 11400000, guid: 51bf8ac3fbe223947b35af395c3512ac, type: 2}
+  - {fileID: 11400000, guid: 6176643743111bb4685b9295105acc79, type: 2}
+  - {fileID: 11400000, guid: 9e7bc7e7831e53a458c157c29be241f3, type: 2}
+  gridItems:
+  - X: 0
+    Y: 2
+    Dir: 3
+    BuildingTypeSO: {fileID: 11400000, guid: bf9ca29e8288fdd4e83a823ee818ed6d, type: 2}
+  - X: 9
+    Y: 2
+    Dir: 3
+    BuildingTypeSO: {fileID: 11400000, guid: b9e23f5888e59ab4d820235748b640a8, type: 2}
+  lmb: {fileID: 8409272431351684892, guid: 5c91d4374d25aaf44a39e52bd39dd196, type: 3}
+  buildingActive: 1
+--- !u!114 &206220496735634593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2945636730639983937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2690c7ab809e247afc4c961f27df0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueTextSO: {fileID: 11400000, guid: b04f7889462438641ad86f58bf6c5429, type: 2}
+  dialogueHandler: {fileID: 0}
+  OnDialogueEnd:
+    m_PersistentCalls:
+      m_Calls: []

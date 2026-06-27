@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Dialogue 5
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Next up is the DECODER.
+  - Similar to the ENCODER, the DECODER is used to calculate the contextual and semantic
+    information on a SEQUENCE. However, instead of the input sequence, it uses the
+    possible OUTPUT TOKENS.
+  - It then compares the contextual relationship between the possible output tokens
+    to the relationship learned by the ENCODER and sees which relations align.

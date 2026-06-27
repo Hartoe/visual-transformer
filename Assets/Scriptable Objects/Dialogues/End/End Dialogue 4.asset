@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: End Dialogue 4
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Now you know exactly how a TRANSFORMER works! And, in addition, things like ChatGPT
+    and Claude!
+  - All these popular AI chatbots use a TRANSFORMER to take the promts as a sequence
+    of TOKENS and generate a new sequence of output TOKENS.
+  - Thank you so much for playing and taking an interest in the world of Machine
+    Learning.

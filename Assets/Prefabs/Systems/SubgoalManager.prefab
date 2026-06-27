@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6107196433452724590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5509504065711350698}
+  - component: {fileID: 657790192212381946}
+  - component: {fileID: 3899063336331047656}
+  m_Layer: 0
+  m_Name: SubgoalManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5509504065711350698
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6107196433452724590}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 438.48428, y: 373.9676, z: -4.0873322}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &657790192212381946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6107196433452724590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f66a278fdf65255438c4c273cefe36c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnGoalComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  subgoals:
+  - {fileID: 11400000, guid: 14773982696eff84f94c78a59e1f96c0, type: 2}
+  - {fileID: 11400000, guid: 659367761def56a499a6ef58738f1af9, type: 2}
+  - {fileID: 11400000, guid: d104c8262dad98b4a840f39abfbbd637, type: 2}
+--- !u!114 &3899063336331047656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6107196433452724590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587ee73cebfe60843bd660f419268f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subgoalManager: {fileID: 657790192212381946}
+  dialogueHandler: {fileID: 0}
+  cutscenes:
+  - GoalIndex: 0
+    Steps:
+    - {fileID: 0}
+  - GoalIndex: 1
+    Steps:
+    - {fileID: 0}
+  - GoalIndex: 2
+    Steps:
+    - {fileID: 0}

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Dialogue 2
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Here you can see the complete production line of the TRANSFORMER.
+  - In general, a TRANSFORMER takes a sequence of resources (also known as TOKENS),
+    which it then represents in an abstract way called an EMBEDDING. The EMBEDDING
+    tries to contain as much of the semantic, syntactic, and contextual meaning of
+    the TOKENS as possible.
+  - This EMBEDDING is created via a clever mechanism called ATTENTION, which tries
+    to learn the relationships and context of each TOKEN within the given SEQUENCE.
+    These relationships can then be compared to the learned relationships of the
+    possible output TOKENS.
+  - Finally, this comparison is used to determine which possible output TOKEN is
+    expected to be produced. Though this is a probabilistic output, with enough training
+    the TRANSFORMER can guess the correct output TOKEN.
+  - Pfew...
+  - Don't worry! I know it can seem like a lot, but we'll guide you through each
+    part step-by-step.

@@ -1,0 +1,132 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Utilities;
+using Utilities.ML;
+
+public class AttentionFactory : MultiInputFactory
+{
+    [SerializeField] int rows;
+    [SerializeField] int columns;
+    [SerializeField] Intent itemPrefab;
+    [SerializeField] string queryJSONPath;
+    [SerializeField] string keyJSONPath;
+    [SerializeField] string valueJSONPath;
+    private Attention attention;
+    private string pathName;
+
+    new void Start()
+    {
+        attention = new Attention(rows, columns);
+
+        if (!string.IsNullOrEmpty(queryJSONPath))
+        {
+            JSON.LayerJSON queryJSON = JSON.JSONToLayer(JSON.LoadJSONFile(queryJSONPath));
+            attention.queryLayer.SetWeights(queryJSON.weights.ToMatrix());
+            attention.queryLayer.SetBiases(queryJSON.biases.ToMatrix());
+        }
+        if (!string.IsNullOrEmpty(keyJSONPath))
+        {
+            JSON.LayerJSON keyJSON = JSON.JSONToLayer(JSON.LoadJSONFile(keyJSONPath));
+            attention.keyLayer.SetWeights(keyJSON.weights.ToMatrix());
+            attention.keyLayer.SetBiases(keyJSON.biases.ToMatrix());
+        }
+        if (!string.IsNullOrEmpty(valueJSONPath))
+        {
+            JSON.LayerJSON valueJSON = JSON.JSONToLayer(JSON.LoadJSONFile(valueJSONPath));
+            attention.valueLayer.SetWeights(valueJSON.weights.ToMatrix());
+            attention.valueLayer.SetBiases(valueJSON.biases.ToMatrix());
+        }
+
+        base.Start();
+    }
+
+    protected override void Action(object sender, TimeTickSystem.TickEventArgs e)
+    {
+        if (setFlags[0].Item1 && setFlags[1].Item1 && setFlags[2].Item1)
+        {
+            attention.Queries = (Matrix)setFlags[2].Item2;
+            attention.Values = (Matrix)setFlags[0].Item2;
+            attention.Keys = (Matrix)setFlags[1].Item2;
+
+            try
+            {
+                Matrix outputState = attention.CalculateOutputs((Matrix)setFlags[2].Item2);
+                Intent output = Instantiate(itemPrefab, Center, Quaternion.identity);
+                output.state = outputState;
+                Reset();
+                outputs.Add(output);
+                Invoke(buildingTypeSO.nameString, output.state);
+            } catch
+            {
+                Break("Incompatible dimensions between matrices!");
+            }
+        }
+    }
+
+    protected override void FillCellLists()
+    {
+        switch(dir)
+        {
+            default:
+            case BuildingTypeSO.Dir.Down:
+                OutputCells.Add((cellX + 1, cellY - 1));
+                InputCells.Add((cellX + 2, cellY + 1));
+                InputCells.Add((cellX + 1, cellY + 1));
+                InputCells.Add((cellX, cellY + 1));
+                break;
+            case BuildingTypeSO.Dir.Left:
+                OutputCells.Add((cellX - 1, cellY + 1));
+                InputCells.Add((cellX + 1, cellY));
+                InputCells.Add((cellX + 1, cellY + 1));
+                InputCells.Add((cellX + 1, cellY + 2));
+                break;
+            case BuildingTypeSO.Dir.Up:
+                OutputCells.Add((cellX + 1, cellY + 1));
+                InputCells.Add((cellX, cellY - 1));
+                InputCells.Add((cellX + 1, cellY - 1));
+                InputCells.Add((cellX + 2, cellY - 1));
+                break;
+            case BuildingTypeSO.Dir.Right:
+                OutputCells.Add((cellX + 1, cellY + 1));
+                InputCells.Add((cellX - 1, cellY + 2));
+                InputCells.Add((cellX - 1, cellY + 1));
+                InputCells.Add((cellX - 1, cellY));
+                break;
+        }
+    }
+
+    protected override void UpdateInfoPanel()
+    {
+        if (infoPanelInstance != null)
+        {
+            AttentionInfoPanel panel = infoPanelInstance.GetComponent<AttentionInfoPanel>();
+            if (panel.weightsDropdown != null)
+            {
+                if (!string.IsNullOrEmpty(pathName) && pathName != panel.weightsDropdown.options[panel.weightsDropdown.value].text)
+                {
+                    var optionsList = panel.weightsDropdown.options.Select(option => option.text).ToList();
+                    panel.weightsDropdown.value = optionsList.IndexOf(pathName);
+                }
+                panel.weightsDropdown.onValueChanged.AddListener(ReloadWeightsAndBiases);
+            }
+        }
+    }
+
+    private void ReloadWeightsAndBiases(int arg0)
+    {
+        AttentionInfoPanel panel = infoPanelInstance.GetComponent<AttentionInfoPanel>();
+        pathName = panel.weightsDropdown.options[arg0].text;
+        JSON.LayerJSON queryJSON = JSON.JSONToLayer(JSON.LoadJSONFile($"/lvl_{panel.level}/{pathName}_query_weights.json"));
+        JSON.LayerJSON keyJSON = JSON.JSONToLayer(JSON.LoadJSONFile($"/lvl_{panel.level}/{pathName}_key_weights.json"));
+        JSON.LayerJSON valueJSON = JSON.JSONToLayer(JSON.LoadJSONFile($"/lvl_{panel.level}/{pathName}_value_weights.json"));
+
+        attention.queryLayer.SetWeights(queryJSON.weights.ToMatrix());
+        attention.queryLayer.SetBiases(queryJSON.biases.ToMatrix());
+        attention.keyLayer.SetWeights(keyJSON.weights.ToMatrix());
+        attention.keyLayer.SetBiases(keyJSON.biases.ToMatrix());
+        attention.valueLayer.SetWeights(valueJSON.weights.ToMatrix());
+        attention.valueLayer.SetBiases(valueJSON.biases.ToMatrix());
+    }
+}
