@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Sub Dialogue 1
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Great! Now that you know how to get around, we can start building machinery.
+  - The bottom of the screen contains the build menu. Each button in the menu corresponds
+    to a piece of machinery that can be place in the factory. Clicking a button selects
+    that piece of machinery.
+  - You can place your selected building by clicking with your left mouse button.
+    You can also rotate your selected building before placing it with the R button.
+    If you ever misplace a building, you can remove it with the right mouse button!
+  - Go on and select the NETWORK FACTORY in the build menu and place it in the factory.
+    Remember to keep enough space for conveyor belts to be placed later down the
+    line!

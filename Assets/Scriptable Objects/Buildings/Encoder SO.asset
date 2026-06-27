@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad0c427fb7825743a01846ab8c00733, type: 3}
+  m_Name: Encoder SO
+  m_EditorClassIdentifier: 
+  nameString: Encoder
+  prefab: {fileID: 3591565023759517473, guid: 9982be05b3cc351438ee24811b56c098, type: 3}
+  visual: {fileID: 3591565023759517473, guid: 1fef9bbbf1045ec4c9a25b1f69138ac7, type: 3}
+  width: 2
+  height: 3
+  infoPanel: {fileID: 2606643661461617802, guid: 034665e0d6adb074b981594a49b5601e,
+    type: 3}
+  image: {fileID: 2800000, guid: e21babb33f5e580478835f9cb01bdd64, type: 3}

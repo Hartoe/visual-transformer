@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Subgoal Dialogue 2
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Now that you have made the EMBEDDING, only one step is left in building the POSITIONAL
+    ENCODER...
+  - The EMBEDDING you created contains syntactic information about the RESOURCES,
+    representing each item in its own way. However, it doesn't contain any information
+    about the relation between these items. A set of nails might be used to make
+    a table, but when paired next to a circuit board and plastic it becomes clearer
+    what the end product should be.
+  - To facilitate the understanding of the relationship between each RESOURCE in
+    the EMBEDDING, we should add some additional information about the position of
+    each item in the sequence.
+  - By using a mixture of a sine and cosine function, we can create unique offsets
+    for each item in the EMBEDDING. These offsets can just be added onto our existing
+    EMBEDDING.
+  - Pass your newly created EMBEDDING into the POSITIONAL FACTORY to add positional
+    information to the embedding.

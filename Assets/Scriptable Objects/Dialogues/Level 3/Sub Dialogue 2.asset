@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Sub Dialogue 2
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Now that you have your NORMALIZED embedding, we can move on to the next couple
+    of steps of our ENCODER.
+  - First, this new embedding must be re-fed into a NEURAL NETWORK to consolidate
+    the information of the POSITIONAL ENCODER and the ATTENTION mechanism. Don't
+    forget to keep a duplication of your NORMALIZED embedding around for future RESIDUAL
+    CONNECTIONS!
+  - After embedding with the NEURAL NETWORK, you can add your RESIDUAL CONNECTION
+    and NORMALIZE the resulting embedding once more. This is the final step of the
+    ENCODER.

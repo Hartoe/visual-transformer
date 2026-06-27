@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Dialogue 1
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Welcome to the Neural Factory
+  - 'Congratulations on your new job as MODEL ENGINEER!
+
+
+    As our new engineer,
+    you will be tasked with constructing a new production line in our factory. However,
+    our factory does not use any run-of-the-mill factory components...'
+  - You see, the Neural Factory uses the power of TRANSFORMERS to create its products.
+    This means we don't have to build specific production lines for each product,
+    or even know exactly what products are needed for a given order!
+  - Instead, we take the SEQUENCE of resources needed for an order and TRANSFORM
+    that sequence into the desired products.
+  - But how do we do this? Let's take a closer look at the TRANSFORMER.

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Sub Dialogue 2
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - Wow, we're getting really close now! Now that you have the ATTENTION embedding
+    comparing the relations between the relations of the input and output token sequence,
+    you can finish it off in a similar manner to the ENCODER.
+  - Add the RESIDUAL CONNECTION and NORMALIZE the result, then feed that embedding
+    into a NEURAL NETWORK. Don't forget to finish off once more with adding the RESIDUAL
+    CONNECTION and NORMALIZING the final embedding!

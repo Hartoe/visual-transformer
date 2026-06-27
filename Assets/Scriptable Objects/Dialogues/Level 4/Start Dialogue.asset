@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Start Dialogue
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - We are almost done with our transformer! But first, we need to build a DECODER.
+  - The DECODER is very similar to the ENCODER. But instead of encoding the sequence
+    of input tokens, we make an encoding based on the possible output tokens and
+    then use ATTENTION to check how similar the relations of the ENCODER are to the
+    relations for the output tokens.
+  - 'The DECODER starts of in the same way as the ENCODER: First create a POSITIONAL
+    ENCODING, then pass the embedding through ATTENTION. Remember to create a duplicate
+    of the embedding before ATTENTION for the RESIDUAL CONNECTION later on!'
+  - After you make your initial ATTENTION embedding based on the output tokens, you
+    have to add the RESIDUAL CONNECTION back in and NORMALIZE the result.
+  - There are two different IMPORT buildings on this factory floor. One supplies
+    the output embedding of the ENCODER you just made, which you will need later
+    on. The other one has the output tokens which you will use for this first step.

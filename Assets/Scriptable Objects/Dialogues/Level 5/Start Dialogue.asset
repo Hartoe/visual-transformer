@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589a77387c7c4ea488d9368fe6c3cd2f, type: 3}
+  m_Name: Start Dialogue
+  m_EditorClassIdentifier: 
+  characterName: Axion
+  dialogues:
+  - You have done amazing so far! Now, its time to finish the job. Put all the components
+    that you have build together to create the final transformer.
+  - Feed both the input and output tokens in their own POSITIONAL ENCODER. Don't
+    forget to set the weights and biases on each POSITIONAL ENCODER to the correct
+    option ('encoder' and 'decoder' weights respectively)
+  - After that, feed the input embedding into the ENCODER.
+  - Next feed both the output embedding and the result of the ENCODER into the DECODER.
+  - Then pass the result into one last NEURAL NETWORK to create the final embedding.
+    This embedding contains all the encoded information gathered by the ATTENTION
+    mechanisms in the ENCODER and DECODER.
+  - Finally, use the PICK LAST factory to select the final row of the embedding matrix.
+    This row represents the output token which is most likely to appear next in the
+    sequence based on the relationships calculated between the input token sequence.
+  - To represent this final row as a list of probabilities, use the SOFTMAX activation
+    function to map each value so the total sum of the row counts up to 1. This is
+    the final output of the TRANSFORMER.
