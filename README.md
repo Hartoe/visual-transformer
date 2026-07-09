@@ -27,10 +27,7 @@ cd visual-transformer
 If Unity prompts you to upgrade the project, it is recommended to use the exact editor version specified in ProjectSettings/ProjectVersion.txt to avoid compatibility issues.
 
 ## Project Structure
-Assets/             Project assets, scripts, scenes, materials, and prefabs
-Packages/           Unity package dependencies
-ProjectSettings/    Unity project configuration
-UserSettings/       Local editor preferences (optional)
-Open the project in Unity.
-Open the desired scene from the Assets folder.
-Press the Play button in the Unity Editor.
+- Assets/             Project assets, scripts, scenes, materials, and prefabs
+- Packages/           Unity package dependencies
+- ProjectSettings/    Unity project configuration
+- UserSettings/       Local editor preferences (optional)
