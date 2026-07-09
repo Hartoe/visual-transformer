@@ -20,7 +20,7 @@ cd visual-transformer
 ```
 2. Open the project
 * Launch Unity Hub.
-* Click Add (or Open in newer versions).
+* Click _Add_ (or _Open_ in newer versions).
 * Select the cloned repository folder.
 * Open the project using Unity 2022.3.45f1.
 
@@ -31,3 +31,8 @@ If Unity prompts you to upgrade the project, it is recommended to use the exact 
 - Packages/           Unity package dependencies
 - ProjectSettings/    Unity project configuration
 - UserSettings/       Local editor preferences (optional)
+
+## Running the project
+- Open the project using Unity 2022.3.45f1.
+- Go to the 'Menu Scene' scene in the `Assets\Scenes` directory (or any other desired scene)
+- Press the _Play_ button in the editor
